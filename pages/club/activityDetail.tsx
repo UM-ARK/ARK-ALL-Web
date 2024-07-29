@@ -216,10 +216,15 @@ const ActivityDetail = () => {
                                 <ARKLabeledInput title={t("LOCATION")}>
                                     <IFELSE condition={!isEditMode}>
                                         {m_activityData?.content.location}
-                                        <input
-                                            placeholder={t("LOCATION")}
-                                            className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                            {...register("location")} />
+                                        <div>
+                                            <input
+                                                placeholder={t("LOCATION")}
+                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                                {...register("location", {
+                                                    maxLength: { value: 100, message: "地點不能超過100字！" }
+                                                })} />
+                                            <div className={"text-alert"}>{errors.location && errors.location.message}</div>
+                                        </div>
                                     </IFELSE>
                                 </ARKLabeledInput>
 
@@ -249,11 +254,17 @@ const ActivityDetail = () => {
                                 <p className="text-ellipsis overflow-hidden">
                                     {m_activityData && m_activityData?.content.introduction}
                                 </p>
-                                <textarea
-                                    placeholder={"簡介"}
-                                    className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
-                                    rows={10}
-                                    {...register("introduction")} />
+                                <div>
+                                    <textarea
+                                        placeholder={"簡介"}
+                                        className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
+                                        rows={10}
+                                        {...register("introduction",
+                                            {
+                                                maxLength: { value: 300, message: "簡介必須少於300字！" }
+                                            })} />
+                                    <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
+                                </div>
                             </IFELSE>
                         </ContentBlock>
                     </ContentBlockGrid>
