@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Container from "../container";
-import themeImg from '../../public/img/theme.png';
+import themeImg from '../../public/img/theme_small.png';
 // import Streets from "../../components/models/Streets"
 // import { Canvas } from '@react-three/fiber';
 // import { Cube1 } from "./Cube1";
