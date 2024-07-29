@@ -24,7 +24,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { authGuard } from '../../lib/authentication';
 import { appendListToFormData, createFormData, getClubXX } from '../../lib/serverActions';
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
-import { ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -88,11 +88,17 @@ export default function clubInfoEdit() {
                         {/* 活動簡介 （Intro） */}
                         <div>
                             <SecondTitle>{t("CLUB_INTRO")}</SecondTitle>
-                            <textarea
-                                placeholder={t("CLUB_INTRO")}
-                                className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
-                                {...register("intro")}
-                            />
+                            <ARKTextareaInput
+                                base={{
+                                    placeholder: t("ACTIVITY_INTRO"),
+                                    numLimit: 300,
+                                    isRequired: false
+                                }}
+                                regName={`intro`}
+                                errors={errors}
+                                requirePrompt={t('ACTIVITY_INTRO_REQUIRE')}
+                                register={register}
+                                watch={watch} />
                         </div>
 
 
