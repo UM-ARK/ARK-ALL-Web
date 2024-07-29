@@ -126,7 +126,11 @@ const NewActivity = () => {
                         <ARKLabeledInput title={t("LOCATION")} condition={selectedType == "ACTIVITY"}>
                             <input
                                 className={inputStyle}
-                                {...register("location", { required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false })} />
+                                {...register("location",
+                                    {
+                                        required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false,
+                                        maxLength: { value: 100, message: "地點不能超過100字！" }
+                                    })} />
                         </ARKLabeledInput>
                         <div className={"text-alert"}>{errors.location && errors.location.message}</div>
 
@@ -146,7 +150,11 @@ const NewActivity = () => {
                         <textarea
                             className={textareaStyle}
                             placeholder={t("ACTIVITY_INTRO")}
-                            {...register("introduction", { required: selectedType == "ACTIVITY" ? t("ACTIVITY_INTRO_REQUIRE") : false })} />
+                            {...register("introduction",
+                                {
+                                    required: selectedType == "ACTIVITY" ? t("ACTIVITY_INTRO_REQUIRE") : false,
+                                    maxLength: { value: 300, message: "簡介必須少於300字！" }
+                                })} />
                         <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
 
                     </ContentBlock>
