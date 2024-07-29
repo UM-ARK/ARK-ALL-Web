@@ -24,7 +24,7 @@ import NavBarSecondary from '../../components/navBarSecondary';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
-import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../../states/state';
@@ -254,17 +254,17 @@ const ActivityDetail = () => {
                                 <p className="text-ellipsis overflow-hidden">
                                     {m_activityData && m_activityData?.content.introduction}
                                 </p>
-                                <div>
-                                    <textarea
-                                        placeholder={"簡介"}
-                                        className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
-                                        rows={10}
-                                        {...register("introduction",
-                                            {
-                                                maxLength: { value: 300, message: "簡介必須少於300字！" }
-                                            })} />
-                                    <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
-                                </div>
+                                <ARKTextareaInput
+                                    base={{
+                                        placeholder: t("ACTIVITY_INTRO"),
+                                        numLimit: 300,
+                                        isRequired: false
+                                    }}
+                                    regName={`introduction`}
+                                    errors={errors}
+                                    requirePrompt={t('ACTIVITY_INTRO_REQUIRE')}
+                                    register={register}
+                                    watch={watch} />
                             </IFELSE>
                         </ContentBlock>
                     </ContentBlockGrid>

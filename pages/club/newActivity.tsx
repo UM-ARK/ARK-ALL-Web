@@ -7,7 +7,7 @@ import moment from 'moment/moment';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
-import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
 import { _ICreateActivity } from '../../types/index.d';
@@ -24,7 +24,7 @@ const activityTypeMap = {
 };
 
 const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none w-full";
-const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
+const textareaStyle = "text-lg block w-full h-80 border-4 rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
 
 const NewActivity = () => {
     // 翻譯、路由
@@ -147,16 +147,17 @@ const NewActivity = () => {
 
                     {/* 簡介 */}
                     <ContentBlock title={t("ACTIVITY_INTRO")} condition={selectedType == "ACTIVITY"} className={"max-[1022px]:mt-5"}>
-                        <textarea
-                            className={textareaStyle}
-                            placeholder={t("ACTIVITY_INTRO")}
-                            {...register("introduction",
-                                {
-                                    required: selectedType == "ACTIVITY" ? t("ACTIVITY_INTRO_REQUIRE") : false,
-                                    maxLength: { value: 300, message: "簡介必須少於300字！" }
-                                })} />
-                        <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
-
+                        <ARKTextareaInput
+                            base={{
+                                placeholder: t("ACTIVITY_INTRO"),
+                                numLimit: 300,
+                                isRequired: selectedType == "ACTIVITY"
+                            }}
+                            regName={`introduction`}
+                            errors={errors}
+                            requirePrompt={t('ACTIVITY_INTRO_REQUIRE')}
+                            register={register}
+                            watch={watch} />
                     </ContentBlock>
 
                 </ContentBlockGrid>

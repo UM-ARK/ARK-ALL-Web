@@ -118,6 +118,56 @@ export const ARKLabeledInput = (props: { title: string, condition?: boolean, chi
     );
 }
 
+/**
+ * ARK帶字數限制的大塊文字輸入框
+ * @param props 
+ * @prop {string} base.placeholder - 輸入框的提示詞
+ * @prop {boolean} base.isRequired - 是否爲必須
+ * @prop {number} base.numLimit - 輸入框的長度限制
+ * @prop {string} regName - 注冊名，用於辨識表單中不同的輸入框。
+ * @prop {FieldErrors<T>} errors - useForm中的formstate中的errors項。使用時需要細化至regName。
+ * @prop {string} requirePrompt - 儅輸入框内容未被正確填寫時的提示詞。
+ * @prop {UseFormRegister<T>} register - react-hook-form提供的register函數，將regName注冊到表單中。
+ * @prop {UseFormWatch<TFieldValues>} watch - 監視表單内容的方法
+ * @example
+ * @returns 
+ */
+export const ARKTextareaInput = (props: {
+    base: {
+        placeholder: string,
+        isRequired?: boolean,
+        numLimit?: number,
+    },
+    regName: string,
+    errors: any,
+    requirePrompt: string,
+    register: any,
+    watch: any
+}) => {
+    const { base, regName, errors: thisErr, requirePrompt, register, watch } = props;
+    const textareaStyle = "text-lg block w-full h-80 border-4 rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
+
+    return (
+        <React.Fragment>
+            {/* 字數提示 */}
+            {base.numLimit && (
+                <div className={`${watch(regName).length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>{`${watch(regName).length}/${base.numLimit}`}</div>
+            )}
+
+            {/* 輸入框 */}
+            <textarea
+                className={`${textareaStyle} ${watch(regName).length > base.numLimit ? "border-alert" : "border-themeColor"}`}
+                placeholder={base.placeholder}
+                {...register(regName,
+                    {
+                        required: base.isRequired ? requirePrompt : false,
+                        maxLength: { value: 300, message: `簡介必須少於${base.numLimit}字。` }
+                    })} />
+            <div className={"text-alert"}>{thisErr.introduction && thisErr.introduction.message}</div>
+        </React.Fragment>
+    );
+}
+
 
 /**
  * 基於react-hook-form封裝的ARK標準圖片輸入組件。
