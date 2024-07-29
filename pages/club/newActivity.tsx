@@ -131,8 +131,8 @@ const NewActivity = () => {
                                         required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false,
                                         maxLength: { value: 100, message: "地點不能超過100字！" }
                                     })} />
-                            <div className={`${watch("location").length > 100 ? `text-alert` : `text-themeColor`} font-bold`}>
-                                {`${watch("location").length}/${100}`}
+                            <div className={`${watch("location")?.length > 100 ? `text-alert` : `text-themeColor`} font-bold`}>
+                                {`${watch("location")?.length}/${100}`}
                             </div>
                         </ARKLabeledInput>
                         <div className={"text-alert"}>{errors.location && errors.location.message}</div>

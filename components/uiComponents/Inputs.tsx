@@ -151,14 +151,14 @@ export const ARKTextareaInput = (props: {
         <React.Fragment>
             {/* 字數提示 */}
             {base.numLimit && (
-                <div className={`${watch(regName).length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>
-                    {`${watch(regName).length}/${base.numLimit}`}
+                <div className={`${watch(regName)?.length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>
+                    {`${watch(regName)?.length}/${base.numLimit}`}
                 </div>
             )}
 
             {/* 輸入框 */}
             <textarea
-                className={`${textareaStyle} ${watch(regName).length > base.numLimit ? "border-alert" : "border-themeColor"}`}
+                className={`${textareaStyle} ${watch(regName)?.length > base.numLimit ? "border-alert" : "border-themeColor"}`}
                 placeholder={base.placeholder}
                 {...register(regName,
                     {
