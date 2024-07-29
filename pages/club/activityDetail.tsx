@@ -129,7 +129,7 @@ const ActivityDetail = () => {
                         <div
                             className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
                             style={{
-                                backgroundImage: `url(${BASE_HOST + m_activityData?.content.cover_image_url})`,
+                                backgroundImage: `url("${BASE_HOST + m_activityData?.content.cover_image_url}")`,
                                 backgroundSize: 'cover',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center',

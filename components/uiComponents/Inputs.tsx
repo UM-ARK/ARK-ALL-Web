@@ -223,7 +223,7 @@ export const ARKImageInput = (props: {
         <div
             className={`${m_isDragOver && "opacity-50"} flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all`}
             style={{
-                backgroundImage: `url(${m_imageURL || initialImgURL})`,
+                backgroundImage: `url("${m_imageURL || initialImgURL}")`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
