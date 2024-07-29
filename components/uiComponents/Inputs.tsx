@@ -148,6 +148,9 @@ export const ARKImageInput = (props: {
     errText: string,
     thisErr: any
 }) => {
+
+    const [m_isDragOver, setIsDragOver] = useState(false);
+
     const { regName, isRequired, initialImgURL } = props.base;
     const { register, setValue, errText, thisErr } = props;
 
@@ -155,16 +158,38 @@ export const ARKImageInput = (props: {
     const [m_iconDisplay, setIconDisplay] = useState(true);
     const imageInputRef = React.createRef<HTMLInputElement>();
 
+    const setImageValue = (fileObj: any) => {
+        if (!fileObj) {
+            return;
+        }
+        setIconDisplay(false);
+        setImageURL(URL.createObjectURL(fileObj));
+        setValue(regName, fileObj);
+    };
+
     return (
         <div
-            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+            className={`${m_isDragOver && "opacity-50"} flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all`}
             style={{
                 backgroundImage: `url(${m_imageURL || initialImgURL})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
             }}
-            onClick={() => imageInputRef.current.click()}>
+            onClick={() => imageInputRef.current.click()}
+            onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragOver(true);
+            }}
+            onDragLeave={(e) => {
+                e.preventDefault();
+                setIsDragOver(false);
+            }}
+            onDropCapture={(e) => {
+                e.preventDefault();
+                let fileObj = e.dataTransfer.files[0];
+                setImageValue(fileObj);
+            }}>
 
             {/* Icon 部分 */}
             <IF condition={m_iconDisplay && !initialImgURL}>
@@ -187,12 +212,13 @@ export const ARKImageInput = (props: {
                 ref={imageInputRef}
                 onChange={(e) => {
                     let fileObj = e.target.files[0];
-                    if (!fileObj) {
-                        return;
-                    }
-                    setIconDisplay(false);
-                    setImageURL(URL.createObjectURL(fileObj));
-                    setValue(regName, fileObj);
+                    setImageValue(fileObj);
+                    // if (!fileObj) {
+                    //     return;
+                    // }
+                    // setIconDisplay(false);
+                    // setImageURL(URL.createObjectURL(fileObj));
+                    // setValue(regName, fileObj);
                 }} />
         </div>
     );
