@@ -151,7 +151,9 @@ export const ARKTextareaInput = (props: {
         <React.Fragment>
             {/* 字數提示 */}
             {base.numLimit && (
-                <div className={`${watch(regName).length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>{`${watch(regName).length}/${base.numLimit}`}</div>
+                <div className={`${watch(regName).length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>
+                    {`${watch(regName).length}/${base.numLimit}`}
+                </div>
             )}
 
             {/* 輸入框 */}
