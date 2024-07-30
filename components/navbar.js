@@ -37,7 +37,7 @@ const NBLink = (props) => {
 };
 
 const Navbar = (props) => {
-  const { selected = "", fixed } = props;
+  const { selected = "", fixed, hideLogoTextBeforeScroll = false } = props;
   const { t } = useTranslation();
 
   /** 移動menu是否打開 */
@@ -75,7 +75,7 @@ const Navbar = (props) => {
                 height="32"
                 className="w-8 rounded-md"
               />
-              <div className={`text-themeColor font-bold opacity-${m_atTop ? "0" : "100"} transition-all`}>
+              <div className={`text-themeColor font-bold opacity-${(hideLogoTextBeforeScroll && m_atTop) ? "0" : "100"} transition-all`}>
                 ARK ALL
               </div>
             </div>
