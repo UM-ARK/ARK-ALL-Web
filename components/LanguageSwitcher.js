@@ -7,6 +7,10 @@ import { useLangStore } from "../states/state";
 const LanguageSwitcher = () => {
     const { t, i18n } = useTranslation();
 
+    // 語言配置
+    const defaultLang = "zh";
+    const availableLang = ["en", "ja"];
+
     // 全局語言狀態
     const curLang = useLangStore((state) => state.curLang);
     const setCurLangStore = useLangStore((state) => state.setLang);
@@ -22,6 +26,19 @@ const LanguageSwitcher = () => {
         setCurLangStore(selectedLanguage);
         i18n.changeLanguage(curLang);
     };
+
+    useEffect(() => {
+        let deviceLang = navigator.language || navigator.userLanguage;
+
+        // 無法檢測設備語言/設備語言不在支持列表内，則默認中文
+        if (!deviceLang || availableLang.indexOf(deviceLang) == -1) {
+            return;
+        }
+
+        // 設備語言在支持列表内，更換為設備語言
+        handleLanguageChange(deviceLang);
+
+    }, []);
 
     return (
 
