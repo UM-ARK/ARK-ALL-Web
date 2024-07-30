@@ -13,10 +13,30 @@ import phones from "../../public/img/home_page/phones.png";
 import apple_logo from "../../public/img/home_page/company_logos/AppleLogo.png";
 import google_play_logo from "../../public/img/home_page/company_logos/GooglePlayLogo.png";
 import huawei_logo from "../../public/img/home_page/company_logos/HuaweiLogo.png";
+import { useRouter } from "next/router";
 // import appleLogo from "../../public/img/home_page/company_logos";
 
 const Ark = (props) => {
   const { t } = useTranslation();
+  const router = useRouter();
+
+  const downloadBtnData = [
+    {
+      source: "App Store",
+      link: "https://apps.apple.com/us/app/um-all/id1636670554",
+      icon: apple_logo
+    },
+    {
+      source: "Play Store",
+      link: "https://play.google.com/store/apps/details?id=one.umall",
+      icon: google_play_logo
+    },
+    {
+      source: "HUAWEI",
+      link: "https://umall.one/static/release/app-release.apk",
+      icon: huawei_logo
+    }
+  ];
 
   return (
     <React.Fragment>
@@ -49,32 +69,25 @@ const Ark = (props) => {
               <p className="py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
                 {t("Download")}
               </p>
-              <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-3 xl:mr-40 lg:mr-0 ">
-                <a
-                  href="https://apps.apple.com/us/app/um-all/id1636670554"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex flex-row gap-2 px-5 py-4 text-lg font-medium justify-center items-center text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
-                  <Image src={apple_logo} className={`w-[30px] h-[30px]`} />
-                  <p>App Store</p>
-                </a>
-                <a
-                  href="https://play.google.com/store/apps/details?id=one.umall"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex flex-row gap-3 px-4 py-4 text-lg font-medium justify-center items-center  text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
-                  <Image src={google_play_logo} className={`w-[30px] h-[30px]`} />
-                  <p>Play Store</p>
-                </a>
-                <a
-                  href="https://umall.one/static/release/app-release.apk"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex flex-row gap-2 px-5 py-4 text-lg font-medium justify-center items-center text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
-                  <Image src={huawei_logo} className={`w-[30px] h-[30px]`} />
-                  <p>HUAWEI</p>
-                </a>
+
+              <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2 ">
+                {downloadBtnData.map((item, idx) => (
+                  <div
+                    onClick={() => { router.push(item.link); }}
+                    className={`
+                      flex flex-row w-[168px] gap-2 px-5 py-4 text-lg font-medium 
+                      justify-center items-center text-left text-white 
+                      rounded-md bg-themeColor 
+                      hover:cursor-pointer hover:bg-themeColorLight hover:scale-[1.02] 
+                      max-[900px]:mx-auto max-[900px]:w-96
+                      transition-all`}>
+                    <Image src={item.icon} className={`w-[30px] h-[30px]`} />
+                    <p>{item.source}</p>
+                  </div>
+                ))}
               </div>
+
+              {/* View Github Repository */}
               <div className="flex mt-5">
                 <a
                   href="https://github.com/UM-ARK"
@@ -98,7 +111,7 @@ const Ark = (props) => {
             </div>
           </div>
 
-          {/* 兩個炫酷旋轉的正方體*/}
+          {/* 手機圖畫 */}
           <div className="flex items-center justify-center w-full lg:w-1/2 max-[770px]:hidden">
             <Image
               src={phones}
@@ -107,61 +120,10 @@ const Ark = (props) => {
               className="block object-cover rounded-tl-lg rounded-tr-lg"
               placeholder="blur"
               blurDataURL={phones.src} />
-            {/*
-                  <Canvas shadows flat linear>
-                    <Cube1 />
-                  </Canvas>
-                  <Canvas shadows flat linear>
-                    <Cube2 />
-                  </Canvas>
-            */}
-
-            {/**
-                <script type="module" src="https://unpkg.com/@splinetool/viewer@1.7.2/build/spline-viewer.js"></script>
-                <spline-viewer loading-anim-type="spinner-small-dark" url="https://prod.spline.design/N7SOEI5VRaqKbzyN/scene.splinecode"></spline-viewer>
-            */}
           </div>
         </Container>
       </div>
-
-
-      {
-        false &&
-        <Container>
-          <div className="flex flex-col justify-center">
-            <div className="text-xl text-center text-gray-700 dark:text-white">
-              {t("tb")}
-              <span className="text-indigo-600 text-themeColor">2000+</span>{" "}
-              {t("siuom")}
-            </div>
-            <br></br>
-
-            {/* 支持者名單 */}
-            <div className="text-xl text-center text-gray-700 dark:text-white">
-              {t("Sponsor List")}
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-5 mt-10 md:justify-around">
-              <div className="pt-2 text-gray-400 dark:text-gray-400">
-                <AmazonLogo />
-              </div>
-              <div className="text-gray-400 dark:text-gray-400">
-                <VerizonLogo />
-              </div>
-              <div className="text-gray-400 dark:text-gray-400">
-                <MicrosoftLogo />
-              </div>
-              <div className="pt-1 text-gray-400 dark:text-gray-400">
-                <NetflixLogo />
-              </div>
-              <div className="pt-2 text-gray-400 dark:text-gray-400">
-                <SonyLogo />
-              </div>
-            </div>
-          </div>
-        </Container>
-      }
-    </React.Fragment >
+    </React.Fragment>
   );
 }
 

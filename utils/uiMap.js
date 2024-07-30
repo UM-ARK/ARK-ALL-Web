@@ -5,7 +5,7 @@ export const isLight = true;
 export const COLOR_DIY = {
     // 原主題色 #005F95；春日限定：#5f8e5a；夏日限定1：#328ad1;
     themeColor: isLight ? '#4796d6' : '#4a9cde',
-    themeColorLight: isLight ? '#7ca8cc' : '#2d5f87',
+    themeColorLight: isLight ? '#60b4f7' : '#2d5f87',
     themeColorUltraLight: isLight ? '#c9e1f5' : '#23323d',
     secondThemeColor: '#FF8627',
     // B站使用的安卓Material Design，亮色背景下87%的黑色用於顯示

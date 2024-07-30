@@ -65,7 +65,7 @@ export default function Footer() {
   return (
     <div className="relative">
       <Container>
-        <div className="flex gap-5 min-[901px]:flex-row max-[900px]:flex-col justify-between pt-10 mx-auto mt-5">
+        <div className="flex gap-5 min-[901px]:flex-row max-[900px]:flex-col justify-around pt-10 mx-auto mt-5">
           {/* Logo */}
           <div className={`flex max-[900px]:mx-auto`}>
             <Link href="/" className={``}>
