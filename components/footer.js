@@ -67,7 +67,7 @@ export default function Footer() {
       <Container>
         <div className="flex gap-5 min-[901px]:flex-row max-[900px]:flex-col justify-around pt-10 mx-auto mt-5">
           {/* Logo */}
-          <div className={`flex max-[900px]:mx-auto`}>
+          <div className={`flex mx-auto`}>
             <Link href="/" className={``}>
               <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
                 <span>
@@ -86,16 +86,13 @@ export default function Footer() {
             </Link>
           </div>
 
-          {/* 外部鏈接 */}
-          <div className={`flex gap-5 min-[901px]:flex-row max-[900px]:flex-col text-gray-500 dark:text-gray-300 `}>
-
-            {/* 導航項 */}
-            <div className={`flex w-64 px-5 flex-col mx-auto`}>
-              {navigationData.map((menu, index) => (
-                <div
-                  key={index}
-                  onClick={() => navigateToPage('/' + menu.toLowerCase())}
-                  className={`
+          {/* 導航項 */}
+          <div className={`flex w-64 px-5 flex-col mx-auto`}>
+            {navigationData.map((menu, index) => (
+              <div
+                key={index}
+                onClick={() => navigateToPage('/' + menu.toLowerCase())}
+                className={`
                             block items-center text-center px-4 py-2 rounded-md 
                             text-gray-500 dark:text-gray-300 
                             max-[900px]:mx-auto 
@@ -104,48 +101,48 @@ export default function Footer() {
                             dark:hover:text-themeColor dark:hover:bg-gray-800 dark:focus:bg-gray-800
                             transition-all
                           `}>
-                  <div className={`block items-center`}>{t(menu)}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* 通訊方式 */}
-            <div className={`flex w-[300px] min-[901px]:px-5 max-[900px]:pr-2 max-[900px]:pl-5 flex-col mx-auto gap-5`}>
-              <div className={`max-[900px]:text-center text-themeColor font-bold`}>
-                {`通訊方式`}
+                <div className={`block items-center`}>{t(menu)}</div>
               </div>
-              {contactData.map((item, index) => (
-                <div className={`grid grid-cols-2 gap-2 grid-cols-[0.3fr_0.9fr]`}>
-                  <div className={`items-top`}>
-                    <div className={`flex flex-row items-center gap-2`}>
-                      <item.icon className={`w-4 h-4`} />
-                      {item.index}
-                    </div>
+            ))}
+          </div>
+
+          {/* 通訊方式 */}
+          <div className={`flex w-[300px] min-[901px]:px-5 max-[900px]:pr-2 max-[900px]:pl-5 flex-col mx-auto gap-5`}>
+            <div className={`max-[900px]:text-center text-themeColor font-bold`}>
+              {`通訊方式`}
+            </div>
+            {contactData.map((item, index) => (
+              <div className={`grid grid-cols-2 gap-2 grid-cols-[0.3fr_0.9fr] text-gray-500 dark:text-gray-300 `}>
+                <div className={`items-top`}>
+                  <div className={`flex flex-row items-center gap-2`}>
+                    <item.icon className={`w-4 h-4`} />
+                    {item.index}
                   </div>
-                  <div>{item.value}</div>
                 </div>
-              ))}
-            </div>
+                <div>{item.value}</div>
+              </div>
+            ))}
+          </div>
 
-            {/* 追蹤我們 */}
-            <div className={`px-5 mx-auto`}>
-              <div className={`max-[900px]:text-center text-themeColor font-bold`}>
-                {t("Follow us")}
-              </div>
-              <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
-                {followUsData.map((item, idx) => (
-                  <a
-                    className="hover:opacity-50"
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener">
-                    <span className="sr-only">{item.name}</span>
-                    <item.icon />
-                  </a>
-                ))}
-              </div>
+          {/* 追蹤我們 */}
+          <div className={`px-5 mx-auto`}>
+            <div className={`max-[900px]:text-center text-themeColor font-bold`}>
+              {t("Follow us")}
+            </div>
+            <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
+              {followUsData.map((item, idx) => (
+                <a
+                  className="hover:opacity-50"
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener">
+                  <span className="sr-only">{item.name}</span>
+                  <item.icon />
+                </a>
+              ))}
             </div>
           </div>
+
         </div>
 
         {/* Footer Sign */}
