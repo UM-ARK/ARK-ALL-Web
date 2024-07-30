@@ -37,46 +37,6 @@ export const appendListToFormData = (
     return fd;
 }
 
-/**
- * @deprecated
- * 未完成測試中，請勿使用。
- * 
- * @abstract
- * 直接將useForm傳入的對象轉換成表單。
- * @param {*} _data - useForm傳入的數據對象 
- * @returns 
- */
-export const createFormData = (_data: any): FormData | null => {
-    if (!_data || Object.keys(_data).length == 0) {
-        return null;
-    }
-
-    let fd = new FormData();
-
-    // 遍歷所有的項目
-    try {
-        Object.entries(_data).map(([key, value]) => {
-            // Non Iterables
-            if (typeof value === "string" || value instanceof File) {
-                fd.append(key, value);
-            }
-            // Iterables
-            else if (value instanceof Array) {
-                appendListToFormData(fd, key, value, "array");
-            } else {
-                let value_ = value as any;
-                console.log(key);
-                appendListToFormData(fd, key, value_, "object");
-            }
-
-        });
-        console.log(_data);
-    } catch (err) {
-        console.log(`Error creating form data! Err: ${err}`);
-        alert(`表單製作有誤，請聯係開發者。`);
-        return;
-    }
-}
 
 /**
  * 通用方法，將内容上傳到服務器。

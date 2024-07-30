@@ -2,7 +2,7 @@ import { ReactNode, useRef, useState } from "react";
 import { IF } from "./ContentBlock";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { duplicateFile } from "../../utils/functions/u_format";
+import { compressImage, duplicateFile } from "../../utils/functions/u_format";
 import React from "react";
 
 const TextInputStyles = {
@@ -210,13 +210,14 @@ export const ARKImageInput = (props: {
     const [m_iconDisplay, setIconDisplay] = useState(true);
     const imageInputRef = React.createRef<HTMLInputElement>();
 
-    const setImageValue = (fileObj: any) => {
+    const setImageValue = async (fileObj: any) => {
         if (!fileObj) {
             return;
         }
+        let compressedImage = await compressImage(fileObj, 0.15);
         setIconDisplay(false);
-        setImageURL(URL.createObjectURL(fileObj));
-        setValue(regName, fileObj);
+        setImageURL(URL.createObjectURL(compressedImage));
+        setValue(regName, compressedImage);
     };
 
     return (
@@ -318,7 +319,7 @@ export const ARKListImageInput = (props: {
     const [m_hovering, setHovering] = useState("");
 
     /** 向JSON格式的Object列表中添加元素 */
-    const AddToObjList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+    const AddToObjList = async (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
         // 獲取新增的文件列表
         let fileObjArr = e.target.files;
 
@@ -334,17 +335,22 @@ export const ARKListImageInput = (props: {
         let arr = [];
         imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
 
-        // 將傳入文件列表中的所有文件複製一份，並推入數組
-        Object.entries(fileObjArr).map(([key, value]) => {
-            let newFile = duplicateFile(value);
+        // 將傳入文件列表中的所有文件壓縮並複製一份，然後並推入數組
+        let keys = Object.keys(fileObjArr);
+        for (let i = 0; i < keys.length; i++) {
+            let key = keys[i];
+            let value = fileObjArr[key];
+            let _newFile = await compressImage(value, 0.15);
+            let newFile = duplicateFile(_newFile);
             arr.push(newFile);
-        })
+        }
 
         // 把新數組解析成對象
         const filesAsObj = Object.fromEntries(
             Array.from(arr, (file, index) => [index, file])
         );
 
+        console.log(filesAsObj);
         setValue(regName, filesAsObj);
     }
 
