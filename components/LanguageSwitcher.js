@@ -26,7 +26,7 @@ const LanguageSwitcher = () => {
     return (
 
         <div className={`
-            flex flex-row font-bold justify-between items-center w-24 px-2 rounded-md
+            flex flex-row font-bold justify-between items-center min-[901px]:w-24 max-[900px]:w-48 px-2 rounded-md
             hover:backdrop-blur-3xl hover:bg-[#ffffff99] dark:hover:bg-[#17171799] hover:cursor-pointer
             transition-all
         `}>
@@ -34,7 +34,7 @@ const LanguageSwitcher = () => {
                 <div onClick={() => { handleLanguageChange(item.value) }}
                     className={`
                         transition-all 
-                        hover:text-themeColor hover:scale-[1.02] hover:cursor-pointer
+                        hover:text-themeColor hover:scale-[1.02] hover:cursor-pointer max-[900px]:text-2xl 
                         ${curLang === item.value ? "text-themeColor scale-[1.02]" : "text-[#000000aa] dark:text-white"}`}>
                     {item.text}
                 </div>

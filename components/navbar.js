@@ -23,7 +23,7 @@ const NBLink = (props) => {
   const router = useRouter();
 
   const styles = {
-    "PC": `inline-block px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
+    "PC": `inline-block min-[1550px]:w-[180px] px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
     "Mobile": "w-full px-4 py-5 text-2xl text-gray-500 dark:text-gray-200 hover:text-themeColor hover:bg-[#0000000d] dark:hover:text-themeColor dark:hover:bg-[#ffffff0d] focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
   };
 
@@ -75,7 +75,7 @@ const Navbar = (props) => {
                 height="32"
                 className="w-8 rounded-md"
               />
-              <div className={`text-themeColor font-bold opacity-${(hideLogoTextBeforeScroll && m_atTop) ? "0" : "100"} transition-all`}>
+              <div className={`max-[1280px]:hidden text-themeColor font-bold opacity-${(hideLogoTextBeforeScroll && m_atTop) ? "0" : "100"} transition-all`}>
                 ARK ALL
               </div>
             </div>
@@ -102,7 +102,7 @@ const Navbar = (props) => {
         </div>
 
         {/** 語言、主題切換 */}
-        <div className="flex max-[1320px]:hidden mr-3 space-x-4 nav__item">
+        <div className="flex max-[1024px]:hidden mr-3 space-x-4 nav__item">
           <ThemeChanger />
           <LanguageSwitcher />
         </div>
@@ -113,8 +113,16 @@ const Navbar = (props) => {
       {/* 移動端menu */}
       <div className={`lg:hidden w-full items-center text-center 
                         ${!m_mobileMenuOpen ? "max-h-0" : "max-h-[600px]"} overflow-clip transition-all`}>
-
         <ul className={`items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-7 pb-5`}>
+          <li>
+            {/** 語言、主題切換 */}
+            <div className="flex flex-row justify-center mx-auto space-x-1 mr-3 py-4 nav__item">
+              <div className="flex flex-col items-center gap-1">
+                <ThemeChanger />
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </li>
           <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
           </li>
