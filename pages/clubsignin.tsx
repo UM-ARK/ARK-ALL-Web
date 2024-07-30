@@ -13,6 +13,7 @@ import { IClubSignin } from '../types/index.d';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../states/state';
 import Link from "next/link";
+import Footer from '../components/footer';
 
 const ClubLogin = () => {
     const { t } = useTranslation();
@@ -30,9 +31,9 @@ const ClubLogin = () => {
     return (
         <ARKMain title={t("CLUB_LOGIN")} withOutMargin={true}>
             <Navbar selected={"ClubSignin"} />
-            <Container className="flex flex-col w-full h-full items-center justify-center p-20">
+            <Container className="flex flex-col w-full h-full items-center justify-center">
                 {/* UI Block*/}
-                <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 hover: cursor-pointer hover:scale-[1.02] transition-all">
+                <div className="block p-5 pb-10 mt-20 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 hover: cursor-pointer hover:scale-[1.02] transition-all">
 
                     {/* 標題 */}
                     <div className="text-2xl text-themeColor font-semibold mb-8 text-center">
@@ -97,6 +98,7 @@ const ClubLogin = () => {
 
                 </div>
             </Container>
+            <Footer />
         </ARKMain>
     );
 
