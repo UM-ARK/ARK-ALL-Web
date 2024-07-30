@@ -318,7 +318,34 @@ export const ARKListImageInput = (props: {
     const imageInputRef = React.createRef<HTMLInputElement>();
     const [m_hovering, setHovering] = useState("");
 
-    /** 向JSON格式的Object列表中添加元素 */
+    /**
+     * 對一個圖片對象數組進行預處理，壓縮其中每一個圖片，並複製一份代替原本圖片以防止數據不一致問題。
+     * @param fileObjArr - 處理的對象數組
+     * @param originalArr - 包含原有圖片的數組。
+     * @returns 
+     */
+    const PreProcessFileObjArr = async (fileObjArr: any, originalArr: any[]) => {
+        let processedArr = originalArr;
+        let keys = Object.keys(fileObjArr);
+        for (let i = 0; i < keys.length; i++) {
+            let key = keys[i];
+            let value = fileObjArr[key];
+            let _newFile = await compressImage(value, 0.15);
+            let newFile = duplicateFile(_newFile);
+            processedArr.push(newFile);
+        }
+        return processedArr;
+    };
+
+    /**
+     * 向JSON格式的Object列表中添加圖片，並將圖片壓縮、複製。 
+     * @param e - Input事件
+     * @param regName - 注冊名，用於辨識表單中不同的輸入框。
+     * @param imgList - 圖片列表，可以是對象(object)或數組(Array)，是所在表單中的監聽值，使用watch傳入。
+     * @param numLimit - 數字限制
+     * @param setValue - react-hook-form提供的setValue函數，將值寫入表單中。
+     * @returns 
+     */
     const AddToObjList = async (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
         // 獲取新增的文件列表
         let fileObjArr = e.target.files;
@@ -335,15 +362,8 @@ export const ARKListImageInput = (props: {
         let arr = [];
         imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
 
-        // 將傳入文件列表中的所有文件壓縮並複製一份，然後並推入數組
-        let keys = Object.keys(fileObjArr);
-        for (let i = 0; i < keys.length; i++) {
-            let key = keys[i];
-            let value = fileObjArr[key];
-            let _newFile = await compressImage(value, 0.15);
-            let newFile = duplicateFile(_newFile);
-            arr.push(newFile);
-        }
+        // 將傳入文件列表中的所有文件壓縮並複製一份，然後並推入包含原有圖片數組
+        arr = await PreProcessFileObjArr(fileObjArr, arr);
 
         // 把新數組解析成對象
         const filesAsObj = Object.fromEntries(
@@ -354,8 +374,16 @@ export const ARKListImageInput = (props: {
         setValue(regName, filesAsObj);
     }
 
-    /** 向數組中添加元素 */
-    const AddToArrayList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+    /**
+     * 向圖片數組中添加圖片，並將圖片壓縮、複製。 
+     * @param e - Input事件
+     * @param regName - 注冊名，用於辨識表單中不同的輸入框。
+     * @param imgList - 圖片列表，可以是對象(object)或數組(Array)，是所在表單中的監聽值，使用watch傳入。
+     * @param numLimit - 數字限制
+     * @param setValue - react-hook-form提供的setValue函數，將值寫入表單中。
+     * @returns 
+     */
+    const AddToArrayList = async (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
         let fileObjArr = e.target.files;
 
         let fileArrLen = fileObjArr.length;
@@ -370,10 +398,12 @@ export const ARKListImageInput = (props: {
             return;
         }
 
+        let arr = await PreProcessFileObjArr(fileObjArr, []);
+
         if (imgList.length > 1) {
-            setValue(regName, [...imgList, ...Array.from(fileObjArr)]);
+            setValue(regName, [...imgList, ...arr]);
         } else {
-            setValue(regName, [imgList[0], ...Array.from(fileObjArr)]);
+            setValue(regName, [imgList[0], ...arr]);
         }
 
     }
