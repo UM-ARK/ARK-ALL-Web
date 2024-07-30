@@ -13,6 +13,7 @@ const LanguageSwitcher = () => {
 
     // 全局語言狀態
     const curLang = useLangStore((state) => state.curLang);
+    const isLangEverChanged = useLangStore((state) => state.isLangEverChanged);
     const setCurLangStore = useLangStore((state) => state.setLang);
 
     const langBtnData = [
@@ -31,7 +32,7 @@ const LanguageSwitcher = () => {
         let deviceLang = navigator.language || navigator.userLanguage;
 
         // 無法檢測設備語言/設備語言不在支持列表内，則默認中文
-        if (!deviceLang || availableLang.indexOf(deviceLang) == -1) {
+        if (isLangEverChanged || !deviceLang || availableLang.indexOf(deviceLang) == -1) {
             return;
         }
 
