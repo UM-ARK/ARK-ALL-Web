@@ -36,23 +36,25 @@ const UASection = (props) => {
 const user_agreement = () => {
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.75 }}
-    >
+    <div>
       <Navbar selected={"User_Agreement"} />
-      <Container className="flex flex-wrap w-full h-full justify-center">
-        {Object.entries(user_agreement_section_data).map(([k, content]) => (
-          <UASection
-            pretitle={content.pretitle}
-            title={content.title}
-            list={content.list} />
-        ))}
-        <br /><br />
-      </Container>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Container className="flex flex-wrap w-full h-full justify-center">
+          {Object.entries(user_agreement_section_data).map(([k, content]) => (
+            <UASection
+              pretitle={content.pretitle}
+              title={content.title}
+              list={content.list} />
+          ))}
+          <br /><br />
+        </Container>
+      </motion.div>
       <Footer />
-    </motion.div>
+    </div>
   );
 };
 

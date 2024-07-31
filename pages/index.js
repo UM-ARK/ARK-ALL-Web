@@ -32,6 +32,7 @@ import PopupWidget from "../components/popupWidget";
 import { useTranslation, I18nextProvider } from "react-i18next";
 
 import { useRouter } from 'next/router';
+import { motion } from "framer-motion"
 
 const Home = () => {
 
@@ -66,9 +67,6 @@ const Home = () => {
   // data
 
   const router = useRouter();
-  const navigateToPage = (page) => {
-    router.push(page);
-  };
 
   return (
     <ARKMain withOutMargin={true}>
@@ -82,27 +80,32 @@ const Home = () => {
       </Head>
 
       <Navbar fixed hideLogoTextBeforeScroll={true} />
-      <Ark />
 
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Ark />
 
+        <SectionTitle
+          pretitle={t("More Features")}
+          title={t("Why Use UM-ARK-ALL?")}>
+          {t("arkText")}
+        </SectionTitle>
 
-      <SectionTitle
-        pretitle={t("More Features")}
-        title={t("Why Use UM-ARK-ALL?")}>
-        {t("arkText")}
-      </SectionTitle>
+        <Benefits data={benefitOne} />
+        <Benefits imgPos="right" data={benefitTwo} />
 
-      <Benefits data={benefitOne} />
-      <Benefits imgPos="right" data={benefitTwo} />
+        <SectionTitle
+          pretitle={t("FAQ")}
+          title={t("ARK ALL Frequently Asked Questions")}>
+          {t("Frequently Asked Questions")}
+        </SectionTitle>
+        <Faq />
 
-      <SectionTitle
-        pretitle={t("FAQ")}
-        title={t("ARK ALL Frequently Asked Questions")}>
-        {t("Frequently Asked Questions")}
-      </SectionTitle>
-      <Faq />
-
-      <Cta />
+        <Cta />
+      </motion.div>
 
       <Footer />
       <PopupWidget />

@@ -1,40 +1,23 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import ThemeChanger from "./DarkSwitch";
 import Image from "next/image"
-import { Disclosure } from "@headlessui/react";
+
+import ThemeChanger from "./DarkSwitch";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { useTranslation } from "react-i18next";
-import { useRouter } from 'next/router';
+
 import WarningBanner from "/components/micros/WarningBanner";
-import { useEffect, useState } from "react";
 import { HamburgerBtn } from "components/uiComponents/HamburgerBtn"
 
+import { useTranslation } from "react-i18next";
+
 const navigation = [
+  "Home",
   "ClubSignin",
   "Tutorial",
   "QA",
   "User_Agreement",
   "About_us",
 ];
-
-const NBLink = (props) => {
-  const { destination, isMobile, isSelected = false } = props;
-  const router = useRouter();
-
-  const styles = {
-    "PC": `inline-block min-[1550px]:w-[180px] px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
-    "Mobile": "w-full px-4 py-5 text-2xl text-gray-500 dark:text-gray-200 hover:text-themeColor hover:bg-[#0000000d] dark:hover:text-themeColor dark:hover:bg-[#ffffff0d] focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
-  };
-
-  return (
-    <div
-      className={isMobile ? styles.Mobile : styles.PC}
-      onClick={() => router.push('/' + destination)}>
-      {props.children}
-    </div>
-  );
-};
 
 const Navbar = (props) => {
   const { selected = "", fixed, hideLogoTextBeforeScroll = false } = props;
@@ -43,7 +26,7 @@ const Navbar = (props) => {
   /** 移動menu是否打開 */
   const [m_mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  /** 監聽瀏覽器窗口華動高度 */
+  /** 監聽瀏覽器窗口滾動高度 */
   const [m_atTop, setAtTop] = useState(true);
 
   const handleScroll = () => {
@@ -58,6 +41,22 @@ const Navbar = (props) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const NBLink = (props) => {
+    const { destination, isMobile, isSelected = false, } = props;
+    const styles = {
+      "PC": `inline-block min-[1550px]:w-[180px] px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
+      "Mobile": "w-full px-4 py-5 text-2xl text-gray-500 dark:text-gray-200 hover:text-themeColor hover:bg-[#0000000d] dark:hover:text-themeColor dark:hover:bg-[#ffffff0d] focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
+    };
+
+    return (
+      <Link href={destination == 'home' ? '/' : '/' + destination}>
+        <div className={isMobile ? styles.Mobile : styles.PC}>
+          {props.children}
+        </div>
+      </Link>
+    );
+  };
 
   return (
     <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${m_atTop && !m_mobileMenuOpen ? "" : "backdrop-blur-3xl bg-[#ffffff99] dark:bg-[#17171799]"} z-[99] transition-all`}>
@@ -88,13 +87,10 @@ const Navbar = (props) => {
         {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-3">
-            <li>
-              <NBLink destination={""} isSelected={selected == ""}>{t("PG_HOME")}</NBLink>
-            </li>
             {navigation.map((menu, index) => (
               <li className="nav__item" key={index}>
                 <NBLink destination={menu.toLowerCase()} isSelected={selected == menu}>
-                  {t(menu)}
+                  {menu.toLowerCase() == 'home' ? t('PG_HOME') : t(menu)}
                 </NBLink>
               </li>
             ))}

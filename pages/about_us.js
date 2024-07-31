@@ -80,17 +80,19 @@ const toMD = (_str) => {
 const about_us = () => {
   // toMD(str);
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.75 }}
-      className="relative">
+    <div className="relative">
       <Navbar selected={"About_us"} />
-      <Container>
-        {toMD(str)}
-      </Container>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Container>
+          {toMD(str)}
+        </Container>
+      </motion.div>
       <Footer />
-    </motion.div>
+    </div>
   );
 };
 
