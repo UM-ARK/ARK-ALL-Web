@@ -1,12 +1,10 @@
 import {
     ChevronLeftIcon
 } from "@heroicons/react/24/solid";
-import ThemeChanger from './DarkSwitch';
-import LanguageSwitcher from "./LanguageSwitcher";
 import WarningBanner from "components/micros/WarningBanner";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-import NavbarTools from "./uiComponents/NavbarTools";
+import NavbarTools from "./uiComponents/NavbarTools/NavbarTools";
 
 const NavBarSecondary = (props) => {
     const { t } = useTranslation();
@@ -30,7 +28,7 @@ const NavBarSecondary = (props) => {
                         {returnStr}
                     </div>
                 </div>
-                <NavbarTools />
+                <NavbarTools mode={"PC"} />
             </div>
             <WarningBanner />
         </div>

@@ -2,14 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image"
 
-import ThemeChanger from "./DarkSwitch";
-import LanguageSwitcher from "./LanguageSwitcher";
-
 import WarningBanner from "/components/micros/WarningBanner";
 import { HamburgerBtn } from "components/uiComponents/HamburgerBtn"
 
 import { useTranslation } from "react-i18next";
-import NavbarTools from "./uiComponents/NavbarTools";
+import NavbarTools from "./uiComponents/NavbarTools/NavbarTools";
 
 const navigation = [
   "Home",
@@ -99,7 +96,7 @@ const Navbar = (props) => {
         </div>
 
         {/** 語言、主題切換 */}
-        <NavbarTools />
+        <NavbarTools mode={"PC"} />
       </nav>
 
       <WarningBanner />
@@ -110,12 +107,7 @@ const Navbar = (props) => {
         <ul className={`items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-7 pb-5`}>
           <li>
             {/** 語言、主題切換 */}
-            <div className="flex flex-row justify-center mx-auto space-x-1 mr-3 py-4 nav__item">
-              <div className="flex flex-col items-center gap-1">
-                <ThemeChanger />
-                <LanguageSwitcher />
-              </div>
-            </div>
+            <NavbarTools mode={"Mobile"} />
           </li>
           <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>

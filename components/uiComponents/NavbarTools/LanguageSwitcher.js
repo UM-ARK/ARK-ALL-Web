@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
-import { useLangStore } from "../states/state";
+import { useLangStore } from "../../../states/state";
 
 
 const LanguageSwitcher = () => {
