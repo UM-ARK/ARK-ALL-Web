@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import SectionTitle from "../components/sectionTitle";
 import { user_agreement_section_data } from 'public/data/user_agreement';
 
+import { motion } from "framer-motion"
 
 const UASection = (props) => {
   const { pretitle, title, list } = props;
@@ -35,7 +36,11 @@ const UASection = (props) => {
 const user_agreement = () => {
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.75 }}
+    >
       <Navbar selected={"User_Agreement"} />
       <Container className="flex flex-wrap w-full h-full justify-center">
         {Object.entries(user_agreement_section_data).map(([k, content]) => (
@@ -47,7 +52,7 @@ const user_agreement = () => {
         <br /><br />
       </Container>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

@@ -3,6 +3,8 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
 
+import { motion } from "framer-motion"
+
 const str = `
 # ARK ALL的由來？
 ARK ALL 是 2022 年暑假，幾位不知名的 FST 同學奮戰兩個月做出來的，整個應用全程都是由我們自主開發，其中都踩了不少坑，掉了不少頭髮 QAQ。
@@ -78,13 +80,17 @@ const toMD = (_str) => {
 const about_us = () => {
   // toMD(str);
   return (
-    <div className="relative">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.75 }}
+      className="relative">
       <Navbar selected={"About_us"} />
       <Container>
         {toMD(str)}
       </Container>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
