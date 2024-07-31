@@ -7,7 +7,7 @@ import { I18nextProvider } from "react-i18next";
 import { useLangStore } from "../states/state"; // 全局語言狀態管理
 
 import { useRouter } from 'next/router';
-
+import { AnimatePresence } from "framer-motion";
 
 
 function MyApp({ Component, pageProps }) {
@@ -36,9 +36,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ThemeProvider attribute="class">
-        <Component {...pageProps} navigateToPage={navigateToPage} />
-      </ThemeProvider>
+      <AnimatePresence>
+        <ThemeProvider attribute="class">
+          <Component {...pageProps} navigateToPage={navigateToPage} />
+        </ThemeProvider>
+      </AnimatePresence>
     </I18nextProvider>
   );
 }
