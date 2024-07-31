@@ -83,9 +83,9 @@ const ClubLogin = () => {
                                             className={"mr-2"}
                                             {...register("agreeTA", { required: "您需要同意該協議以登錄賬號。" })} />
                                         <p className={"opacity-80 font-bold"}>
-                                            我已同意並遵守
+                                            {t(`User_Agreement_Preamble`)}
                                             <Link href={"/user_agreement"} className={"text-themeColor hover:scale-105 transition-all"}>
-                                                《ARK ALL 用戶協議》
+                                                {`《ARK ALL ${t("User_Agreement")}》`}
                                             </Link>
                                         </p>
                                     </div>
