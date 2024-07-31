@@ -13,6 +13,7 @@ import phones from "../../public/img/home_page/phones.png";
 import apple_logo from "../../public/img/home_page/company_logos/AppleLogo.png";
 import google_play_logo from "../../public/img/home_page/company_logos/GooglePlayLogo.png";
 import huawei_logo from "../../public/img/home_page/company_logos/HuaweiLogo.png";
+import android_logo from "../../public/img/home_page/company_logos/AndroidLogo.png";
 import { useRouter } from "next/router";
 // import appleLogo from "../../public/img/home_page/company_logos";
 
@@ -35,6 +36,11 @@ const Ark = (props) => {
       source: "HUAWEI",
       link: "https://umall.one/static/release/app-release.apk",
       icon: huawei_logo
+    },
+    {
+      source: "Android",
+      link: "https://umall.one/static/release/app-release.apk",
+      icon: android_logo
     }
   ];
 
@@ -77,7 +83,7 @@ const Ark = (props) => {
                     className={`
                       flex flex-row 
                       min-[901px]:w-[168px] max-[900px]:w-[80%] gap-2 px-5 py-4 
-                      min-[901px]:text-lg max-[900px]:text-md font-medium 
+                      text-md font-medium 
                       justify-center items-center text-left text-white 
                       rounded-md bg-themeColor 
                       hover:cursor-pointer hover:bg-themeColorLight hover:scale-[1.02] 
