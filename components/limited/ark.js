@@ -55,8 +55,8 @@ const Ark = (props) => {
                       bg-gradient-to-tr from-white dark:from-[#171717] from-50% dark:from-55% dark:to-[#171717dd]" />
         <Container className={"flex flex-wrap z-20"}>
           {/* ARK介紹+下載按鈕 */}
-          <div className="flex items-center w-full lg:w-1/2 px-8 py-20">
-            <div className="max-w-2xl mb-8">
+          <div className="flex min-[901px]:flex-row max-[900px]:flex-col items-center w-full min-[901px]:w-1/2 px-8 py-20">
+            <div className="min-[901px]:max-w-2xl mb-8">
               <div className="flex gap-4 items-center">
                 <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
                   ARK ALL
@@ -75,7 +75,9 @@ const Ark = (props) => {
                   <div
                     onClick={() => { router.push(item.link); }}
                     className={`
-                      flex flex-row w-[168px] gap-2 px-5 py-4 text-lg font-medium 
+                      flex flex-row 
+                      min-[901px]:w-[168px] max-[900px]:w-[80%] gap-2 px-5 py-4 
+                      min-[901px]:text-lg max-[900px]:text-md font-medium 
                       justify-center items-center text-left text-white 
                       rounded-md bg-themeColor 
                       hover:cursor-pointer hover:bg-themeColorLight hover:scale-[1.02] 
