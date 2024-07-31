@@ -9,6 +9,7 @@ import WarningBanner from "/components/micros/WarningBanner";
 import { HamburgerBtn } from "components/uiComponents/HamburgerBtn"
 
 import { useTranslation } from "react-i18next";
+import NavbarTools from "./uiComponents/NavbarTools";
 
 const navigation = [
   "Home",
@@ -98,10 +99,7 @@ const Navbar = (props) => {
         </div>
 
         {/** 語言、主題切換 */}
-        <div className="flex max-[1024px]:hidden mr-3 space-x-4 nav__item">
-          <ThemeChanger />
-          <LanguageSwitcher />
-        </div>
+        <NavbarTools />
       </nav>
 
       <WarningBanner />
