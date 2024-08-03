@@ -4,6 +4,7 @@ import { IF } from "./ContentBlock";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { compressImage, duplicateFile } from "../../utils/functions/u_format";
 import React from "react";
+import { t } from "i18next";
 
 const TextInputStyles = {
     border: {
@@ -227,7 +228,7 @@ export const ARKImageInput = (props: {
 
     return (
         <div
-            className={`${m_isDragOver && "opacity-50"} flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all`}
+            className={`${m_isDragOver && "opacity-50"} flex flex-col w-48 h-48 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all`}
             style={{
                 backgroundImage: `url("${m_imageURL || initialImgURL}")`,
                 backgroundSize: 'cover',
@@ -256,7 +257,7 @@ export const ARKImageInput = (props: {
                         <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
+                        <h3 className="font-bold text-xl text-themeColor">{t('ACTIVITY_COVER_IMG')}</h3>
                     </div>
                 </div>
             </IF>
