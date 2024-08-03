@@ -21,7 +21,7 @@ const Ark = (props) => {
 
   return (
     <React.Fragment>
-      <div className="relative flex flex-wrap w-full h-full py-20 z-0 animate-seaWaveMove"
+      <div className="relative flex flex-wrap w-full h-full py-20 z-0 md:animate-seaWaveMove"
         style={{
           backgroundImage: `url(${themeImg.src})`,
           backgroundSize: "cover",
