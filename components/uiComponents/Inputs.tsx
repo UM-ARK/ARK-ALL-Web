@@ -271,6 +271,10 @@ export const ARKImageInput = (props: {
                 ref={imageInputRef}
                 onChange={(e) => {
                     let fileObj = e.target.files[0];
+                    if (fileObj.size > 1024 * 1024 * 10) {
+                        alert("圖片大小不能超過10MB");
+                        return;
+                    }
                     setImageValue(fileObj);
                     // if (!fileObj) {
                     //     return;
@@ -364,6 +368,14 @@ export const ARKListImageInput = (props: {
             return;
         }
 
+        // 檢測大小
+        for (let i = 0; i < fileObjArrLen; i++) {
+            if (fileObjArr[i].size > 1024 * 1024 * 10) {
+                alert("圖片大小不能超過10MB!");
+                return;
+            }
+        }
+
         // 將原有圖片轉換成數組（如果不為空）
         let arr = [];
         imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
@@ -413,7 +425,6 @@ export const ARKListImageInput = (props: {
         }
 
     }
-
 
     return (
         <div className={"flex flex-row items-center justify-left max-[640px]:justify-center"}>
