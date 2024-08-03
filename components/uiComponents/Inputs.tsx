@@ -207,20 +207,32 @@ export const ARKImageInput = (props: {
     thisErr: any
 }) => {
 
+    // 拖拽提示效果
     const [m_isDragOver, setIsDragOver] = useState(false);
 
+    // react-hook-form 參數
     const { regName, isRequired, initialImgURL } = props.base;
     const { register, setValue, errText, thisErr } = props;
 
-    const [m_imageURL, setImageURL] = useState(void 0);
-    const [m_iconDisplay, setIconDisplay] = useState(true);
+    // UI顯示參數
+    const [m_imageURL, setImageURL] = useState(void 0);         // 圖片URL
+    const [m_iconDisplay, setIconDisplay] = useState(true);     // 添加圖片icon顯示
+    const [m_isProcessing, setIsProcessing] = useState(false);  // 壓縮提示，防止用戶以爲故障了
     const imageInputRef = React.createRef<HTMLInputElement>();
 
     const setImageValue = async (fileObj: any) => {
         if (!fileObj) {
             return;
         }
+        setIsProcessing(true);
         let compressedImage = await compressImage(fileObj, 0.15);
+        setIsProcessing(false);
+
+        if (!compressImage) {
+            alert('壓縮圖片過程出錯！');
+            return;
+        }
+
         setIconDisplay(false);
         setImageURL(URL.createObjectURL(compressedImage));
         setValue(regName, compressedImage);
@@ -254,10 +266,14 @@ export const ARKImageInput = (props: {
             <IF condition={m_iconDisplay && !initialImgURL}>
                 <div className="flex flex-col justify-center">
                     <div className="flex items-center justify-center mb-2">
-                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        {!m_isProcessing && (
+                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        )}
                     </div>
                     <div>
-                        <h3 className="font-bold text-xl text-themeColor">{t('ACTIVITY_COVER_IMG')}</h3>
+                        <h3 className="font-bold text-xl text-themeColor">
+                            {m_isProcessing ? "處理中..." : t('ACTIVITY_COVER_IMG')}
+                        </h3>
                     </div>
                 </div>
             </IF>
@@ -322,11 +338,15 @@ export const ARKListImageInput = (props: {
     errText?: string,
     thisErr: any
 }) => {
+
+    // react-hook-form等參數
     const { regName, isRequired, numLimit = 4, mode = "object" } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 
+    // UI顯示參數
     const imageInputRef = React.createRef<HTMLInputElement>();
     const [m_hovering, setHovering] = useState("");
+    const [m_isProcessing, setIsProcessing] = useState(false);
 
     /**
      * 對一個圖片對象數組進行預處理，壓縮其中每一個圖片，並複製一份代替原本圖片以防止數據不一致問題。
@@ -416,7 +436,9 @@ export const ARKListImageInput = (props: {
             return;
         }
 
+        setIsProcessing(true);
         let arr = await PreProcessFileObjArr(fileObjArr, []);
+        setIsProcessing(false);
 
         if (imgList.length > 1) {
             setValue(regName, [...imgList, ...arr]);
@@ -458,7 +480,13 @@ export const ARKListImageInput = (props: {
 
                     {/* Icon 部分 */}
                     <div className="flex items-center justify-center mb-2">
-                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        {m_isProcessing ? (
+                            <h3 className="font-bold text-xl text-themeColor">
+                                {`處理中...`}
+                            </h3>
+                        ) : (
+                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        )}
                     </div>
 
                     {/* 輸入邏輯部分 */}
