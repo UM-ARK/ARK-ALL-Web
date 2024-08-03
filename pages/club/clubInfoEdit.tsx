@@ -113,7 +113,7 @@ export default function clubInfoEdit() {
                                                 {/*方式：如email */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={t("CONTACTS")}
+                                                    placeholder={`聯係方式`}
                                                     {...register(`contact.${index}.type`)} />
 
                                                 {/*内容：如example@example.com */}
@@ -131,7 +131,6 @@ export default function clubInfoEdit() {
                                                         let contact = _contact.filter((item, i) => i != index);
                                                         setValue("contact", contact);
                                                     }} />
-
                                             </div>
                                         </div>
                                     ))

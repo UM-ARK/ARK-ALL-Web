@@ -157,7 +157,14 @@ const ClubInfo = () => {
                         <div className="grid xl:grid-cols-5 sm:grid-cols-3 gap-4 ">
                             <IFELSE condition={clubContentData != void 0}>
                                 {clubContentData?.content.club_photos_list.map((item, index) => (
-                                    <img key={index} src={BASE_HOST + item} className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer mx-auto`} />
+                                    <img
+                                        key={index}
+                                        src={BASE_HOST + item}
+                                        className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer mx-auto object-cover`}
+                                        title={`查看圖片`}
+                                        onClick={() => {
+                                            window.open(BASE_HOST + item, "_blank");
+                                        }} />
                                 ))}
                                 <p>{t("ARK_LOADING")}...</p>
                             </IFELSE>
