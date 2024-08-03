@@ -71,7 +71,12 @@ const NewActivity = () => {
                 <input
                     className={`${inputStyle} text-3xl max-[512px]:text-xl mx-auto`}
                     placeholder={t("ACTIVITY_TITLE")}
-                    {...register("title", { required: t("ACTIVITY_TITLE_REQUIRE") })} />
+                    {...register("title",
+                        {
+                            required: t("ACTIVITY_TITLE_REQUIRE"),
+                            minLength: { value: 2, message: "標題不能少於2字！" },
+                            maxLength: { value: 100, message: "標題不能超過100字！" }
+                        })} />
                 <div className={"text-alert text-center mx-auto mb-3"}>{errors.title && errors.title.message}</div>
 
                 {/* 封面圖片 */}
