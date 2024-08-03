@@ -102,15 +102,20 @@ export const ARKTextInput = (props: {
  * </ARKLabeledInput>
  * @returns 
  */
-export const ARKLabeledInput = (props: { title: string, condition?: boolean, children: ReactNode | ReactNode[] }) => {
+export const ARKLabeledInput = (
+    props: {
+        title: string,
+        condition?: boolean,
+        children: ReactNode | ReactNode[],
+    }) => {
     const { title, condition } = props;
     return (
         <IF condition={condition || condition == void 0}>
-            <div className={`flex flex-row max-[420px]:flex-col items-center mb-3 gap-3 `}>
+            <div className={`flex flex-row max-[420px]:flex-col items-center mb-3 gap-3`}>
                 <span className={`text-themeColor font-bold mr-5 max-[420px]:mr-0`}>
                     {props.title || "項目"}
                 </span>
-                <div className={`flex flex-row items-center gap-3  max-[512px]:w-[70%]`}>
+                <div className={`flex flex-row items-center gap-3`}>
                     {props.children}
                 </div>
             </div>
@@ -436,7 +441,7 @@ export const ARKListImageInput = (props: {
                 ))}
 
                 <div
-                    className="flex flex-col w-full h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+                    className="flex flex-col w-40 h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
                     onClick={() => imageInputRef.current.click()}>
 
                     {/* Icon 部分 */}
