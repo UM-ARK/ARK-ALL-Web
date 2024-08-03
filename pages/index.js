@@ -107,7 +107,7 @@ const Home = () => {
         </SectionTitle>
 
 
-        <div className={`flex md:w-[40rem] mx-auto my-10 min-[901px]:flex-row max-[900px]:flex-col gap-5`}>
+        <div className={`flex md:w-[40rem] mx-auto mt-10 mb-24 min-[901px]:flex-row max-[900px]:flex-col gap-5`}>
           {demoData.map((data, index) => (
             <div key={index} className={`flex flex-col gap-3 w-48 h-full mx-auto text-center items-center justify-center`}>
               <div>
@@ -121,8 +121,6 @@ const Home = () => {
             </div>
           ))}
         </div>
-
-
 
         <SectionTitle
           pretitle={t("More Features")}
