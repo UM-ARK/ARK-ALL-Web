@@ -94,7 +94,7 @@ const Ark = (props) => {
           </div>
 
           {/* 手機圖畫 */}
-          <div className="flex items-center justify-center w-full lg:w-1/2 max-[770px]:hidden">
+          <div className="flex items-center justify-center w-full lg:w-1/2 max-[1300px]:hidden">
             <Image
               src={phones}
               height="auto"
