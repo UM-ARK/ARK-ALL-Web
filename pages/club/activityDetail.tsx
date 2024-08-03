@@ -41,6 +41,8 @@ const ActivityDetail = () => {
     // 獲取活動的數據
     const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);
 
+    const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
+
     // 加載中？
     const [isLoading, setIsLoading] = useState(true);
 
@@ -85,9 +87,8 @@ const ActivityDetail = () => {
             eTime: enddatetime_.time
         }
         reset(base);
-    }, [m_activityData]);
+    }, [m_activityData, isEditMode]);
 
-    const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
@@ -287,9 +288,18 @@ const ActivityDetail = () => {
                                     <img
                                         key={index}
                                         src={BASE_HOST + url}
-                                        className={`mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "opacity-70"}`}
+                                        title={`新標籤頁打開圖片`}
+                                        className={`
+                                            mx-auto w-40 h-24 rounded-md
+                                             hover:scale-[1.05] transition-all 
+                                             hover:cursor-pointer 
+                                             ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "hidden"} 
+                                             object-cover`}
                                         onClick={() => {
-                                            if (!isEditMode) return;
+                                            if (!isEditMode) {
+                                                window.open(BASE_HOST + url, '_blank');
+                                                return;
+                                            }
 
                                             if (!watch("del_relate_image")) {
                                                 setValue("del_relate_image", [url]);
