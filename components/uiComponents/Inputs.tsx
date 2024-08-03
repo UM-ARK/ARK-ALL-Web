@@ -112,7 +112,7 @@ export const ARKLabeledInput = (
     const { title, condition } = props;
     return (
         <IF condition={condition || condition == void 0}>
-            <div className={`flex flex-row max-[420px]:flex-col items-center mb-3 gap-3`}>
+            <div className={`flex flex-row max-[420px]:flex-col items-center mb-2 gap-3`}>
                 <span className={`text-themeColor font-bold mr-5 max-[420px]:mr-0`}>
                     {props.title || "項目"}
                 </span>
@@ -151,7 +151,7 @@ export const ARKTextareaInput = (props: {
     watch: any
 }) => {
     const { base, regName, errors: thisErr, requirePrompt, register, watch } = props;
-    const textareaStyle = "text-lg block w-full h-80 border-4 rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
+    const textareaStyle = "text-lg block w-full h-48 border-4 rounded-lg p-2 resize-none min-h-12 outline-none max-[512px]:text-md";
 
     return (
         <React.Fragment>

@@ -23,7 +23,8 @@ const activityTypeMap = {
     // OFFICIAL: "澳大官方",
 };
 
-const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none w-full";
+const titleStyle = `border-4 border-themeColor rounded-lg h-11 p-2 ontline-none`;
+const inputStyle = `${titleStyle} w-full`;
 const textareaStyle = "text-lg block w-full h-80 border-4 rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
 
 const NewActivity = () => {
@@ -66,10 +67,10 @@ const NewActivity = () => {
     return (
         <ARKMain title={`${t("NEW_ACTIVITY")}-${watch("title")}`}>
             <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} />
-            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
+            <form className={`flex flex-col gap-4`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input
-                    className={`${inputStyle} text-3xl max-[512px]:text-xl mx-auto`}
+                    className={`${titleStyle} text-3xl max-[512px]:text-xl mx-auto`}
                     placeholder={t("ACTIVITY_TITLE")}
                     {...register("title",
                         {
@@ -77,7 +78,7 @@ const NewActivity = () => {
                             minLength: { value: 2, message: "標題不能少於2字！" },
                             maxLength: { value: 100, message: "標題不能超過100字！" }
                         })} />
-                <div className={"text-alert text-center mx-auto mb-3"}>{errors.title && errors.title.message}</div>
+                <div className={"text-alert text-center mx-auto mb-1"}>{errors.title && errors.title.message}</div>
 
                 {/* 封面圖片 */}
                 <ARKImageInput
@@ -86,7 +87,7 @@ const NewActivity = () => {
                     setValue={setValue}
                     errText={t("ACTIVITY_COVER_IMG_REQUIRE")}
                     thisErr={errors.cover_image_file} />
-                <div className={"text-alert text-center mx-auto mb-3"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
+                <div className={"text-alert text-center mx-auto mb-1"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
 
                 <ContentBlockGrid gridNum={selectedType == "WEBSITE" ? 1 : 2}>
 
