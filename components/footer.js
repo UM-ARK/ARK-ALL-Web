@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
 
-import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
+import { MapPinIcon, GlobeAltIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 
 export default function Footer() {
 
@@ -33,9 +33,9 @@ export default function Footer() {
       icon: MapPinIcon
     },
     {
-      index: "電話",
-      value: "+853 12345678",
-      icon: PhoneIcon
+      index: "Wiki",
+      value: "wiki.umall.one",
+      icon: GlobeAltIcon
     },
     {
       index: "Email",
