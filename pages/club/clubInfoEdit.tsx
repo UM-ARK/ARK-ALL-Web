@@ -22,7 +22,7 @@ import { upload } from '../../utils/functions/u_server';
 // 設定
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { authGuard } from '../../lib/authentication';
-import { appendListToFormData, createFormData, getClubXX } from '../../lib/serverActions';
+import { appendListToFormData, getClubXX } from '../../lib/serverActions';
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
 import { ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
@@ -163,7 +163,7 @@ export default function clubInfoEdit() {
                                     <img
                                         key={index}
                                         src={BASE_HOST + url}
-                                        className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${_del_club_photos && _del_club_photos.indexOf(url) != -1 && "opacity-70"}`}
+                                        className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${_del_club_photos && _del_club_photos.indexOf(url) != -1 && "hidden"} object-cover`}
                                         onClick={() => {
 
                                             if (!_del_club_photos) {

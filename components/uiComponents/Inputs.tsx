@@ -414,11 +414,14 @@ export const ARKListImageInput = (props: {
             <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover w-full`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
+                        {/*
                         <div
-                            className={`absolute -top-12 left-[8rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
-                            點擊以刪除
+                            className={`absolute z-[20] top-[1.9rem] left-[3.5rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
+                            刪除
                         </div>
+                        */}
                         <img
+                            title={`點擊以刪除`}
                             src={URL.createObjectURL(value as File)}
                             className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer object-cover"}
                             onMouseOver={(e) => { setHovering(key); }}
