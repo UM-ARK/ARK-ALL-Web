@@ -415,12 +415,12 @@ export const ARKListImageInput = (props: {
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
                         <div
-                            className={`absolute -top-12 left-[2rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
+                            className={`absolute -top-12 left-[8rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
                             點擊以刪除
                         </div>
                         <img
                             src={URL.createObjectURL(value as File)}
-                            className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
+                            className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer object-cover"}
                             onMouseOver={(e) => { setHovering(key); }}
                             onMouseLeave={(e) => { setHovering(""); }}
                             onClick={(e) => {
@@ -452,43 +452,13 @@ export const ARKListImageInput = (props: {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             switch (mode) {
                                 case "object":
-                                    console.log("Using Object Mode.");
                                     AddToObjList(e, regName, imgList, numLimit, setValue);
                                     break;
                                 case "array":
-                                    console.log("Using Array Mode.");
                                     AddToArrayList(e, regName, imgList, numLimit, setValue);
                                     break;
                             }
                             return;
-
-                            // 獲取新增的文件列表
-                            let fileObjArr = e.target.files;
-
-                            // 檢查數量是否符合要求
-                            let fileObjArrLen = fileObjArr.length;                          // Array
-                            let imgListLen = imgList ? Object.keys(imgList).length : 0;   // Object List
-                            if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
-                                alert(`圖片不能超過${numLimit}張！`);
-                                return;
-                            }
-
-                            // 將原有圖片轉換成數組（如果不為空）
-                            let arr = [];
-                            imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
-
-                            // 將傳入文件列表中的所有文件複製一份，並推入數組
-                            Object.entries(fileObjArr).map(([key, value]) => {
-                                let newFile = duplicateFile(value);
-                                arr.push(newFile);
-                            })
-
-                            // 把新數組解析成對象
-                            const filesAsObj = Object.fromEntries(
-                                Array.from(arr, (file, index) => [index, file])
-                            );
-
-                            setValue(regName, filesAsObj);
                         }} />
                 </div>
             </div>
