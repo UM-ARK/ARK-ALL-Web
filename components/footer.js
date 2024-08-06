@@ -29,17 +29,20 @@ export default function Footer() {
   const contactData = [
     {
       index: "地址",
-      value: " Avenida da Universidade, Taipa, Macau, China",
+      value: "Avenida da Universidade, Taipa, Macau, China",
+      link: "/",
       icon: MapPinIcon
     },
     {
       index: "Wiki",
       value: "wiki.umall.one",
+      link: "https://wiki.umall.one",
       icon: GlobeAltIcon
     },
     {
       index: "Email",
       value: "umacark@gmail.com",
+      link: "mailto:umacark@gmail.com",
       icon: EnvelopeIcon
     }
   ];
@@ -119,7 +122,11 @@ export default function Footer() {
                     {item.index}
                   </div>
                 </div>
-                <div>{item.value}</div>
+                <div>
+                  <Link href={item.link} target={`_blank`}>
+                    {item.value}
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
