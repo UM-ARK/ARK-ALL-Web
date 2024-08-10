@@ -1,5 +1,5 @@
 // 包引用
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
 
@@ -137,11 +137,12 @@ const NewActivity = () => {
                                         required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false,
                                         maxLength: { value: 100, message: "地點不能超過100字！" }
                                     })} />
-                            <div className={`${watch("location")?.length > 100 ? `text-alert` : `text-themeColor`} font-bold`}>
+
+                            <div className={`${watch("location")?.length > 100 ? `text-alert` : `text-themeColor`} font-bold ${selectedType == "WEBSITE" && "hidden"}`}>
                                 {`${watch("location")?.length}/${100}`}
                             </div>
                         </ARKLabeledInput>
-                        <div className={"text-alert"}>{errors.location && errors.location.message}</div>
+                        {selectedType == "ACTIVITY" && (<div className={"text-alert"}>{errors.location && errors.location.message}</div>)}
 
 
                         {/* 鏈接 */}
@@ -150,7 +151,8 @@ const NewActivity = () => {
                                 className={inputStyle}
                                 type={"url"}
                                 {...register("link", { required: selectedType == "WEBSITE" ? t("LINK_REQUIRE") : false })} />
-                            <div className={"text-alert"}>{errors.link && errors.link.message}</div>
+
+                            {selectedType == "WEBSITE" && (<div className={"text-alert"}>{errors.link && errors.link.message}</div>)}
                         </ARKLabeledInput>
                     </ContentBlock>
 
