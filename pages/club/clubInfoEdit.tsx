@@ -76,6 +76,15 @@ export default function clubInfoEdit() {
         upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
     }
 
+    const contactTypes = [
+        "WeChat",
+        "Email",
+        "Phone",
+        "IG",
+        "FaceBook",
+        "Website"
+    ]
+
     return (
         <ARKMain title={"社團訊息編輯"}>
             {/* 頂欄*/}
@@ -116,10 +125,13 @@ export default function clubInfoEdit() {
                                         <div key={index} >
                                             <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
                                                 {/*方式：如email */}
-                                                <input
-                                                    className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={t("CLUB_CONTACT_METHOD")}
-                                                    {...register(`contact.${index}.type`)} />
+                                                <select
+                                                    className={"border-4 border-themeColor rounded-lg h-10 p-2"}
+                                                    {...register(`contact.${index}.type`)}>
+                                                    {contactTypes.map((item, index) => (
+                                                        <option key={index} value={item}>{item}</option>
+                                                    ))}
+                                                </select>
 
                                                 {/*内容：如example@example.com */}
                                                 <input
@@ -128,7 +140,6 @@ export default function clubInfoEdit() {
                                                     {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
-
                                                 <MinusCircleIcon
                                                     className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
                                                     onClick={() => {
