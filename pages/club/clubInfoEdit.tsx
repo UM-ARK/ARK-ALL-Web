@@ -155,7 +155,7 @@ export default function clubInfoEdit() {
 
                         {/* 刪除圖片 */}
                         <div>
-                            <SecondTitle>{t("CLUB_PHOTOS_PRESENT")}</SecondTitle>
+                            <SecondTitle>{`${t("CLUB_PHOTOS_PRESENT")} (${t("CLUB_PHOTOS_CLICK_REMOVE")})`}</SecondTitle>
                             <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                                 {/* 相關圖片 */}
                                 {m_clubData?.content.club_photos_list.map((url, index) =>
