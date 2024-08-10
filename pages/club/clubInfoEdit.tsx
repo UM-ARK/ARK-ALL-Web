@@ -156,6 +156,12 @@ export default function clubInfoEdit() {
                         {/* 刪除圖片 */}
                         <div>
                             <SecondTitle>{`${t("CLUB_PHOTOS_PRESENT")} (${t("CLUB_PHOTOS_CLICK_REMOVE")})`}</SecondTitle>
+                            {/** 初次編輯提示 */}
+                            {!m_clubData || m_clubData?.content.club_photos_list.length == 0 && (
+                                <div className={`text-gray-500 p-3`}>
+                                    {t("CLUB_PHOTOS_FIRST_EDIT")}
+                                </div>
+                            )}
                             <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                                 {/* 相關圖片 */}
                                 {m_clubData?.content.club_photos_list.map((url, index) =>
