@@ -105,6 +105,11 @@ export default function clubInfoEdit() {
                         {/* 聯係方式 */}
                         <div>
                             <SecondTitle>{t("CLUB_CONTACT")}</SecondTitle>
+                            {!m_clubData || m_clubData.content.contact.length == 0 && (
+                                <div className={`text-gray-500 mb-5`}>
+                                    {t("CLUB_CONTACT_FIRST_EDIT")}
+                                </div>
+                            )}
                             <ul>
                                 {
                                     watch("contact")?.map((item, index) => item.num != void 0 && (
@@ -113,13 +118,13 @@ export default function clubInfoEdit() {
                                                 {/*方式：如email */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={`聯係方式`}
+                                                    placeholder={t("CLUB_CONTACT_METHOD")}
                                                     {...register(`contact.${index}.type`)} />
 
                                                 {/*内容：如example@example.com */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={"内容"}
+                                                    placeholder={t("CLUB_CONTACT_METHOD_VAL")}
                                                     {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
