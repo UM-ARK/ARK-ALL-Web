@@ -128,8 +128,12 @@ export default function clubInfoEdit() {
                                                 <select
                                                     className={"border-4 border-themeColor rounded-lg h-10 p-2"}
                                                     {...register(`contact.${index}.type`)}>
-                                                    {contactTypes.map((item, index) => (
-                                                        <option key={index} value={item}>{item}</option>
+                                                    {contactTypes.map((type_item, type_index) => (
+                                                        // !watch("contact")?.some(contact => contact.type == type_item) ||
+                                                        // watch("contact")?.findIndex(contact => contact.type == type_item) == index &&
+                                                        (
+                                                            <option key={type_index} value={type_item}>{type_item}</option>
+                                                        )
                                                     ))}
                                                 </select>
 
