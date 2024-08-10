@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import Container from "../container";
 import themeImg from '../../public/img/theme_small.png';
 // import Streets from "../../components/models/Streets"
@@ -53,8 +54,8 @@ const Ark = (props) => {
 
               <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2 ">
                 {downloadBtnData.map((item, idx) => (
-                  <div
-                    onClick={() => { router.push(item.link); }}
+                  <Link href={item.link} target="_blank"><div
+                    // onClick={() => { router.push(item.link); }}
                     className={`
                       flex flex-row 
                       min-[901px]:w-[168px] max-[900px]:w-[80%] gap-2 px-5 py-4 
@@ -66,7 +67,7 @@ const Ark = (props) => {
                       transition-all`}>
                     <Image src={item.icon} className={`w-[30px] h-[30px]`} />
                     <p>{item.source}</p>
-                  </div>
+                  </div></Link>
                 ))}
               </div>
 

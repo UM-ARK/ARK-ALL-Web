@@ -1,7 +1,8 @@
 import React from "react";
 import Container from "../container";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import Link from "next/link";
+
 import themeImg from '../../public/img/theme.png';
 
 import { downloadBtnData } from "./common_data/download_btn_data";
@@ -48,9 +49,7 @@ const Cta = () => {
             <div className={"font-bold drop-shadow-md text-center mb-3"}>{t("Download")}</div>
             <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2 ">
               {downloadBtnData.map((item, idx) => (
-                <div
-                  onClick={() => { router.push(item.link); }}
-                  className={`
+                <Link href={item.link} target="_blank"><div className={`
                   flex flex-row 
                   min-[1026px]:w-[168px] max-[1025px]:w-[120px] gap-2 px-5 py-4 
                   text-md font-medium 
@@ -60,14 +59,14 @@ const Cta = () => {
                   max-[900px]:mx-auto max-[900px]:w-[200px]
                   transition-all`}>
                   <p>{item.source}</p>
-                </div>
+                </div></Link>
               ))}
             </div>
           </div>
         </div>
       </div>
 
-    </Container>
+    </Container >
   );
 }
 
