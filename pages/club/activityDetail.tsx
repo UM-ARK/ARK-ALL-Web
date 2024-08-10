@@ -92,7 +92,7 @@ const ActivityDetail = () => {
 
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
-            return editActivity(_data, s_clubNum);
+            await editActivity(_data, s_clubNum);
         } catch (err) {
             alert("上傳編輯失敗，請檢查網絡，或重試。");
             return null;
@@ -365,11 +365,7 @@ const ActivityDetail = () => {
                     <Footer />
                 </AfterLoading>
             </form>
-
         </ARKMain>
-
-
-
     );
 }
 

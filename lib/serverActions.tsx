@@ -215,7 +215,7 @@ export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
     fd.append("introduction", _data.introduction);
     fd.append("can_follow", true.toString());
 
-    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `./activityDetail?activity_id=${_data.id}&club_num=${clubNum}`);
+    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `../club/clubInfo?club_num=${clubNum}`);
 }
 
 
