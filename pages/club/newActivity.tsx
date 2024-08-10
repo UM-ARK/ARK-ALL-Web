@@ -76,7 +76,7 @@ const NewActivity = () => {
                         {
                             required: t("ACTIVITY_TITLE_REQUIRE"),
                             minLength: { value: 2, message: "標題不能少於2字！" },
-                            maxLength: { value: 100, message: "標題不能超過100字！" }
+                            maxLength: { value: 50, message: "標題不能超過50字！" }
                         })} />
                 <div className={"text-alert text-center mx-auto mb-1"}>{errors.title && errors.title.message}</div>
 
