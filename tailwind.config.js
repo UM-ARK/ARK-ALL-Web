@@ -20,12 +20,12 @@ module.exports = {
       },
       keyframes: {
         seaWaveMoveKey: {
-          "0%, 100%": { backgroundPosition: "top" },
-          "50%": { backgroundPosition: "center" },
+          "0%": { backgroundPosition: "top" },
+          "100%": { backgroundPosition: "center" },
         }
       },
       animation: {
-        seaWaveMove: 'seaWaveMoveKey 10s ease-in-out infinite',
+        seaWaveMove: 'seaWaveMoveKey 2s ease-in-out',
       },
     },
     fontFamily: {

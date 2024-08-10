@@ -2,12 +2,14 @@ import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
+import PopupWidget from "../components/popupWidget";
 
 import { useTranslation } from "react-i18next";
 
 import SectionTitle from "../components/sectionTitle";
 import { user_agreement_section_data } from 'public/data/user_agreement';
 
+import { motion } from "framer-motion"
 
 const UASection = (props) => {
   const { pretitle, title, list } = props;
@@ -37,16 +39,23 @@ const user_agreement = () => {
   return (
     <div>
       <Navbar selected={"User_Agreement"} />
-      <Container className="flex flex-wrap w-full h-full justify-center">
-        {Object.entries(user_agreement_section_data).map(([k, content]) => (
-          <UASection
-            pretitle={content.pretitle}
-            title={content.title}
-            list={content.list} />
-        ))}
-        <br /><br />
-      </Container>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Container className="flex flex-wrap w-full h-full justify-center">
+          {Object.entries(user_agreement_section_data).map(([k, content]) => (
+            <UASection
+              pretitle={content.pretitle}
+              title={content.title}
+              list={content.list} />
+          ))}
+          <br /><br />
+        </Container>
+      </motion.div>
       <Footer />
+      <PopupWidget />
     </div>
   );
 };

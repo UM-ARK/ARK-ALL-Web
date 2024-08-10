@@ -8,12 +8,14 @@ export type LangType = "zh" | "en" | "ja";
 
 export interface LangStore {
     curLang: LangType;
+    isLangEverChanged: boolean;
     setLang: (lang: LangType) => void;
 };
 
 const langSlice: StateCreator<LangStore, [["zustand/persist", unknown]]> = (set) => ({
     curLang: "zh",
-    setLang: (lang: LangType) => set({ curLang: lang }),
+    isLangEverChanged: false,
+    setLang: (lang: LangType) => set({ curLang: lang, isLangEverChanged: true }),
 });
 
 export const useLangStore = create<LangStore>()(

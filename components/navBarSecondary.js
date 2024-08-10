@@ -1,11 +1,10 @@
 import {
     ChevronLeftIcon
 } from "@heroicons/react/24/solid";
-import ThemeChanger from './DarkSwitch';
-import LanguageSwitcher from "./LanguageSwitcher";
 import WarningBanner from "components/micros/WarningBanner";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import NavbarTools from "./uiComponents/NavbarTools/NavbarTools";
 
 const NavBarSecondary = (props) => {
     const { t } = useTranslation();
@@ -29,10 +28,7 @@ const NavBarSecondary = (props) => {
                         {returnStr}
                     </div>
                 </div>
-                <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                    <ThemeChanger />
-                    <LanguageSwitcher />
-                </div>
+                <NavbarTools mode={"PC"} />
             </div>
             <WarningBanner />
         </div>

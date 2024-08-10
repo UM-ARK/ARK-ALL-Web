@@ -1,3 +1,4 @@
+import imageCompression from 'browser-image-compression';
 /**
  * 將時間字符串轉換爲目標格式。
  * @param {*} date  日期
@@ -61,6 +62,37 @@ export const JsonToFormData = (data) => {
 
 // 複製一份文件
 export const duplicateFile = (file) => {
-    let newFileName = `${file.name}_${Date.now()}`;
-    return new File([file], newFileName, { type: file.type });
+    let newFileName = `${Date.now()}_${file.name}`;
+    let newFile = new File([file], newFileName, { type: file.type });
+    return newFile;
 };
+
+
+/**
+ * 壓縮圖片
+ * @param file 
+ * @param maxSizeMB 
+ * @returns 
+ */
+export const compressImage = async (file: any, maxSizeMB: number) => {
+    if (!file) {
+        return;
+    }
+
+    const options = {
+        maxSizeMB: maxSizeMB,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+    };
+
+    try {
+        const compressedFile = await imageCompression(file, options);
+        return compressedFile;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// function imageCompression(file: any, options: { maxSizeMB: number; maxWidthOrHeight: number; useWebWorker: boolean; }) {
+//     throw new Error("Function not implemented.");
+// }

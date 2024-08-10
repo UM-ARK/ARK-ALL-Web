@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from '../components/container';
+import PopupWidget from "../components/popupWidget";
 import Image from "next/image";
 
 import { ARKMain } from '../components/uiComponents/ContentBlock';
@@ -15,6 +16,7 @@ import img_3 from '../public/img/web_tur/3.png';
 import img_4 from '../public/img/web_tur/4.png';
 import img_5 from '../public/img/web_tur/5.png';
 import { useTranslation } from 'react-i18next';
+import { motion } from "framer-motion"
 
 const ImagePreview = (props) => {
   const { displayPreview, setDisplayPreview } = props;
@@ -53,35 +55,42 @@ const tutorial = () => {
       <ImagePreview displayPreview={m_displayPreview} setDisplayPreview={setDisplayPreview} />
       */}
       <Navbar selected={"Tutorial"} />
-      <Container className={"flex flex-wrap gap-5 items-top justify-center"}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Container className={"flex flex-wrap gap-5 items-top justify-center"}>
 
-        {tur_arr.map(itm => (
+          {tur_arr.map(itm => (
 
-          <div
-            className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
-            onClick={() => { setDisplayPreview(itm.img) }}>
-            <Image
-              src={itm.img}
-              height="auto"
-              alt="tutorial"
-              className="block object-cover rounded-tl-lg rounded-tr-lg border-[3px] border-themeColorUltraLight dark:border-gray-800"
-              placeholder="blur"
-              blurDataURL={itm.img.src} />
-            <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight dark:bg-gray-800 px-5 py-3"}>
-              <p className={"text-center text-sm font-bold"}>
-                {itm.title}
-              </p>
-              <p>
-                {`${itm.txt}`}
-              </p>
+            <div
+              className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
+              onClick={() => { setDisplayPreview(itm.img) }}>
+              <Image
+                src={itm.img}
+                height="auto"
+                alt="tutorial"
+                className="block object-cover rounded-tl-lg rounded-tr-lg border-[3px] border-themeColorUltraLight dark:border-gray-800"
+                placeholder="blur"
+                blurDataURL={itm.img.src} />
+              <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight dark:bg-gray-800 px-5 py-3"}>
+                <p className={"text-center text-sm font-bold"}>
+                  {itm.title}
+                </p>
+                <p>
+                  {`${itm.txt}`}
+                </p>
+              </div>
+
             </div>
 
-          </div>
-
-        ))}
-      </Container>
+          ))}
+        </Container>
+      </motion.div>
 
       <Footer />
+      <PopupWidget />
     </ARKMain>
   );
 };

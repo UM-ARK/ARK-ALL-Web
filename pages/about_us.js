@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
+import PopupWidget from "../components/popupWidget";
+
+import { motion } from "framer-motion"
 
 const str = `
 # ARK ALL的由來？
@@ -13,7 +16,7 @@ ARK ALL 的前身是 ARK 微信小程式，該小程式已集成 ARK 學術分�
 
 # ARK ALL免費吗？
 ARK ALL 為免費軟件，組織申請進駐也無需費用。作者為愛發電 ing。。。
-希望 ARK ALL 能越來越壯大，最後能真正包羅 UM 的所有。同學們的喜歡與讚揚就是對作者最大的支持~~ [www.google.com](www.google.com)
+希望 ARK ALL 能越來越壯大，最後能真正包羅 UM 的所有。同學們的喜歡與讚揚就是對作者最大的支持~~
 
 # ARK ALL是澳大官方應用程式嗎？
 非也~ 至少在作者寫下這段文字時仍不是。如有改善 ARK ALL 的功能和體驗的方法、渠道，開發者團隊都會盡力去嘗試的！
@@ -80,10 +83,17 @@ const about_us = () => {
   return (
     <div className="relative">
       <Navbar selected={"About_us"} />
-      <Container>
-        {toMD(str)}
-      </Container>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Container>
+          {toMD(str)}
+        </Container>
+      </motion.div>
       <Footer />
+      <PopupWidget />
     </div>
   );
 };

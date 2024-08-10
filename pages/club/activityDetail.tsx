@@ -24,7 +24,7 @@ import NavBarSecondary from '../../components/navBarSecondary';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
-import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../../states/state';
@@ -40,6 +40,8 @@ const ActivityDetail = () => {
 
     // 獲取活動的數據
     const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);
+
+    const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
     // 加載中？
     const [isLoading, setIsLoading] = useState(true);
@@ -85,9 +87,8 @@ const ActivityDetail = () => {
             eTime: enddatetime_.time
         }
         reset(base);
-    }, [m_activityData]);
+    }, [m_activityData, isEditMode]);
 
-    const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
@@ -129,7 +130,7 @@ const ActivityDetail = () => {
                         <div
                             className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
                             style={{
-                                backgroundImage: `url(${BASE_HOST + m_activityData?.content.cover_image_url})`,
+                                backgroundImage: `url("${BASE_HOST + m_activityData?.content.cover_image_url}")`,
                                 backgroundSize: 'cover',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center',
@@ -216,10 +217,18 @@ const ActivityDetail = () => {
                                 <ARKLabeledInput title={t("LOCATION")}>
                                     <IFELSE condition={!isEditMode}>
                                         {m_activityData?.content.location}
-                                        <input
-                                            placeholder={t("LOCATION")}
-                                            className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                            {...register("location")} />
+                                        <div>
+                                            <input
+                                                placeholder={t("LOCATION")}
+                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                                {...register("location", {
+                                                    maxLength: { value: 100, message: "地點不能超過100字！" }
+                                                })} />
+                                            <div className={`${watch("location")?.length > 100 ? `text-alert` : `text-themeColor`} font-bold`}>
+                                                {`${watch("location")?.length}/${100}`}
+                                            </div>
+                                            <div className={"text-alert"}>{errors.location && errors.location.message}</div>
+                                        </div>
                                     </IFELSE>
                                 </ARKLabeledInput>
 
@@ -249,11 +258,17 @@ const ActivityDetail = () => {
                                 <p className="text-ellipsis overflow-hidden">
                                     {m_activityData && m_activityData?.content.introduction}
                                 </p>
-                                <textarea
-                                    placeholder={"簡介"}
-                                    className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
-                                    rows={10}
-                                    {...register("introduction")} />
+                                <ARKTextareaInput
+                                    base={{
+                                        placeholder: t("ACTIVITY_INTRO"),
+                                        numLimit: 300,
+                                        isRequired: false
+                                    }}
+                                    regName={`introduction`}
+                                    errors={errors}
+                                    requirePrompt={t('ACTIVITY_INTRO_REQUIRE')}
+                                    register={register}
+                                    watch={watch} />
                             </IFELSE>
                         </ContentBlock>
                     </ContentBlockGrid>
@@ -273,9 +288,18 @@ const ActivityDetail = () => {
                                     <img
                                         key={index}
                                         src={BASE_HOST + url}
-                                        className={`mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "opacity-70"}`}
+                                        title={`新標籤頁打開圖片`}
+                                        className={`
+                                            mx-auto w-40 h-24 rounded-md
+                                             hover:scale-[1.05] transition-all 
+                                             hover:cursor-pointer 
+                                             ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "hidden"} 
+                                             object-cover`}
                                         onClick={() => {
-                                            if (!isEditMode) return;
+                                            if (!isEditMode) {
+                                                window.open(BASE_HOST + url, '_blank');
+                                                return;
+                                            }
 
                                             if (!watch("del_relate_image")) {
                                                 setValue("del_relate_image", [url]);

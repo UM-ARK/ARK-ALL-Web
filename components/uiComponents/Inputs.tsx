@@ -2,8 +2,9 @@ import { ReactNode, useRef, useState } from "react";
 import { IF } from "./ContentBlock";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { duplicateFile } from "../../utils/functions/u_format";
+import { compressImage, duplicateFile } from "../../utils/functions/u_format";
 import React from "react";
+import { t } from "i18next";
 
 const TextInputStyles = {
     border: {
@@ -102,19 +103,76 @@ export const ARKTextInput = (props: {
  * </ARKLabeledInput>
  * @returns 
  */
-export const ARKLabeledInput = (props: { title: string, condition?: boolean, children: ReactNode | ReactNode[] }) => {
+export const ARKLabeledInput = (
+    props: {
+        title: string,
+        condition?: boolean,
+        children: ReactNode | ReactNode[],
+    }) => {
     const { title, condition } = props;
     return (
         <IF condition={condition || condition == void 0}>
-            <div className={`flex flex-row max-[420px]:flex-col items-center mb-3 gap-3 `}>
+            <div className={`flex flex-row max-[420px]:flex-col items-center mb-2 gap-3`}>
                 <span className={`text-themeColor font-bold mr-5 max-[420px]:mr-0`}>
                     {props.title || "項目"}
                 </span>
-                <div className={`flex flex-row items-center gap-3  max-[512px]:w-[70%]`}>
+                <div className={`flex flex-row items-center gap-3`}>
                     {props.children}
                 </div>
             </div>
         </IF>
+    );
+}
+
+/**
+ * ARK帶字數限制的大塊文字輸入框
+ * @param props 
+ * @prop {string} base.placeholder - 輸入框的提示詞
+ * @prop {boolean} base.isRequired - 是否爲必須
+ * @prop {number} base.numLimit - 輸入框的長度限制
+ * @prop {string} regName - 注冊名，用於辨識表單中不同的輸入框。
+ * @prop {FieldErrors<T>} errors - useForm中的formstate中的errors項。使用時需要細化至regName。
+ * @prop {string} requirePrompt - 儅輸入框内容未被正確填寫時的提示詞。
+ * @prop {UseFormRegister<T>} register - react-hook-form提供的register函數，將regName注冊到表單中。
+ * @prop {UseFormWatch<TFieldValues>} watch - 監視表單内容的方法
+ * @example
+ * @returns 
+ */
+export const ARKTextareaInput = (props: {
+    base: {
+        placeholder: string,
+        isRequired?: boolean,
+        numLimit?: number,
+    },
+    regName: string,
+    errors: any,
+    requirePrompt: string,
+    register: any,
+    watch: any
+}) => {
+    const { base, regName, errors: thisErr, requirePrompt, register, watch } = props;
+    const textareaStyle = "text-lg block w-full h-48 border-4 rounded-lg p-2 resize-none min-h-12 outline-none max-[512px]:text-md";
+
+    return (
+        <React.Fragment>
+            {/* 字數提示 */}
+            {base.numLimit && (
+                <div className={`${watch(regName)?.length > base.numLimit ? `text-alert` : `text-themeColor`} font-bold`}>
+                    {`${watch(regName)?.length}/${base.numLimit}`}
+                </div>
+            )}
+
+            {/* 輸入框 */}
+            <textarea
+                className={`${textareaStyle} ${watch(regName)?.length > base.numLimit ? "border-alert" : "border-themeColor"}`}
+                placeholder={base.placeholder}
+                {...register(regName,
+                    {
+                        required: base.isRequired ? requirePrompt : false,
+                        maxLength: { value: 300, message: `簡介必須少於${base.numLimit}字。` }
+                    })} />
+            <div className={"text-alert"}>{thisErr.introduction && thisErr.introduction.message}</div>
+        </React.Fragment>
     );
 }
 
@@ -148,32 +206,74 @@ export const ARKImageInput = (props: {
     errText: string,
     thisErr: any
 }) => {
+
+    // 拖拽提示效果
+    const [m_isDragOver, setIsDragOver] = useState(false);
+
+    // react-hook-form 參數
     const { regName, isRequired, initialImgURL } = props.base;
     const { register, setValue, errText, thisErr } = props;
 
-    const [m_imageURL, setImageURL] = useState(void 0);
-    const [m_iconDisplay, setIconDisplay] = useState(true);
+    // UI顯示參數
+    const [m_imageURL, setImageURL] = useState(void 0);         // 圖片URL
+    const [m_iconDisplay, setIconDisplay] = useState(true);     // 添加圖片icon顯示
+    const [m_isProcessing, setIsProcessing] = useState(false);  // 壓縮提示，防止用戶以爲故障了
     const imageInputRef = React.createRef<HTMLInputElement>();
+
+    const setImageValue = async (fileObj: any) => {
+        if (!fileObj) {
+            return;
+        }
+        setIsProcessing(true);
+        let compressedImage = await compressImage(fileObj, 0.15);
+        setIsProcessing(false);
+
+        if (!compressImage) {
+            alert('壓縮圖片過程出錯！');
+            return;
+        }
+
+        setIconDisplay(false);
+        setImageURL(URL.createObjectURL(compressedImage));
+        setValue(regName, compressedImage);
+    };
 
     return (
         <div
-            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+            className={`${m_isDragOver && "opacity-50"} flex flex-col w-48 h-48 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all`}
             style={{
-                backgroundImage: `url(${m_imageURL || initialImgURL})`,
+                backgroundImage: `url("${m_imageURL || initialImgURL}")`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
             }}
-            onClick={() => imageInputRef.current.click()}>
+            onClick={() => imageInputRef.current.click()}
+            onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragOver(true);
+            }}
+            onDragLeave={(e) => {
+                e.preventDefault();
+                setIsDragOver(false);
+            }}
+            onDropCapture={(e) => {
+                e.preventDefault();
+                let fileObj = e.dataTransfer.files[0];
+                setImageValue(fileObj);
+            }}>
 
             {/* Icon 部分 */}
             <IF condition={m_iconDisplay && !initialImgURL}>
                 <div className="flex flex-col justify-center">
                     <div className="flex items-center justify-center mb-2">
-                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        {!m_isProcessing && (
+                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        )}
                     </div>
                     <div>
-                        <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
+                        <h3 className="font-bold text-xl text-themeColor">
+                            {m_isProcessing ? "處理中..." : t('ACTIVITY_COVER_IMG')}
+                        </h3>
                     </div>
                 </div>
             </IF>
@@ -187,12 +287,17 @@ export const ARKImageInput = (props: {
                 ref={imageInputRef}
                 onChange={(e) => {
                     let fileObj = e.target.files[0];
-                    if (!fileObj) {
+                    if (fileObj.size > 1024 * 1024 * 10) {
+                        alert("圖片大小不能超過10MB");
                         return;
                     }
-                    setIconDisplay(false);
-                    setImageURL(URL.createObjectURL(fileObj));
-                    setValue(regName, fileObj);
+                    setImageValue(fileObj);
+                    // if (!fileObj) {
+                    //     return;
+                    // }
+                    // setIconDisplay(false);
+                    // setImageURL(URL.createObjectURL(fileObj));
+                    // setValue(regName, fileObj);
                 }} />
         </div>
     );
@@ -233,14 +338,45 @@ export const ARKListImageInput = (props: {
     errText?: string,
     thisErr: any
 }) => {
+
+    // react-hook-form等參數
     const { regName, isRequired, numLimit = 4, mode = "object" } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 
+    // UI顯示參數
     const imageInputRef = React.createRef<HTMLInputElement>();
     const [m_hovering, setHovering] = useState("");
+    const [m_isProcessing, setIsProcessing] = useState(false);
 
-    /** 向JSON格式的Object列表中添加元素 */
-    const AddToObjList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+    /**
+     * 對一個圖片對象數組進行預處理，壓縮其中每一個圖片，並複製一份代替原本圖片以防止數據不一致問題。
+     * @param fileObjArr - 處理的對象數組
+     * @param originalArr - 包含原有圖片的數組。
+     * @returns 
+     */
+    const PreProcessFileObjArr = async (fileObjArr: any, originalArr: any[]) => {
+        let processedArr = originalArr;
+        let keys = Object.keys(fileObjArr);
+        for (let i = 0; i < keys.length; i++) {
+            let key = keys[i];
+            let value = fileObjArr[key];
+            let _newFile = await compressImage(value, 0.15);
+            let newFile = duplicateFile(_newFile);
+            processedArr.push(newFile);
+        }
+        return processedArr;
+    };
+
+    /**
+     * 向JSON格式的Object列表中添加圖片，並將圖片壓縮、複製。 
+     * @param e - Input事件
+     * @param regName - 注冊名，用於辨識表單中不同的輸入框。
+     * @param imgList - 圖片列表，可以是對象(object)或數組(Array)，是所在表單中的監聽值，使用watch傳入。
+     * @param numLimit - 數字限制
+     * @param setValue - react-hook-form提供的setValue函數，將值寫入表單中。
+     * @returns 
+     */
+    const AddToObjList = async (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
         // 獲取新增的文件列表
         let fileObjArr = e.target.files;
 
@@ -252,26 +388,40 @@ export const ARKListImageInput = (props: {
             return;
         }
 
+        // 檢測大小
+        for (let i = 0; i < fileObjArrLen; i++) {
+            if (fileObjArr[i].size > 1024 * 1024 * 10) {
+                alert("圖片大小不能超過10MB!");
+                return;
+            }
+        }
+
         // 將原有圖片轉換成數組（如果不為空）
         let arr = [];
         imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
 
-        // 將傳入文件列表中的所有文件複製一份，並推入數組
-        Object.entries(fileObjArr).map(([key, value]) => {
-            let newFile = duplicateFile(value);
-            arr.push(newFile);
-        })
+        // 將傳入文件列表中的所有文件壓縮並複製一份，然後並推入包含原有圖片數組
+        arr = await PreProcessFileObjArr(fileObjArr, arr);
 
         // 把新數組解析成對象
         const filesAsObj = Object.fromEntries(
             Array.from(arr, (file, index) => [index, file])
         );
 
+        console.log(filesAsObj);
         setValue(regName, filesAsObj);
     }
 
-    /** 向數組中添加元素 */
-    const AddToArrayList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+    /**
+     * 向圖片數組中添加圖片，並將圖片壓縮、複製。 
+     * @param e - Input事件
+     * @param regName - 注冊名，用於辨識表單中不同的輸入框。
+     * @param imgList - 圖片列表，可以是對象(object)或數組(Array)，是所在表單中的監聽值，使用watch傳入。
+     * @param numLimit - 數字限制
+     * @param setValue - react-hook-form提供的setValue函數，將值寫入表單中。
+     * @returns 
+     */
+    const AddToArrayList = async (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
         let fileObjArr = e.target.files;
 
         let fileArrLen = fileObjArr.length;
@@ -286,27 +436,33 @@ export const ARKListImageInput = (props: {
             return;
         }
 
+        setIsProcessing(true);
+        let arr = await PreProcessFileObjArr(fileObjArr, []);
+        setIsProcessing(false);
+
         if (imgList.length > 1) {
-            setValue(regName, [...imgList, ...Array.from(fileObjArr)]);
+            setValue(regName, [...imgList, ...arr]);
         } else {
-            setValue(regName, [imgList[0], ...Array.from(fileObjArr)]);
+            setValue(regName, [imgList[0], ...arr]);
         }
 
     }
-
 
     return (
         <div className={"flex flex-row items-center justify-left max-[640px]:justify-center"}>
             <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover w-full`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
+                        {/*
                         <div
-                            className={`absolute -top-12 left-[2rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
-                            點擊以刪除
+                            className={`absolute z-[20] top-[1.9rem] left-[3.5rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
+                            刪除
                         </div>
+                        */}
                         <img
+                            title={`點擊以刪除`}
                             src={URL.createObjectURL(value as File)}
-                            className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
+                            className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer object-cover"}
                             onMouseOver={(e) => { setHovering(key); }}
                             onMouseLeave={(e) => { setHovering(""); }}
                             onClick={(e) => {
@@ -319,12 +475,18 @@ export const ARKListImageInput = (props: {
                 ))}
 
                 <div
-                    className="flex flex-col w-full h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+                    className="flex flex-col w-40 h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
                     onClick={() => imageInputRef.current.click()}>
 
                     {/* Icon 部分 */}
                     <div className="flex items-center justify-center mb-2">
-                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        {m_isProcessing ? (
+                            <h3 className="font-bold text-xl text-themeColor">
+                                {`處理中...`}
+                            </h3>
+                        ) : (
+                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        )}
                     </div>
 
                     {/* 輸入邏輯部分 */}
@@ -338,43 +500,13 @@ export const ARKListImageInput = (props: {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             switch (mode) {
                                 case "object":
-                                    console.log("Using Object Mode.");
                                     AddToObjList(e, regName, imgList, numLimit, setValue);
                                     break;
                                 case "array":
-                                    console.log("Using Array Mode.");
                                     AddToArrayList(e, regName, imgList, numLimit, setValue);
                                     break;
                             }
                             return;
-
-                            // 獲取新增的文件列表
-                            let fileObjArr = e.target.files;
-
-                            // 檢查數量是否符合要求
-                            let fileObjArrLen = fileObjArr.length;                          // Array
-                            let imgListLen = imgList ? Object.keys(imgList).length : 0;   // Object List
-                            if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
-                                alert(`圖片不能超過${numLimit}張！`);
-                                return;
-                            }
-
-                            // 將原有圖片轉換成數組（如果不為空）
-                            let arr = [];
-                            imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
-
-                            // 將傳入文件列表中的所有文件複製一份，並推入數組
-                            Object.entries(fileObjArr).map(([key, value]) => {
-                                let newFile = duplicateFile(value);
-                                arr.push(newFile);
-                            })
-
-                            // 把新數組解析成對象
-                            const filesAsObj = Object.fromEntries(
-                                Array.from(arr, (file, index) => [index, file])
-                            );
-
-                            setValue(regName, filesAsObj);
                         }} />
                 </div>
             </div>

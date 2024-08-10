@@ -7,7 +7,7 @@ import moment from 'moment/moment';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
-import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
 import { _ICreateActivity } from '../../types/index.d';
@@ -23,8 +23,9 @@ const activityTypeMap = {
     // OFFICIAL: "澳大官方",
 };
 
-const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none w-full";
-const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
+const titleStyle = `border-4 border-themeColor rounded-lg h-11 p-2 ontline-none`;
+const inputStyle = `${titleStyle} w-full`;
+const textareaStyle = "text-lg block w-full h-80 border-4 rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
 
 const NewActivity = () => {
     // 翻譯、路由
@@ -66,13 +67,18 @@ const NewActivity = () => {
     return (
         <ARKMain title={`${t("NEW_ACTIVITY")}-${watch("title")}`}>
             <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} />
-            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
+            <form className={`flex flex-col gap-4`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input
-                    className={`${inputStyle} text-3xl max-[512px]:text-xl mx-auto`}
+                    className={`${titleStyle} text-3xl max-[512px]:text-xl mx-auto`}
                     placeholder={t("ACTIVITY_TITLE")}
-                    {...register("title", { required: t("ACTIVITY_TITLE_REQUIRE") })} />
-                <div className={"text-alert text-center mx-auto mb-3"}>{errors.title && errors.title.message}</div>
+                    {...register("title",
+                        {
+                            required: t("ACTIVITY_TITLE_REQUIRE"),
+                            minLength: { value: 2, message: "標題不能少於2字！" },
+                            maxLength: { value: 100, message: "標題不能超過100字！" }
+                        })} />
+                <div className={"text-alert text-center mx-auto mb-1"}>{errors.title && errors.title.message}</div>
 
                 {/* 封面圖片 */}
                 <ARKImageInput
@@ -81,7 +87,7 @@ const NewActivity = () => {
                     setValue={setValue}
                     errText={t("ACTIVITY_COVER_IMG_REQUIRE")}
                     thisErr={errors.cover_image_file} />
-                <div className={"text-alert text-center mx-auto mb-3"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
+                <div className={"text-alert text-center mx-auto mb-1"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
 
                 <ContentBlockGrid gridNum={selectedType == "WEBSITE" ? 1 : 2}>
 
@@ -126,7 +132,14 @@ const NewActivity = () => {
                         <ARKLabeledInput title={t("LOCATION")} condition={selectedType == "ACTIVITY"}>
                             <input
                                 className={inputStyle}
-                                {...register("location", { required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false })} />
+                                {...register("location",
+                                    {
+                                        required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false,
+                                        maxLength: { value: 100, message: "地點不能超過100字！" }
+                                    })} />
+                            <div className={`${watch("location")?.length > 100 ? `text-alert` : `text-themeColor`} font-bold`}>
+                                {`${watch("location")?.length}/${100}`}
+                            </div>
                         </ARKLabeledInput>
                         <div className={"text-alert"}>{errors.location && errors.location.message}</div>
 
@@ -143,12 +156,17 @@ const NewActivity = () => {
 
                     {/* 簡介 */}
                     <ContentBlock title={t("ACTIVITY_INTRO")} condition={selectedType == "ACTIVITY"} className={"max-[1022px]:mt-5"}>
-                        <textarea
-                            className={textareaStyle}
-                            placeholder={t("ACTIVITY_INTRO")}
-                            {...register("introduction", { required: selectedType == "ACTIVITY" ? t("ACTIVITY_INTRO_REQUIRE") : false })} />
-                        <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
-
+                        <ARKTextareaInput
+                            base={{
+                                placeholder: t("ACTIVITY_INTRO"),
+                                numLimit: 300,
+                                isRequired: selectedType == "ACTIVITY"
+                            }}
+                            regName={`introduction`}
+                            errors={errors}
+                            requirePrompt={t('ACTIVITY_INTRO_REQUIRE')}
+                            register={register}
+                            watch={watch} />
                     </ContentBlock>
 
                 </ContentBlockGrid>
