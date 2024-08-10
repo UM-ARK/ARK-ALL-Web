@@ -13,6 +13,7 @@ export const BASE_URI = process.env.NODE_ENV == 'development' ? BASE_URI_DEV : B
 export const BASE_HOST = process.env.NODE_ENV == 'development' ? BASE_HOST_DEV : BASE_HOST_PROD;
 
 export const APPSTORE_URL = 'https://apps.apple.com/us/app/um-all/id1636670554';
+export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=one.umall';
 
 export const MAIL = 'umacark@gmail.com';
 
