@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
+import PopupWidget from "../components/popupWidget";
 
 import { useTranslation } from "react-i18next";
 
@@ -54,6 +55,7 @@ const user_agreement = () => {
         </Container>
       </motion.div>
       <Footer />
+      <PopupWidget />
     </div>
   );
 };

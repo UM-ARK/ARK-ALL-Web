@@ -4,6 +4,7 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import PopupWidget from "../components/popupWidget";
 
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
@@ -146,6 +147,7 @@ const qa = () => {
         </Container>
       </motion.div>
       <Footer />
+      <PopupWidget />
     </div>
   );
 };

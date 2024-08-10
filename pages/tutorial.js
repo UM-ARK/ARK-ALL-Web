@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from '../components/container';
+import PopupWidget from "../components/popupWidget";
 import Image from "next/image";
 
 import { ARKMain } from '../components/uiComponents/ContentBlock';
@@ -89,6 +90,7 @@ const tutorial = () => {
       </motion.div>
 
       <Footer />
+      <PopupWidget />
     </ARKMain>
   );
 };
