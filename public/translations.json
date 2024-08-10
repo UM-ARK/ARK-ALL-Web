@@ -110,6 +110,7 @@
     "ACTIVITY_INTRO": "Introduction",
     "ACTIVITY_INTRO_REQUIRE": "Please enter the introduction!",
     "ACTIVITY_PHOTOS": "Activity Photos",
+    "ACTIVITY_PHOTOS_FIRST_EDIT": "Curently, you don't have any related photos. Click the plus button below to add a new photo. Your added photo will be present here after you successfully uploaded them. You could only add up to 5 images.",
     "ACTIVITY_PHOTOS_PRESENT": "Present Photos",
     "ACTIVITY_PHOTOS_NEW": "New Photos"
   },
@@ -224,6 +225,7 @@
     "ACTIVITY_INTRO": "簡介",
     "ACTIVITY_INTRO_REQUIRE": "你需要輸入簡介内容哦！",
     "ACTIVITY_PHOTOS": "活動圖片",
+    "ACTIVITY_PHOTOS_FIRST_EDIT": "您沒有任何相關圖片。點擊下方的“+”號來添加新的圖片。上傳成功后，您添加的圖片將會被展示在這裏。您最多能添加5張圖片。",
     "ACTIVITY_PHOTOS_PRESENT": "現有圖片",
     "ACTIVITY_PHOTOS_NEW": "新增圖片"
   },
@@ -338,6 +340,7 @@
     "ACTIVITY_INTRO": "紹介",
     "ACTIVITY_INTRO_REQUIRE": "アクティビティの紹介を入力してください！",
     "ACTIVITY_PHOTOS": "アクティビティの写真",
+    "ACTIVITY_PHOTOS_FIRST_EDIT": "今は関連する画像ではありません。新しい画像を追加するには、下の「+」記号をクリックしてください。アップロードが成功すると、追加した写真がここに表示されます。写真は5枚まで追加できます。",
     "ACTIVITY_PHOTOS_PRESENT": "現有写真",
     "ACTIVITY_PHOTOS_NEW": "新しい写真"
   }
