@@ -12,8 +12,8 @@ import {
   PresentationChartLineIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/solid";
-import BusImg from "../public/img/接駁車(宣傳).png";
-import EventImg from "../public/img/社團活動(宣傳).png";
+import BusImg from "../public/img/home_page/advertisements/Bus.png";
+import EventImg from "../public/img/home_page/advertisements/Club.png";
 import Benefits from "../components/limited/benefits";
 import Footer from "../components/footer";
 import Cta from "../components/limited/cta";
