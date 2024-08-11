@@ -198,8 +198,13 @@ export const getActivityById = async (_id: string, setFunc: any) => {
  * @param {string} clubNum - 登錄club號碼。
  */
 export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
+    // 時間合理性判定
     let _startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
     let _enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
+    if (!moment(_startdatetime).isSameOrBefore(_enddatetime)) {
+        alert("結束時間應該在開始時間後！");
+        return;
+    }
 
     let fd = new FormData();
     fd.append("id", _data.id);
