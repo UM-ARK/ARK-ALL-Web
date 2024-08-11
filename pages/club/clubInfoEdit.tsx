@@ -77,11 +77,11 @@ export default function clubInfoEdit() {
     }
 
     const contactTypes = [
-        "WeChat",
+        "Wechat",
         "Email",
         "Phone",
         "IG",
-        "FaceBook",
+        "Facebook",
         "Website"
     ]
 
@@ -120,19 +120,42 @@ export default function clubInfoEdit() {
                                 </div>
                             )}
                             <ul>
+                                {contactTypes.map((type, index) => (
+                                    <div key={index} >
+                                        <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
+                                            {/*方式：如email */}
+                                            <input
+                                                type={`hidden`}
+                                                value={type}
+                                                {...register(`contact.${index}.type`)} />
+
+                                            <div className={`w-32`}>
+                                                {type}
+                                            </div>
+
+                                            {/*内容：如example@example.com */}
+                                            <input
+                                                className=" border-4 border-themeColor rounded-lg h-10 p-2"
+                                                placeholder={t("CLUB_CONTACT_METHOD_VAL")}
+                                                {...register(`contact.${index}.num`)} />
+                                        </div>
+                                    </div>
+                                ))}
                                 {
-                                    watch("contact")?.map((item, index) => item.num != void 0 && (
+                                    false && watch("contact")?.map((item, index) => item.num != void 0 && (
                                         <div key={index} >
                                             <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
                                                 {/*方式：如email */}
                                                 <select
-                                                    className={"border-4 border-themeColor rounded-lg h-10 p-2"}
+                                                    className={"border-4 border-themeColor rounded-lg h-10 w-50 p-2"}
                                                     {...register(`contact.${index}.type`)}>
                                                     {contactTypes.map((type_item, type_index) => (
-                                                        // !watch("contact")?.some(contact => contact.type == type_item) ||
-                                                        // watch("contact")?.findIndex(contact => contact.type == type_item) == index &&
+                                                        // (!watch("contact")?.some(contact => contact.type == type_item) ||
+                                                        //     watch("contact")?.findIndex(contact => contact.type == type_item) == index) &&
                                                         (
-                                                            <option key={type_index} value={type_item}>{type_item}</option>
+                                                            <option key={type_index} value={type_item}>
+                                                                {type_item}
+                                                            </option>
                                                         )
                                                     ))}
                                                 </select>
@@ -158,13 +181,18 @@ export default function clubInfoEdit() {
                             </ul>
 
                             {/* 添加聯係方式 */}
-                            <StdButtonGrid>
+                            {/**
+                             * <StdButtonGrid>
                                 <PlusCircleIcon
-                                    className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
+                                    className={`w-10 h-10 text-themeColor  ${watch("contact")?.length < contactTypes.length ? "hover:opacity-70 hover:cursor-pointer" : "opacity-70"}`}
                                     onClick={() => {
+                                        if (watch("contact").length >= contactTypes.length) {
+                                            return;
+                                        }
                                         setValue("contact", (watch("contact") ? [...watch("contact"), { "type": "", "num": "" }] : [{ "type": "", "num": "" }]));
                                     }} />
                             </StdButtonGrid>
+                             */}
 
                             <br />
                         </div>
