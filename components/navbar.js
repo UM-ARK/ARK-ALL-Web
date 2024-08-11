@@ -111,9 +111,10 @@ const Navbar = (props) => {
             {/** 語言、主題切換 */}
             <NavbarTools mode={"Mobile"} />
           </li>
-          <li>
+          {/**
+                    <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
-          </li>
+          </li> */}
           {navigation.map((menu, index) => (
             <li className="nav__item " key={index}>
               <NBLink destination={menu.toLowerCase()} isMobile>
