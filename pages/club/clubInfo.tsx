@@ -140,7 +140,7 @@ const ClubInfo = () => {
                             {clubContentData && clubContentData.content.contact.length != 0 ? (
                                 clubContentData.content.contact.filter(item => item.type && item.num).map((item, index) => (
                                     <li key={index} >
-                                        <div className="grid grid-cols-2 gap-2 max-w-36 sm:mr-64">
+                                        <div className="grid grid-cols-2 gap-3 max-w-48 sm:mr-64">
                                             <p className={`text-themeColor font-bold text-right`}>{item.type}</p>
                                             <p className={`text-left`}>{item.num}</p>
                                         </div>
