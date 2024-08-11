@@ -270,10 +270,13 @@ export const ARKImageInput = (props: {
                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                         )}
                     </div>
-                    <div>
+                    <div className={`flex flex-col relative items-center`}>
                         <h3 className="font-bold text-xl text-themeColor">
                             {m_isProcessing ? "處理中..." : t('ACTIVITY_COVER_IMG')}
                         </h3>
+                        <div className={`absolute top-7 w-full text-center font-bold text-themeColor opacity-80`}>
+                            {t("ACTIVITY_COVER_IMG_HINT")}
+                        </div>
                     </div>
                 </div>
             </IF>

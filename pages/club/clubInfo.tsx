@@ -79,7 +79,7 @@ const ClubInfo = () => {
                 <div className="flex justify-center mt-10">
                     {clubContentData?.content.club_photos_list[0] ? (
                         <div key="0" className="flex flex-col mx-auto">
-                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
+                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="sm:max-w-64 md:max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
                         </div>
                     ) : (
                         <p>{t("CLUB_NO_COVER_IMG")}</p>
@@ -137,25 +137,27 @@ const ClubInfo = () => {
                     {/*聯繫方式(只展示不為空的聯繫方式) */}
                     <ContentBlock title={t("CLUB_CONTACT")}>
                         <ul>
-                            {clubContentData ? (
+                            {clubContentData && clubContentData.content.contact.length != 0 ? (
                                 clubContentData.content.contact.filter(item => item.type && item.num).map((item, index) => (
                                     <li key={index} >
-                                        <div className="grid grid-cols-2 gap-2 sm:mr-64">
-                                            <p className={`text-themeColor font-bold text-left`}>{item.type}</p>
+                                        <div className="grid grid-cols-2 gap-3 max-w-48 sm:mr-64">
+                                            <p className={`text-themeColor font-bold text-right`}>{item.type}</p>
                                             <p className={`text-left`}>{item.num}</p>
                                         </div>
                                     </li>
                                 ))
                             ) : (
-                                <p>{t("ARK_LOADING")}...</p>
+                                <div className={`text-gray-500`}>
+                                    {t("CLUB_NO_CONTACT")}
+                                </div>
                             )}
                         </ul>
                     </ContentBlock>
 
                     {/* 社團圖片 */}
                     <ContentBlock title={t("CLUB_PHOTOS")} className={`max-[1022px]:mt-5`}>
-                        <div className="grid xl:grid-cols-5 sm:grid-cols-3 gap-4 ">
-                            <IFELSE condition={clubContentData != void 0}>
+                        <IFELSE condition={clubContentData != void 0 && clubContentData?.content.club_photos_list.length != 0}>
+                            <div className="grid xl:grid-cols-5 sm:grid-cols-3 gap-4 ">
                                 {clubContentData?.content.club_photos_list.map((item, index) => (
                                     <img
                                         key={index}
@@ -166,9 +168,11 @@ const ClubInfo = () => {
                                             window.open(BASE_HOST + item, "_blank");
                                         }} />
                                 ))}
-                                <p>{t("ARK_LOADING")}...</p>
-                            </IFELSE>
-                        </div>
+                            </div>
+                            <div className={`text-gray-500`}>
+                                {t("CLUB_NO_PHOTOS")}
+                            </div>
+                        </IFELSE>
                     </ContentBlock>
                 </ContentBlockGrid>
             </AfterLoading>

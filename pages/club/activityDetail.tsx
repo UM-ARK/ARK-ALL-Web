@@ -92,7 +92,7 @@ const ActivityDetail = () => {
 
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
-            return editActivity(_data, s_clubNum);
+            await editActivity(_data, s_clubNum);
         } catch (err) {
             alert("上傳編輯失敗，請檢查網絡，或重試。");
             return null;
@@ -113,10 +113,18 @@ const ActivityDetail = () => {
                             <h1 className="text-3xl">
                                 {m_activityData?.content.title}
                             </h1>
-                            <input
-                                placeholder={t("ACTIVITY_TITLE")}
-                                className="text-3xl max-[512px]:text-xl border-4 border-themeColor rounded-lg h-10 p-2"
-                                {...register("title")} />
+                            <div>
+                                <input
+                                    placeholder={t("ACTIVITY_TITLE")}
+                                    className="text-3xl max-[512px]:text-xl border-4 border-themeColor rounded-lg h-10 p-2"
+                                    {...register("title",
+                                        {
+                                            required: t("ACTIVITY_TITLE_REQUIRE"),
+                                            minLength: { value: 2, message: "標題不能少於2字！" },
+                                            maxLength: { value: 50, message: "標題不能超過50字！" }
+                                        })} />
+                                <div className={"text-alert text-center mx-auto mb-1"}>{errors.title && errors.title.message}</div>
+                            </div>
                         </IFELSE>
 
                         {/* 社團名字 */}
@@ -282,6 +290,12 @@ const ActivityDetail = () => {
                         {/* 刪除圖片 */}
                         <div>
                             {isEditMode && (<SecondTitle>{t("ACTIVITY_PHOTOS_PRESENT")}</SecondTitle>)}
+                            {/** 初次編輯提示 */}
+                            {!m_activityData || m_activityData?.content.relate_image_url.length == 0 && (
+                                <div className={`text-gray-500 p-3 max-w-[45rem]`}>
+                                    {t("ACTIVITY_PHOTOS_FIRST_EDIT")}
+                                </div>
+                            )}
                             <div className="grid grid-cols-5 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
@@ -351,11 +365,7 @@ const ActivityDetail = () => {
                     <Footer />
                 </AfterLoading>
             </form>
-
         </ARKMain>
-
-
-
     );
 }
 

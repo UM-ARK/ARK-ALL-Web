@@ -9,9 +9,9 @@ const Benefits = (props) => {
   return (
 
     <Container className="flex flex-wrap lg:flex-nowrap w-full h-full">
-      <div
-        className={`flex items-center justify-center w-full h-full lg:w-1/2 ${props.imgPos === "right" ? "lg:order-1" : ""
-          }`}>
+
+      {/** 圖片 */}
+      <div className={`flex items-center justify-center w-full h-full lg:w-1/2 ${props.imgPos == "right" && "lg:order-1"}`}>
         <Image
           src={data.image}
           width="521"
@@ -20,43 +20,40 @@ const Benefits = (props) => {
           className={"object-cover p-5"}
           placeholder="blur"
           blurDataURL={data.image.src}
-          style={{ borderRadius: "30px" }}
-        />
-        {/* <Canvas shadows flat linear>
-            <Map/>
-          </Canvas> */}
+          style={{ borderRadius: "30px" }} />
       </div>
 
-      <div
-        className={`flex flex-wrap items-center w-full lg:w-1/2 ${data.imgPos === "right" ? "lg:justify-end" : ""
-          }`}>
-        <div>
+      {/** 説明 */}
+      <div className={`flex flex-wrap items-center w-full lg:w-1/2`}>
+        <div className={`mx-auto`}>
+          {/** 大點 */}
           <div className="flex flex-col w-full mt-4">
             {/* 標題 */}
             <h3 className="max-w-2xl mt-3 text-3xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-4xl dark:text-white">
               {data.title}
             </h3>
             {/* 說明 */}
-            <p className="max-w-2xl py-4 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300">
+            <p className={`max-w-2xl py-4 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300 text-justify`}>
               {data.desc}
             </p>
           </div>
 
+          {/** 小點 */}
           <div className="w-full mt-5">
             {data.bullets.map((item, index) => (
-              <Benefit key={index} title={item.title} icon={item.icon}>
+              <BenefitDescription key={index} title={item.title} icon={item.icon}>
                 {item.desc}
-              </Benefit>
+              </BenefitDescription>
             ))}
           </div>
         </div>
       </div>
-    </Container>
 
+    </Container>
   );
 };
 
-function Benefit(props) {
+function BenefitDescription(props) {
   return (
 
     <div className="flex items-start mt-8 space-x-3">

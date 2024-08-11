@@ -76,6 +76,15 @@ export default function clubInfoEdit() {
         upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
     }
 
+    const contactTypes = [
+        "Wechat",
+        "Email",
+        "Phone",
+        "IG",
+        "Facebook",
+        "Website"
+    ]
+
     return (
         <ARKMain title={"社團訊息編輯"}>
             {/* 頂欄*/}
@@ -105,25 +114,59 @@ export default function clubInfoEdit() {
                         {/* 聯係方式 */}
                         <div>
                             <SecondTitle>{t("CLUB_CONTACT")}</SecondTitle>
+                            {!m_clubData || m_clubData.content.contact.length == 0 && (
+                                <div className={`text-gray-500 mb-5`}>
+                                    {t("CLUB_CONTACT_FIRST_EDIT")}
+                                </div>
+                            )}
                             <ul>
+                                {contactTypes.map((type, index) => (
+                                    <div key={index} >
+                                        <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
+                                            {/*方式：如email */}
+                                            <input
+                                                type={`hidden`}
+                                                value={type}
+                                                {...register(`contact.${index}.type`)} />
+
+                                            <div className={`w-32`}>
+                                                {type}
+                                            </div>
+
+                                            {/*内容：如example@example.com */}
+                                            <input
+                                                className=" border-4 border-themeColor rounded-lg h-10 p-2"
+                                                placeholder={t("CLUB_CONTACT_METHOD_VAL")}
+                                                {...register(`contact.${index}.num`)} />
+                                        </div>
+                                    </div>
+                                ))}
                                 {
-                                    watch("contact")?.map((item, index) => item.num != void 0 && (
+                                    false && watch("contact")?.map((item, index) => item.num != void 0 && (
                                         <div key={index} >
                                             <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
                                                 {/*方式：如email */}
-                                                <input
-                                                    className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={`聯係方式`}
-                                                    {...register(`contact.${index}.type`)} />
+                                                <select
+                                                    className={"border-4 border-themeColor rounded-lg h-10 w-50 p-2"}
+                                                    {...register(`contact.${index}.type`)}>
+                                                    {contactTypes.map((type_item, type_index) => (
+                                                        // (!watch("contact")?.some(contact => contact.type == type_item) ||
+                                                        //     watch("contact")?.findIndex(contact => contact.type == type_item) == index) &&
+                                                        (
+                                                            <option key={type_index} value={type_item}>
+                                                                {type_item}
+                                                            </option>
+                                                        )
+                                                    ))}
+                                                </select>
 
                                                 {/*内容：如example@example.com */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={"内容"}
+                                                    placeholder={t("CLUB_CONTACT_METHOD_VAL")}
                                                     {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
-
                                                 <MinusCircleIcon
                                                     className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
                                                     onClick={() => {
@@ -138,13 +181,18 @@ export default function clubInfoEdit() {
                             </ul>
 
                             {/* 添加聯係方式 */}
-                            <StdButtonGrid>
+                            {/**
+                             * <StdButtonGrid>
                                 <PlusCircleIcon
-                                    className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
+                                    className={`w-10 h-10 text-themeColor  ${watch("contact")?.length < contactTypes.length ? "hover:opacity-70 hover:cursor-pointer" : "opacity-70"}`}
                                     onClick={() => {
+                                        if (watch("contact").length >= contactTypes.length) {
+                                            return;
+                                        }
                                         setValue("contact", (watch("contact") ? [...watch("contact"), { "type": "", "num": "" }] : [{ "type": "", "num": "" }]));
                                     }} />
                             </StdButtonGrid>
+                             */}
 
                             <br />
                         </div>
@@ -155,7 +203,13 @@ export default function clubInfoEdit() {
 
                         {/* 刪除圖片 */}
                         <div>
-                            <SecondTitle>{t("CLUB_PHOTOS_PRESENT")}</SecondTitle>
+                            <SecondTitle>{`${t("CLUB_PHOTOS_PRESENT")} (${t("CLUB_PHOTOS_CLICK_REMOVE")})`}</SecondTitle>
+                            {/** 初次編輯提示 */}
+                            {!m_clubData || m_clubData?.content.club_photos_list.length == 0 && (
+                                <div className={`text-gray-500 p-3`}>
+                                    {t("CLUB_PHOTOS_FIRST_EDIT")}
+                                </div>
+                            )}
                             <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                                 {/* 相關圖片 */}
                                 {m_clubData?.content.club_photos_list.map((url, index) =>

@@ -10,7 +10,7 @@ import themeImg from '../../public/img/theme_small.png';
 // import { Phone } from "./Phone";
 
 import { useTranslation } from "react-i18next";
-import phones from "../../public/img/home_page/phones.png";
+import phones from "../../public/img/home_page/advertisements/Phone.png";
 import { downloadBtnData } from "./common_data/download_btn_data";
 import { useRouter } from "next/router";
 // import appleLogo from "../../public/img/home_page/company_logos";
@@ -101,7 +101,7 @@ const Ark = (props) => {
               src={phones}
               height="auto"
               alt="tutorial"
-              className="block object-cover rounded-tl-lg rounded-tr-lg"
+              className="block object-cover w-96 rounded-tl-lg rounded-tr-lg"
               placeholder="blur"
               blurDataURL={phones.src} />
           </div>
