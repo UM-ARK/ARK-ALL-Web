@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
 import PopupWidget from "../components/popupWidget";
+import { ARKMain } from "../components/uiComponents/ContentBlock";
 
 import { useTranslation } from "react-i18next";
 
@@ -37,7 +38,7 @@ const UASection = (props) => {
 const user_agreement = () => {
 
   return (
-    <div>
+    <ARKMain withOutMargin={true}>
       <Navbar selected={"User_Agreement"} />
       <motion.div
         initial={{ opacity: 0 }}
@@ -56,7 +57,7 @@ const user_agreement = () => {
       </motion.div>
       <Footer />
       <PopupWidget />
-    </div>
+    </ARKMain>
   );
 };
 

@@ -85,15 +85,6 @@ const Home = () => {
 
   return (
     <ARKMain withOutMargin={true}>
-      <Head>
-        <title>UM-ARK-ALL</title>
-        <meta
-          name="description"
-          content={t("arkText")}
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <Navbar fixed hideLogoTextBeforeScroll={true} />
 
       <motion.div

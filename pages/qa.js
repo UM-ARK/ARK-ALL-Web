@@ -5,6 +5,7 @@ import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import PopupWidget from "../components/popupWidget";
+import { ARKMain } from "../components/uiComponents/ContentBlock";
 
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
@@ -107,7 +108,7 @@ const qa = () => {
   ];
 
   return (
-    <div>
+    <ARKMain withOutMargin={true}>
       <Navbar selected={"QA"} />
       <motion.div
         initial={{ opacity: 0 }}
@@ -148,7 +149,7 @@ const qa = () => {
       </motion.div>
       <Footer />
       <PopupWidget />
-    </div>
+    </ARKMain>
   );
 };
 
