@@ -20,7 +20,6 @@ import Container from "../container";
  * @returns 
  */
 export const ARKMain = (props: {
-    title: string,
     className?: string,
     withOutMargin?: boolean
     children: ReactNode | ReactNode[]
@@ -28,7 +27,7 @@ export const ARKMain = (props: {
     return (
         <main>
             <title>
-                {props.title || "Untitled"}
+                {"ARK Web"}
             </title>
             {!props.withOutMargin ? (
                 <Container className={props.className || ""}>

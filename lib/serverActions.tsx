@@ -54,12 +54,12 @@ export async function upload(
     clearLocalStorage?: string,
     returnLoc?: string,
     guard: boolean = true,
-    askUserConfirm: boolean = false
+    askUserConfirm: boolean = true
 ): Promise<any> {
 
     let isUserConfirmUpload = true;
-    if (askUserConfirm) {
-        isUserConfirmUpload = confirm("您即將上傳！");
+    if (askUserConfirm && !window.confirm("您即將上傳！")) {
+        return;
     }
 
     // 校驗輸入滿足要求
@@ -128,7 +128,7 @@ export const createActivity = async (_data: _ICreateActivity, clubNum: string): 
     }
 
     // 上傳
-    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', `../club/clubInfo?club_num=${clubNum}`, true, true);
+    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', `../club/clubInfo`, true, true);
 }
 
 
@@ -220,7 +220,7 @@ export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
     fd.append("introduction", _data.introduction);
     fd.append("can_follow", true.toString());
 
-    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `../club/clubInfo?club_num=${clubNum}`);
+    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `../club/clubInfo`, void 0, true);
 }
 
 
@@ -240,5 +240,5 @@ export const deleteActivity = async (activityId: string, loginClubNum: string, c
     let URL = BASE_URI + POST.EVENT_DEL;
     let fd = new FormData();
     fd.append("id", activityId);
-    return upload(fd, URL, void 0, `./clubInfo?club_num=${loginClubNum}`);
+    return upload(fd, URL, void 0, `./clubInfo`, void 0, true);
 }

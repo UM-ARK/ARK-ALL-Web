@@ -44,7 +44,7 @@ const Ark = (props) => {
                   ARK ALL
                 </h1>
               </div>
-              <p className="py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
+              <p className="py-5 text-xl leading-normal whitespace-pre-line text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
                 {t("arkText")}
               </p>
 

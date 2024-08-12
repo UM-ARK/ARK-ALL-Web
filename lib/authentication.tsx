@@ -51,7 +51,7 @@ export const authGuard = (authParams: {
     }
 
     // URL 參數存在，但與登錄club number不符。
-    if (compareValue && urlParams[urlParamName] != compareValue) {
+    if (!compareValue || urlParams[urlParamName] != compareValue) {
         block(`登錄信息有誤，請重新登錄。`, router);
         return null;
     }
@@ -105,7 +105,7 @@ export const clubSignIn = async (_data: IClubSignin, config: {
                 setLogin(json.content.club_num.toString(), json.token || "");
 
                 // 重定向
-                router.push(`./club/clubInfo?club_num=${json.content.club_num}`);
+                router.push(`./club/clubInfo`);
             }
             // 登錄失敗
             else {

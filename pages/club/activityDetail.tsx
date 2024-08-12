@@ -100,9 +100,9 @@ const ActivityDetail = () => {
     }
 
     return (
-        <ARKMain title={`${m_activityData?.content.title}`}>
+        <ARKMain>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} returnStr={t("PG_CLUB_INFO")}></NavBarSecondary>
+            <NavBarSecondary returnLocation={`./clubInfo`} returnStr={t("PG_CLUB_INFO")}></NavBarSecondary>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <AfterLoading isLoading={isLoading}>
 

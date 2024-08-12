@@ -54,7 +54,7 @@ const NewActivity = () => {
 
     // 驗證權限
     useEffect(() => {
-        authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
+        // authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
     }, []);
 
     // 提交活動
@@ -65,8 +65,8 @@ const NewActivity = () => {
     const selectedType = watch("type");
 
     return (
-        <ARKMain title={`${t("NEW_ACTIVITY")}-${watch("title")}`}>
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} />
+        <ARKMain>
+            <NavBarSecondary returnLocation={`./clubInfo`} />
             <form className={`flex flex-col gap-4`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input

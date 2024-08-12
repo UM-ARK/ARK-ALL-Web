@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from "../components/container";
 import PopupWidget from "../components/popupWidget";
+import { ARKMain } from "../components/uiComponents/ContentBlock";
 
 import { motion } from "framer-motion"
 
@@ -81,7 +82,7 @@ const toMD = (_str) => {
 const about_us = () => {
   // toMD(str);
   return (
-    <div className="relative">
+    <ARKMain withOutMargin={true}>
       <Navbar selected={"About_us"} />
       <motion.div
         initial={{ opacity: 0 }}
@@ -94,7 +95,7 @@ const about_us = () => {
       </motion.div>
       <Footer />
       <PopupWidget />
-    </div>
+    </ARKMain>
   );
 };
 

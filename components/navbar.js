@@ -7,6 +7,8 @@ import { HamburgerBtn } from "components/uiComponents/HamburgerBtn"
 
 import { useTranslation } from "react-i18next";
 import NavbarTools from "./uiComponents/NavbarTools/NavbarTools";
+import LanguageSwitcher from "./uiComponents/NavbarTools/LanguageSwitcher";
+import ThemeChanger from "./uiComponents/NavbarTools/DarkSwitch";
 
 const navigation = [
   "Home",
@@ -78,6 +80,11 @@ const Navbar = (props) => {
             </div>
           </Link>
 
+          {/** 語言、主題切換 */}
+          <div className={`lg:hidden`}>
+            <LanguageSwitcher />
+          </div>
+
           {/* Hamburger */}
           <HamburgerBtn setMobileMenuOpen={setMobileMenuOpen} />
         </div>
@@ -95,7 +102,6 @@ const Navbar = (props) => {
           </ul>
         </div>
 
-        {/** 語言、主題切換 */}
         <NavbarTools mode={"PC"} />
       </nav>
 
@@ -109,7 +115,11 @@ const Navbar = (props) => {
         <ul className={`items-center justify-end flex-1 list-none lg:pt-0 lg:flex gap-7 pb-5`}>
           <li>
             {/** 語言、主題切換 */}
-            <NavbarTools mode={"Mobile"} />
+            <div className={`flex flex-row`}>
+              <div className={`mx-auto`}>
+                <ThemeChanger />
+              </div>
+            </div>
           </li>
           {/**
                     <li>

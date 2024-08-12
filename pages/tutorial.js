@@ -50,7 +50,7 @@ const tutorial = () => {
     { img: img_5, title: `編輯活動`, txt: `兩種類型的活動修改的部分大同小異，具體可看上圖。請注意，活動開始時間不可在結束時間之後。此外，相關圖片總數不可超過5張。若要刪除活動，請點擊“刪除活動”按鈕。` },
   ]
   return (
-    <ARKMain title={"使用教學"} withOutMargin={true}>
+    <ARKMain withOutMargin={true}>
       {/**
       <ImagePreview displayPreview={m_displayPreview} setDisplayPreview={setDisplayPreview} />
       */}
