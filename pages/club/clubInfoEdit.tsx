@@ -78,7 +78,7 @@ export default function clubInfoEdit() {
         // 社團圖片 - 減少
         appendListToFormData(fd, "del_club_photos", watch("del_club_photos"), "array");
 
-        upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo`);
+        upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo`, true, true);
     }
 
     const contactTypes = [
