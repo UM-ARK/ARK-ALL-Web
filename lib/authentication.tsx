@@ -51,7 +51,7 @@ export const authGuard = (authParams: {
     }
 
     // URL 參數存在，但與登錄club number不符。
-    if (compareValue && urlParams[urlParamName] != compareValue) {
+    if (!compareValue || urlParams[urlParamName] != compareValue) {
         block(`登錄信息有誤，請重新登錄。`, router);
         return null;
     }
