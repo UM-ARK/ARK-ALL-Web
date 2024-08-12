@@ -1,6 +1,6 @@
 {
   "en": {
-    "arkText": "ARK ALL is developed by FST students for consolidating information about the University of Macau campus. It is not an official application of the University of Macau. It integrates key campus services and APIs and collaborates with various organizations and clubs. It provides a comprehensive information retrieval platform for UM students.",
+    "arkText": "ARK ALL is developed by FST students for consolidating information about the University of Macau campus. It is not an official application of the University of Macau. \n\n It integrates key campus services and APIs and collaborates with various organizations and clubs. \n\n It provides a comprehensive information retrieval platform for UM students.",
     "tb": "Trusted by",
     "siuom": "students in University of Macau",
     "Sponsor List": "Sponsor List",
@@ -118,7 +118,7 @@
     "ACTIVITY_PHOTOS_NEW": "New Photos"
   },
   "zh": {
-    "arkText": "ARK ALL 為了集合澳大校園資訊而誕生，純屬FST同學為愛發電而開發，並非澳大官方應用！整合各校園重點服務和API，並且聯合各組織、社團。為澳大師生提供一個完整的資訊查閱平台。",
+    "arkText": "ARK ALL 為集合澳大校園資訊而誕生，純屬FST同學為愛發電而開發，並非澳大官方應用！整合各校園重點服務和API，並且聯合各組織、社團。為澳大師生提供一個完整的資訊查閱平台。",
     "tb": "超過",
     "siuom": "名澳門大學師生使用過",
     "Sponsor List": "支持者名單",
