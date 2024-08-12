@@ -39,12 +39,12 @@ const ClubInfo = () => {
 
     // 獲取數據
     const fetchData = async () => {
-        const clubNum = authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
+        // const clubNum = authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
 
         try {
             await Promise.all([
-                getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")),
-                getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, t("ERR_NO_CLUB_ACTIVITY"))
+                getClubXX(s_clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")),
+                getClubXX(s_clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, t("ERR_NO_CLUB_ACTIVITY"))
             ]);
         } catch (error) {
             console.error('Fetch data error:', error);
@@ -54,8 +54,10 @@ const ClubInfo = () => {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (s_clubNum) {
+            fetchData();
+        }
+    }, [s_clubNum]);
 
 
     return (
@@ -91,14 +93,14 @@ const ClubInfo = () => {
                     {/* 編輯按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { router.push(`./clubInfoEdit?club_num=${s_clubNum}`); }}
+                        onClickFunc={() => { router.push(`./clubInfoEdit`); }}
                         textContent={t("EDIT")}
                         Icon={PencilSquareIcon} />
 
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { router.push(`./newActivity?club_num=${s_clubNum}`); }}
+                        onClickFunc={() => { router.push(`./newActivity`); }}
                         textContent={t("NEW_ACTIVITY")}
                         Icon={PlusCircleIcon} />
                 </StdButtonGrid>

@@ -27,11 +27,16 @@ import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
 import { ARKListImageInput, ARKTextareaInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useLoginStore } from '../../states/state';
+
 
 
 export default function clubInfoEdit() {
     const { t } = useTranslation();
     const router = useRouter();
+
+    // 全局存儲club number
+    const s_clubNum = useLoginStore(state => state.curID);
 
     const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
     const { register, handleSubmit, setValue, formState: { errors }, watch, reset } = useForm<IEditClubInfo>();
@@ -39,8 +44,8 @@ export default function clubInfoEdit() {
 
     // 獲取club number，驗證登錄
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" }, router);
-        getClubXX(clubNum, GET.CLUB_INFO_NUM, setClubData, void 0, true);
+        // const clubNum = authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
+        getClubXX(s_clubNum, GET.CLUB_INFO_NUM, setClubData, void 0, true);
     }, []);
 
     // 更新表單默認值
@@ -73,7 +78,7 @@ export default function clubInfoEdit() {
         // 社團圖片 - 減少
         appendListToFormData(fd, "del_club_photos", watch("del_club_photos"), "array");
 
-        upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
+        upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo`);
     }
 
     const contactTypes = [
@@ -88,7 +93,7 @@ export default function clubInfoEdit() {
     return (
         <ARKMain title={"社團訊息編輯"}>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubData?.content.club_num}`} returnStr={t("PG_CLUB_INFO")} />
+            <NavBarSecondary returnLocation={`./clubInfo`} returnStr={t("PG_CLUB_INFO")} />
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ContentBlockGrid>
