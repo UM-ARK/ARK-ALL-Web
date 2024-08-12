@@ -91,7 +91,7 @@ export default function clubInfoEdit() {
     ]
 
     return (
-        <ARKMain title={"社團訊息編輯"}>
+        <ARKMain>
             {/* 頂欄*/}
             <NavBarSecondary returnLocation={`./clubInfo`} returnStr={t("PG_CLUB_INFO")} />
 

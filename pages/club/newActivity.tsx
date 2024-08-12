@@ -65,7 +65,7 @@ const NewActivity = () => {
     const selectedType = watch("type");
 
     return (
-        <ARKMain title={`${t("NEW_ACTIVITY")}-${watch("title")}`}>
+        <ARKMain>
             <NavBarSecondary returnLocation={`./clubInfo`} />
             <form className={`flex flex-col gap-4`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}

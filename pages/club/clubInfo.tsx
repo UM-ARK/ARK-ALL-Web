@@ -61,7 +61,7 @@ const ClubInfo = () => {
 
 
     return (
-        <ARKMain title={clubContentData?.content.name}>
+        <ARKMain>
 
             {/* 二級頂欄 */}
             <NavBarSecondary returnLocation={'/clubsignin'} clearLocStorage />
