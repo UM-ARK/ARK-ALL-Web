@@ -28,7 +28,7 @@ export default function Footer() {
 
   const contactData = [
     {
-      index: "地址",
+      index: "Addr",
       value: "Avenida da Universidade, Taipa, Macau, China",
       link: "/",
       icon: MapPinIcon
