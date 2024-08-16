@@ -127,7 +127,7 @@ const ClubInfo = () => {
                         </span>
 
                         {/* 社團簡介*/}
-                        <p className="mt-3">
+                        <p className="mt-3 whitespace-pre-wrap">
                             {clubContentData?.content.intro || t("CLUB_NO_INTRO")}
                         </p>
                     </div>
