@@ -161,7 +161,7 @@ const NewActivity = () => {
                         <ARKTextareaInput
                             base={{
                                 placeholder: t("ACTIVITY_INTRO"),
-                                numLimit: 300,
+                                numLimit: 1000,
                                 isRequired: selectedType == "ACTIVITY"
                             }}
                             regName={`introduction`}

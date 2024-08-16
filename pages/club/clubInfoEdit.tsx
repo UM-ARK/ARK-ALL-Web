@@ -105,7 +105,7 @@ export default function clubInfoEdit() {
                             <ARKTextareaInput
                                 base={{
                                     placeholder: t("ACTIVITY_INTRO"),
-                                    numLimit: 300,
+                                    numLimit: 1000,
                                     isRequired: false
                                 }}
                                 regName={`intro`}
