@@ -38,7 +38,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     return (
         <div
             key={index}
-            className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
+            className="bg-themeColorUltraLight dark:bg-[#2c394a] flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
             onClick={(event: MouseEvent<HTMLDivElement>) => onClickActivityCard(event, item)}>
 
             <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
