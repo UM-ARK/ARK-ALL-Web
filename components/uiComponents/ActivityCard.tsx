@@ -52,7 +52,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                 </div>
 
                 {/*活動標題*/}
-                <div className=" flex flex-wrap gap-1 mx-auto items-center">
+                <div className=" flex flex-wrap gap-1 mx-auto items-center h-[2rem] overflow-hidden">
                     <h3 className="text-themeColor text-xl text-center font-bold text-ellipsis overflow-hidden">
                         {item.title}
                     </h3>
