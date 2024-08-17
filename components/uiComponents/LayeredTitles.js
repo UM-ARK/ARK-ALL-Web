@@ -27,3 +27,16 @@ export const SecondTitle = (props) => {
         </div>
     );
 }
+
+/**
+ * 二級標題
+ * @param {*} props 
+ * @returns 
+ */
+export const ThirdTitle = (props) => {
+    return (
+        <div className="mb-2 mt-3 text-md opacity-80">
+            <h3 className={commonStyles}>{props.children}</h3>
+        </div>
+    );
+}

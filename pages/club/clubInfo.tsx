@@ -4,11 +4,12 @@ import {
     PencilSquareIcon,
     PlusCircleIcon,
 } from "@heroicons/react/24/solid";
+import moment from "moment"
 
 // 本地引用
 import { BASE_HOST, GET } from '../../utils/pathMap';
 import { getClubXX } from '../../lib/serverActions';
-import { IGetActivitiesByClub, IGetClubInfo } from '../../types/index.d';
+import { IGetActivitiesByClub, IGetClubInfo, ActivityBase } from '../../types/index.d';
 import { authGuard } from '../../lib/authentication';
 
 // UI組件
@@ -17,10 +18,19 @@ import Footer from "../../components/footer";
 import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import { ActivityCard } from '../../components/uiComponents/ActivityCard';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
-import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
+import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../../states/state';
+import { sep } from 'path';
+import { SecondTitle, ThirdTitle } from '../../components/uiComponents/LayeredTitles';
+
+interface SeperatedActivities {
+    SEPACT_NOT_STARTED: ActivityBase[];
+    SEPACT_IN_PROGRESS: ActivityBase[];
+    SEPACT_HAS_ENDED: ActivityBase[];
+    SEPACT_ERROR: ActivityBase[];
+}
 
 const ClubInfo = () => {
     // 翻譯、路由
@@ -32,7 +42,8 @@ const ClubInfo = () => {
 
     // 社團内容、活動列表
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
-    const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
+    const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表，會被扔去分類
+    const [seperatedActivities, setSeperatedActivities] = useState<SeperatedActivities | undefined>(void 0);    // 分類過的社團活動列表
 
     // 加載狀態
     const [loadingStates, setLoadingStates] = useState<{ clubcontent: boolean, activity: boolean }>({ clubcontent: true, activity: true });
@@ -53,11 +64,59 @@ const ClubInfo = () => {
         }
     };
 
+
+    /**
+     * 活動分爲三類：未開始、進行中、已結束、時間設定有錯誤。
+     * @param {ActivityBase[]} activities 輸入活動列表
+     */
+    const seperateActivities = (activities: ActivityBase[]) => {
+        if (!activities) {
+            return;
+        }
+
+        // 排序活動，最近 -> 最以前
+        activities.sort((a1, a2) => moment(a2.startdatetime).diff(a1.startdatetime));
+
+        const seperated = {
+            SEPACT_NOT_STARTED: [] as ActivityBase[],
+            SEPACT_IN_PROGRESS: [] as ActivityBase[],
+            SEPACT_HAS_ENDED: [] as ActivityBase[],
+            SEPACT_ERROR: [] as ActivityBase[],
+        };
+
+        activities.forEach(a => {
+            if (moment(a.startdatetime).isAfter(moment.now())) {
+                // 未開始
+                seperated.SEPACT_NOT_STARTED.push(a);
+            } else if (
+                moment(a.startdatetime).isBefore(moment.now()) &&
+                moment(a.enddatetime).isAfter(moment.now())
+            ) {
+                // 進行中
+                seperated.SEPACT_IN_PROGRESS.push(a);
+            }
+            else if (moment(a.enddatetime).isBefore(moment.now())) {
+                // 已結束
+                seperated.SEPACT_HAS_ENDED.push(a);
+            } else {
+                // 時間設定有錯誤
+                seperated.SEPACT_ERROR.push(a);
+            }
+        });
+
+        return seperated as SeperatedActivities;
+    };
+
     useEffect(() => {
         if (s_clubNum) {
             fetchData();
         }
     }, [s_clubNum]);
+
+    useEffect(() => {
+        let sa = seperateActivities(clubActivities?.content);
+        setSeperatedActivities(sa);
+    }, [clubActivities]);
 
 
     return (
@@ -182,15 +241,22 @@ const ClubInfo = () => {
             {/* 社團活動 */}
             <AfterLoading isLoading={loadingStates.activity}>
                 <ContentBlock className={"mt-5"} title={t("CLUB_ACTIVITIES")}>
-                    {/* 渲染活動格子*/}
-                    <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
-                        <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>
-                            {clubActivities?.content.map((item, index) => (
-                                <ActivityCard key={index} item={item} index={index}></ActivityCard>
-                            ))}
-                            <p>{t("CLUB_NO_ACTIVITY")}</p>
-                        </IFELSE>
-                    </div>
+                    {seperatedActivities && Object.entries(seperatedActivities).map(([type, activities]) => (
+                        <IF condition={type != "SEPACT_ERROR"} key={type}>
+                            <ThirdTitle>{t(type)}</ThirdTitle>
+                            {activities.length > 0 ? (
+                                <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
+                                    {activities.map((item: ActivityBase, index: number) => (
+                                        <ActivityCard key={index} item={item} index={index}></ActivityCard>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={`text-gray-500 p-3 max-w-[45rem]`}>
+                                    {t(`${type}_PROMPT`)}
+                                </div>
+                            )}
+                        </IF>
+                    ))}
                 </ContentBlock>
             </AfterLoading>
 
