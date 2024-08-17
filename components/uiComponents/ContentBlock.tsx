@@ -53,13 +53,18 @@ export const ContentBlock = (props: {
     condition?: boolean,
     children: ReactNode | ReactNode[],
     title?: string,
-    className?: string
+    className?: string,
+    feature?: {
+        icon?: any,
+        desc?: string,
+        func?: Function,
+    }
     styles?: {
         withTitle?: boolean,
         withBackground?: boolean,
     }
 }) => {
-    let { condition, title, className, styles = { withTitle: true, withBackground: true } } = props;
+    let { condition, title, className, styles = { withTitle: true, withBackground: true }, feature = { icon: void 0, func: void 0 } } = props;
     let { withTitle, withBackground } = styles;
     let condition_ = condition != void 0 ? condition : true;
     let style = `bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center ${className || ""}`
@@ -68,7 +73,15 @@ export const ContentBlock = (props: {
             <div className={style}>
                 {/* 標題 */}
                 {withTitle && (
-                    <FirstTitle>{title ? title : '標題'}</FirstTitle>
+                    <div className={`flex flex-row justify-between items-center`}>
+                        <FirstTitle>{title ? title : '標題'}</FirstTitle>
+                        {feature.icon != void 0 && feature.func != void 0 && (
+                            <div className={`flex flex-row gap-3 items-center text-themeColor `}>
+                                <div><p>{feature.desc || ""}</p></div>
+                                <feature.icon onClick={feature.func} className={`block w-8 h-8 p-1 rounded-lg bg-gray-100 hover:bg-themeColorUltraLight hover:scale-[1.08] transition-all`} />
+                            </div>
+                        )}
+                    </div>
                 )}
                 {props.children}
             </div>
