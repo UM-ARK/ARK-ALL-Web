@@ -24,8 +24,9 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
 
     const { item, index } = props;
 
-    const startdatetime_ = moment.utc(item.startdatetime).tz('Asia/Shanghai');
-    const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
+    // UTC+0 -> 當地時間
+    const startdatetime = moment.utc(item.startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
+    const enddatetime = moment.utc(item.enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
 
     /**
      * 用戶點擊卡片跳轉。
@@ -78,10 +79,10 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                         </div>
                         <div className={`text-left flex flex-col`}>
                             <div>
-                                <p>{startdatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                                <p>{startdatetime}</p>
                             </div>
                             <div>
-                                <p>{enddatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                                <p>{enddatetime}</p>
                             </div>
                             <div className={`max-w-36 overflow-hidden`}>
                                 <p>
