@@ -7,7 +7,7 @@ import { LinkIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import { useLoginStore } from "../../states/state";
-
+import Link from "next/link";
 
 /**
  * ARK活動卡片。
@@ -23,6 +23,8 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     const s_clubNum = useLoginStore(state => state.curID);
 
     const { item, index } = props;
+
+    const startdatetime_ = moment.utc(item.startdatetime).tz('Asia/Shanghai');
     const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
 
     /**
@@ -38,7 +40,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     return (
         <div
             key={index}
-            className="bg-themeColorUltraLight dark:bg-[#2c394a] flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
+            className="w-[17.5rem] bg-themeColorUltraLight dark:bg-[#2c394a] flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
             onClick={(event: MouseEvent<HTMLDivElement>) => onClickActivityCard(event, item)}>
 
             <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
@@ -64,20 +66,33 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                     <p className="text-left text-center opacity-60">
                         {item.type == "ACTIVITY" ? "活動" : "網站"}
                     </p>
-                    <div className="text-left flex flex-wrap gap-2">
-                        <div>
-                            <p>{`${t("TIME")}:`}</p>
+                    <div className={`flex flex-row items-center justify-center gap-3`}>
+                        <div className={`text-right flex flex-col`}>
+                            <div><p>{`From:`}</p></div>
+                            <div><p>{`To:`}</p></div>
+                            {item.type == "ACTIVITY" ? (
+                                <div><p>{`Loc:`}</p></div>
+                            ) : (
+                                <div><p>{`Link:`}</p></div>
+                            )}
                         </div>
-                        <div>
-                            {enddatetime_.format("YYYY-MM-DD HH:mm")}
-                        </div>
-                    </div>
-                    <div className="text-left flex flex-wrap gap-2">
-                        <div>
-                            <p>{`${t("LOCATION")}:`}</p>
-                        </div>
-                        <div>
-                            {item.location || <i className={"opacity-60"}>未定</i>}
+                        <div className={`text-left flex flex-col`}>
+                            <div>
+                                <p>{startdatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                            </div>
+                            <div>
+                                <p>{enddatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                            </div>
+                            <div className={`max-w-36 overflow-hidden`}>
+                                <p>
+                                    {item.type == "ACTIVITY" ? (
+                                        item.location || <i className={"opacity-60"}>Unknown</i>
+                                    ) : (
+                                        <Link href={item.link} className={`text-sm`}>{item.link}</Link> ||
+                                        <i className={`opacity-60`}>Unknown</i>
+                                    )}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
