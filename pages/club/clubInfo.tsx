@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {
     PencilSquareIcon,
     PlusCircleIcon,
-    AdjustmentsHorizontalIcon,
+    ArrowsRightLeftIcon
 } from "@heroicons/react/24/solid";
 import moment from "moment"
 
@@ -250,7 +250,7 @@ const ClubInfo = () => {
             {/* 社團活動 */}
             <AfterLoading isLoading={loadingStates.activity}>
                 <ContentBlock className={"mt-5"} title={t("CLUB_ACTIVITIES")} feature={{
-                    icon: AdjustmentsHorizontalIcon,
+                    icon: ArrowsRightLeftIcon,
                     desc: `當前排序方式：${displayModes[m_displayMode]}`,
                     func: () => {
                         setDisplayMode(m_displayMode == "by_createtime" ? "by_starttime" : "by_createtime");
