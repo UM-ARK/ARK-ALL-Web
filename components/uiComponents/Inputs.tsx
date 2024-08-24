@@ -169,7 +169,7 @@ export const ARKTextareaInput = (props: {
                 {...register(regName,
                     {
                         required: base.isRequired ? requirePrompt : false,
-                        maxLength: { value: 300, message: `簡介必須少於${base.numLimit}字。` }
+                        maxLength: { value: base.numLimit, message: `簡介必須少於${base.numLimit}字。` }
                     })} />
             <div className={"text-alert"}>{thisErr.introduction && thisErr.introduction.message}</div>
         </React.Fragment>
