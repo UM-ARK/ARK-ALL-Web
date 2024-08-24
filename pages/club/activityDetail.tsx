@@ -264,7 +264,7 @@ const ActivityDetail = () => {
                             className={"max-[1022px]:mt-5"}
                             condition={!m_activityData || m_activityData.content.type != 'WEBSITE'}>
                             <IFELSE condition={!isEditMode}>
-                                <p className="text-ellipsis overflow-hidden whitespace-pre-wrap">
+                                <p className="max-h-48 text-ellipsis overflow-y-scroll whitespace-pre-wrap">
                                     {m_activityData && m_activityData?.content.introduction}
                                 </p>
                                 <ARKTextareaInput
