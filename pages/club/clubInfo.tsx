@@ -149,7 +149,7 @@ const ClubInfo = () => {
                 <div className="flex justify-center mt-10">
                     {clubContentData?.content.club_photos_list[0] ? (
                         <div key="0" className="flex flex-col mx-auto">
-                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="sm:max-w-64 md:max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
+                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="sm:max-w-32 md:max-w-48 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
                         </div>
                     ) : (
                         <p>{t("CLUB_NO_COVER_IMG")}</p>

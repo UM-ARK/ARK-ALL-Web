@@ -137,7 +137,7 @@ const ActivityDetail = () => {
                     {/* 封面圖片 */}
                     <IFELSE condition={!isEditMode}>
                         <div
-                            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
+                            className="flex flex-col w-48 h-48 max-[512px]:w-32 max-[512px]:h-32 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
                             style={{
                                 backgroundImage: `url("${BASE_HOST + m_activityData?.content.cover_image_url}")`,
                                 backgroundSize: 'cover',
