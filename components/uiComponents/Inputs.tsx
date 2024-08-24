@@ -453,7 +453,7 @@ export const ARKListImageInput = (props: {
 
     return (
         <div className={"flex flex-row items-center justify-left max-[640px]:justify-center"}>
-            <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover w-full`}>
+            <div className={`flex flex-wrap gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover w-full`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
                         {/*

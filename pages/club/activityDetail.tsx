@@ -297,7 +297,7 @@ const ActivityDetail = () => {
                                     {t("ACTIVITY_PHOTOS_FIRST_EDIT")}
                                 </div>
                             )}
-                            <div className="grid grid-cols-5 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
+                            <div className="flex flex-wrap gap-4 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
                                     <img
@@ -305,7 +305,7 @@ const ActivityDetail = () => {
                                         src={BASE_HOST + url}
                                         title={`新標籤頁打開圖片`}
                                         className={`
-                                            mx-auto w-40 h-24 rounded-md
+                                             w-40 h-24 rounded-md
                                              hover:scale-[1.05] transition-all 
                                              hover:cursor-pointer 
                                              ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "hidden"} 
