@@ -22,7 +22,7 @@ const ClubLogin = () => {
 
     const setLogin = useLoginStore(state => state.setLogin);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<IClubSignin & { agreeTA: boolean }>();
+    const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<IClubSignin & { agreeTA: boolean }>();
 
     const onSubmit: SubmitHandler<IClubSignin> = async (_data: IClubSignin & { agreeTA: boolean }) => {
         const { agreeTA, ...data } = _data;
@@ -76,7 +76,10 @@ const ClubLogin = () => {
                                 </button>
 
                                 {/*用戶協議 */}
-                                <div className={"flex flex-col justify-center"}>
+                                <div className={"flex flex-col justify-center"}
+                                    onClick={() => {
+                                        setValue("agreeTA", !watch("agreeTA"))
+                                    }}>
                                     <div className={"flex flex-wrap items-center tap-2 text-sm "}>
                                         <input
                                             type={"checkbox"}
