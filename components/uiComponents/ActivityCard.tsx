@@ -43,6 +43,8 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
             key={index}
             className={`
                 max-w-[17.5rem] 
+                max-[500px]:w-full
+                max-[500px]:mx-auto
                 bg-themeColorUltraLight dark:bg-[#2c394a] 
                 flex flex-col p-3 rounded-lg
                 hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] 
