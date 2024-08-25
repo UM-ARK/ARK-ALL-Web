@@ -73,8 +73,9 @@ const ActivityDetail = () => {
             state,
             ..._base } = m_activityData?.content;
 
-        let startdatetime_ = parseDateTime(startdatetime);
-        let enddatetime_ = parseDateTime(enddatetime);
+        // UTC+0 -> 當地時間
+        let startdatetime_ = parseDateTime(moment.utc(startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm"));
+        let enddatetime_ = parseDateTime(moment.utc(enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm"));
 
         let base = {
             ..._base,
@@ -136,7 +137,7 @@ const ActivityDetail = () => {
                     {/* 封面圖片 */}
                     <IFELSE condition={!isEditMode}>
                         <div
-                            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
+                            className="flex flex-col w-48 h-48 max-[512px]:w-32 max-[512px]:h-32 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
                             style={{
                                 backgroundImage: `url("${BASE_HOST + m_activityData?.content.cover_image_url}")`,
                                 backgroundSize: 'cover',
@@ -263,7 +264,7 @@ const ActivityDetail = () => {
                             className={"max-[1022px]:mt-5"}
                             condition={!m_activityData || m_activityData.content.type != 'WEBSITE'}>
                             <IFELSE condition={!isEditMode}>
-                                <p className="text-ellipsis overflow-hidden whitespace-pre-wrap">
+                                <p className="max-h-48 text-ellipsis overflow-y-scroll whitespace-pre-wrap">
                                     {m_activityData && m_activityData?.content.introduction}
                                 </p>
                                 <ARKTextareaInput
@@ -296,7 +297,7 @@ const ActivityDetail = () => {
                                     {t("ACTIVITY_PHOTOS_FIRST_EDIT")}
                                 </div>
                             )}
-                            <div className="grid grid-cols-5 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
+                            <div className="flex flex-wrap gap-4 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
                                     <img
@@ -304,7 +305,7 @@ const ActivityDetail = () => {
                                         src={BASE_HOST + url}
                                         title={`新標籤頁打開圖片`}
                                         className={`
-                                            mx-auto w-40 h-24 rounded-md
+                                             w-40 h-24 rounded-md
                                              hover:scale-[1.05] transition-all 
                                              hover:cursor-pointer 
                                              ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "hidden"} 

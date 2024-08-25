@@ -17,7 +17,7 @@ export const squashDateTime = (date: string, time: string, divider?: string) => 
  */
 export const parseDateTime = (timestamp: string) => {
     let date = timestamp.split(' ')[0];
-    let time = timestamp.split(' ')[1].split('+')[0].slice(0, -3);
+    let time = timestamp.split(' ')[1];
     return { "date": date, "time": time };
 }
 

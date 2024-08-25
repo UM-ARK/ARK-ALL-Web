@@ -24,8 +24,9 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
 
     const { item, index } = props;
 
-    const startdatetime_ = moment.utc(item.startdatetime).tz('Asia/Shanghai');
-    const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
+    // UTC+0 -> 當地時間
+    const startdatetime = moment.utc(item.startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
+    const enddatetime = moment.utc(item.enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
 
     /**
      * 用戶點擊卡片跳轉。
@@ -40,7 +41,12 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     return (
         <div
             key={index}
-            className="w-[17.5rem] bg-themeColorUltraLight dark:bg-[#2c394a] flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
+            className={`
+                max-w-[17.5rem] 
+                bg-themeColorUltraLight dark:bg-[#2c394a] 
+                flex flex-col p-3 rounded-lg
+                hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] 
+                transition-all`}
             onClick={(event: MouseEvent<HTMLDivElement>) => onClickActivityCard(event, item)}>
 
             <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
@@ -66,7 +72,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                     <p className="text-left text-center opacity-60">
                         {item.type == "ACTIVITY" ? "活動" : "網站"}
                     </p>
-                    <div className={`flex flex-row items-center justify-center gap-3`}>
+                    <div className={`flex flex-row items-center justify-center gap-3 text-sm`}>
                         <div className={`text-right flex flex-col`}>
                             <div><p>{`From:`}</p></div>
                             <div><p>{`To:`}</p></div>
@@ -76,12 +82,12 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                                 <div><p>{`Link:`}</p></div>
                             )}
                         </div>
-                        <div className={`text-left flex flex-col`}>
+                        <div className={`text-left flex flex-col text-sm`}>
                             <div>
-                                <p>{startdatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                                <p>{startdatetime}</p>
                             </div>
                             <div>
-                                <p>{enddatetime_.format("YYYY-MM-DD HH:mm")}</p>
+                                <p>{enddatetime}</p>
                             </div>
                             <div className={`max-w-36 overflow-hidden`}>
                                 <p>

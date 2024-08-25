@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { BASE_URI, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { _ICreateActivity, IGetAvtivityById, _IEditActivity } from '../types/index.d';
 import { ActivityType } from '../types/index.d';
+
 
 /**
  * 將一個list結構按照ARK後端的要求寫入表單數據。
@@ -109,8 +110,12 @@ export const createActivity = async (_data: _ICreateActivity, clubNum: string): 
 
     // 規範化時間序列為 YYYY-MM-DDTHH:MM:SS
     const { sDate, sTime, eDate, eTime, add_relate_image, ...restData } = _data;
-    let startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
-    let enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
+
+    // 轉換為UTC+0的格式
+    let sDate_utc0 = moment.utc(sDate).tz('Europe/London').format("YYYY-MM-DD");
+    let eDate_utc0 = moment.utc(eDate).tz('Europe/London').format("YYYY-MM-DD");
+    let startdatetime = squashDateTime(sDate_utc0, sTime, "T");
+    let enddatetime = squashDateTime(eDate_utc0, eTime, "T");
 
     // 注意這裏缺少了add_relate_image
     let data = { startdatetime: startdatetime, enddatetime: enddatetime, ...restData };
@@ -198,9 +203,13 @@ export const getActivityById = async (_id: string, setFunc: any) => {
  * @param {string} clubNum - 登錄club號碼。
  */
 export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
+    // 轉換爲UTC+0的格式
+    let sDate_utc0 = moment.utc(_data.sDate).tz('Europe/London').format('YYYY-MM-DD');
+    let eDate_utc0 = moment.utc(_data.eDate).tz('Europe/London').format('YYYY-MM-DD');
+
     // 時間合理性判定
-    let _startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
-    let _enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
+    let _startdatetime = squashDateTime(sDate_utc0, _data.sTime, "T");
+    let _enddatetime = squashDateTime(eDate_utc0, _data.eTime, "T");
     if (!moment(_startdatetime).isSameOrBefore(_enddatetime)) {
         alert("結束時間應該在開始時間後！");
         return;

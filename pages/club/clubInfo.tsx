@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {
     PencilSquareIcon,
     PlusCircleIcon,
+    ArrowsRightLeftIcon
 } from "@heroicons/react/24/solid";
 import moment from "moment"
 
@@ -32,6 +33,11 @@ interface SeperatedActivities {
     SEPACT_ERROR: ActivityBase[];
 }
 
+const displayModes = {
+    "by_createtime": "活動創建時間",
+    "by_starttime": "活動開始時間"
+};
+
 const ClubInfo = () => {
     // 翻譯、路由
     const { t } = useTranslation();
@@ -44,6 +50,9 @@ const ClubInfo = () => {
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表，會被扔去分類
     const [seperatedActivities, setSeperatedActivities] = useState<SeperatedActivities | undefined>(void 0);    // 分類過的社團活動列表
+
+    // 社團顯示模式
+    const [m_displayMode, setDisplayMode] = useState<"by_createtime" | "by_starttime">("by_starttime");
 
     // 加載狀態
     const [loadingStates, setLoadingStates] = useState<{ clubcontent: boolean, activity: boolean }>({ clubcontent: true, activity: true });
@@ -140,7 +149,7 @@ const ClubInfo = () => {
                 <div className="flex justify-center mt-10">
                     {clubContentData?.content.club_photos_list[0] ? (
                         <div key="0" className="flex flex-col mx-auto">
-                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="sm:max-w-64 md:max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
+                            <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="sm:max-w-32 md:max-w-48 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
                         </div>
                     ) : (
                         <p>{t("CLUB_NO_COVER_IMG")}</p>
@@ -240,23 +249,44 @@ const ClubInfo = () => {
 
             {/* 社團活動 */}
             <AfterLoading isLoading={loadingStates.activity}>
-                <ContentBlock className={"mt-5"} title={t("CLUB_ACTIVITIES")}>
-                    {seperatedActivities && Object.entries(seperatedActivities).map(([type, activities]) => (
-                        <IF condition={type != "SEPACT_ERROR"} key={type}>
-                            <ThirdTitle>{t(type)}</ThirdTitle>
-                            {activities.length > 0 ? (
-                                <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
-                                    {activities.map((item: ActivityBase, index: number) => (
-                                        <ActivityCard key={index} item={item} index={index}></ActivityCard>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className={`text-gray-500 p-3 max-w-[45rem]`}>
-                                    {t(`${type}_PROMPT`)}
-                                </div>
-                            )}
-                        </IF>
-                    ))}
+                <ContentBlock className={"mt-5"} title={t("CLUB_ACTIVITIES")} feature={{
+                    icon: ArrowsRightLeftIcon,
+                    desc: `當前排序方式：${displayModes[m_displayMode]}`,
+                    func: () => {
+                        setDisplayMode(m_displayMode == "by_createtime" ? "by_starttime" : "by_createtime");
+                    }
+                }}>
+                    {/** 根據開始時間排列 */}
+                    <IF condition={m_displayMode == "by_starttime"}>
+                        {seperatedActivities && Object.entries(seperatedActivities).map(([type, activities]) => (
+                            <IF condition={type != "SEPACT_ERROR"} key={type}>
+                                <ThirdTitle>{t(type)}</ThirdTitle>
+                                {activities.length > 0 ? (
+                                    <div className="flex flex-wrap gap-4 items-start justify-start">
+                                        {activities.map((item: ActivityBase, index: number) => (
+                                            <ActivityCard key={index} item={item} index={index}></ActivityCard>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className={`text-gray-500 p-3 max-w-[45rem]`}>
+                                        {t(`${type}_PROMPT`)}
+                                    </div>
+                                )}
+                            </IF>
+                        ))}
+                    </IF>
+
+                    {/** 根據創建時間排列 */}
+                    <IF condition={m_displayMode == "by_createtime"}>
+                        <div className="flex flex-wrap gap-4 ">
+                            <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>
+                                {clubActivities?.content.map((item, index) => (
+                                    <ActivityCard key={index} item={item} index={index}></ActivityCard>
+                                ))}
+                                <p>{t("CLUB_NO_ACTIVITY")}</p>
+                            </IFELSE>
+                        </div>
+                    </IF>
                 </ContentBlock>
             </AfterLoading>
 
