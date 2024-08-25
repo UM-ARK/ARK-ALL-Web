@@ -256,12 +256,13 @@ const ClubInfo = () => {
                         setDisplayMode(m_displayMode == "by_createtime" ? "by_starttime" : "by_createtime");
                     }
                 }}>
+                    {/** 根據開始時間排列 */}
                     <IF condition={m_displayMode == "by_starttime"}>
                         {seperatedActivities && Object.entries(seperatedActivities).map(([type, activities]) => (
                             <IF condition={type != "SEPACT_ERROR"} key={type}>
                                 <ThirdTitle>{t(type)}</ThirdTitle>
                                 {activities.length > 0 ? (
-                                    <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
+                                    <div className="flex flex-wrap gap-4 items-start justify-start">
                                         {activities.map((item: ActivityBase, index: number) => (
                                             <ActivityCard key={index} item={item} index={index}></ActivityCard>
                                         ))}
@@ -274,8 +275,10 @@ const ClubInfo = () => {
                             </IF>
                         ))}
                     </IF>
+
+                    {/** 根據創建時間排列 */}
                     <IF condition={m_displayMode == "by_createtime"}>
-                        <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
+                        <div className="flex flex-wrap gap-4 ">
                             <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>
                                 {clubActivities?.content.map((item, index) => (
                                     <ActivityCard key={index} item={item} index={index}></ActivityCard>

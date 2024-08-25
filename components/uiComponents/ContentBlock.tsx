@@ -77,7 +77,7 @@ export const ContentBlock = (props: {
                         <FirstTitle>{title ? title : '標題'}</FirstTitle>
                         {feature.icon != void 0 && feature.func != void 0 && (
                             <div className={`flex flex-row gap-3 items-center text-themeColor `}>
-                                <div><p>{feature.desc || ""}</p></div>
+                                <div className={`max-[520px]:hidden`}><p>{feature.desc || ""}</p></div>
                                 <feature.icon onClick={feature.func} className={`block w-8 h-8 p-1 rounded-lg bg-gray-100 hover:bg-themeColorUltraLight hover:scale-[1.08] transition-all`} />
                             </div>
                         )}

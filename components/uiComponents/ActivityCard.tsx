@@ -41,7 +41,12 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     return (
         <div
             key={index}
-            className="w-[17.5rem] bg-themeColorUltraLight dark:bg-[#2c394a] flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all"
+            className={`
+                max-w-[17.5rem] 
+                bg-themeColorUltraLight dark:bg-[#2c394a] 
+                flex flex-col p-3 rounded-lg
+                hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] 
+                transition-all`}
             onClick={(event: MouseEvent<HTMLDivElement>) => onClickActivityCard(event, item)}>
 
             <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
@@ -67,7 +72,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                     <p className="text-left text-center opacity-60">
                         {item.type == "ACTIVITY" ? "活動" : "網站"}
                     </p>
-                    <div className={`flex flex-row items-center justify-center gap-3`}>
+                    <div className={`flex flex-row items-center justify-center gap-3 text-sm`}>
                         <div className={`text-right flex flex-col`}>
                             <div><p>{`From:`}</p></div>
                             <div><p>{`To:`}</p></div>
@@ -77,7 +82,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                                 <div><p>{`Link:`}</p></div>
                             )}
                         </div>
-                        <div className={`text-left flex flex-col`}>
+                        <div className={`text-left flex flex-col text-sm`}>
                             <div>
                                 <p>{startdatetime}</p>
                             </div>
