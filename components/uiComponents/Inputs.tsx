@@ -151,7 +151,7 @@ export const ARKTextareaInput = (props: {
     watch: any
 }) => {
     const { base, regName, errors: thisErr, requirePrompt, register, watch } = props;
-    const textareaStyle = "text-lg block w-full h-48 border-4 rounded-lg p-2 resize-none min-h-12 outline-none max-[512px]:text-md";
+    const textareaStyle = "text-lg block w-full h-48 border-4 rounded-lg p-2 resize-y min-h-12 outline-none max-[512px]:text-md";
 
     return (
         <React.Fragment>
