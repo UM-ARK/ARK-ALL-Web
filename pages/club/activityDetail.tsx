@@ -74,8 +74,8 @@ const ActivityDetail = () => {
             ..._base } = m_activityData?.content;
 
         // UTC+0 -> 當地時間
-        let startdatetime_ = parseDateTime(moment.utc(startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD hh:mm"));
-        let enddatetime_ = parseDateTime(moment.utc(enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD hh:mm"));
+        let startdatetime_ = parseDateTime(moment.utc(startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm"));
+        let enddatetime_ = parseDateTime(moment.utc(enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm"));
 
         let base = {
             ..._base,
