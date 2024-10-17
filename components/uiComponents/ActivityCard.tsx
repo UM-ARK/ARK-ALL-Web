@@ -94,8 +94,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                                     {item.type == "ACTIVITY" ? (
                                         item.location || <i className={"opacity-60"}>Unknown</i>
                                     ) : (
-                                        <Link href={item.link} className={`text-sm`}>{item.link}</Link> ||
-                                        <i className={`opacity-60`}>Unknown</i>
+                                        <Link href={item.link} className={`text-sm`}>{item.link}</Link>
                                     )}
                                 </p>
                             </div>
