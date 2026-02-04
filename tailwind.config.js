@@ -22,10 +22,15 @@ module.exports = {
         seaWaveMoveKey: {
           "0%": { backgroundPosition: "top" },
           "100%": { backgroundPosition: "center" },
-        }
+        },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         seaWaveMove: 'seaWaveMoveKey 2s ease-in-out',
+        'spin': 'spin 1s linear infinite',
       },
     },
     fontFamily: {

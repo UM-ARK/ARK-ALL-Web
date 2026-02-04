@@ -254,47 +254,47 @@
 
 "@next/swc-darwin-arm64@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.5.6.tgz#b15d139d8971360fca29be3bdd703c108c9a45fb"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.5.6.tgz"
   integrity sha512-5nvXMzKtZfvcu4BhtV0KH1oGv4XEW+B+jOfmBdpFI3C7FrB/MfujRpWYSBBO64+qbW8pkZiSyQv9eiwnn5VIQA==
 
 "@next/swc-darwin-x64@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-darwin-x64/-/swc-darwin-x64-13.5.6.tgz#9c72ee31cc356cb65ce6860b658d807ff39f1578"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.5.6.tgz#9c72ee31cc356cb65ce6860b658d807ff39f1578"
   integrity sha512-6cgBfxg98oOCSr4BckWjLLgiVwlL3vlLj8hXg2b+nDgm4bC/qVXXLfpLB9FHdoDu4057hzywbxKvmYGmi7yUzA==
 
 "@next/swc-linux-arm64-gnu@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-13.5.6.tgz#59f5f66155e85380ffa26ee3d95b687a770cfeab"
+  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-13.5.6.tgz#59f5f66155e85380ffa26ee3d95b687a770cfeab"
   integrity sha512-txagBbj1e1w47YQjcKgSU4rRVQ7uF29YpnlHV5xuVUsgCUf2FmyfJ3CPjZUvpIeXCJAoMCFAoGnbtX86BK7+sg==
 
 "@next/swc-linux-arm64-musl@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-13.5.6.tgz#f012518228017052736a87d69bae73e587c76ce2"
+  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-13.5.6.tgz#f012518228017052736a87d69bae73e587c76ce2"
   integrity sha512-cGd+H8amifT86ZldVJtAKDxUqeFyLWW+v2NlBULnLAdWsiuuN8TuhVBt8ZNpCqcAuoruoSWynvMWixTFcroq+Q==
 
 "@next/swc-linux-x64-gnu@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.5.6.tgz#339b867a7e9e7ee727a700b496b269033d820df4"
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.5.6.tgz#339b867a7e9e7ee727a700b496b269033d820df4"
   integrity sha512-Mc2b4xiIWKXIhBy2NBTwOxGD3nHLmq4keFk+d4/WL5fMsB8XdJRdtUlL87SqVCTSaf1BRuQQf1HvXZcy+rq3Nw==
 
 "@next/swc-linux-x64-musl@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.5.6.tgz#ae0ae84d058df758675830bcf70ca1846f1028f2"
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.5.6.tgz#ae0ae84d058df758675830bcf70ca1846f1028f2"
   integrity sha512-CFHvP9Qz98NruJiUnCe61O6GveKKHpJLloXbDSWRhqhkJdZD2zU5hG+gtVJR//tyW897izuHpM6Gtf6+sNgJPQ==
 
 "@next/swc-win32-arm64-msvc@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-13.5.6.tgz#a5cc0c16920485a929a17495064671374fdbc661"
+  resolved "https://registry.npmjs.org/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-13.5.6.tgz#a5cc0c16920485a929a17495064671374fdbc661"
   integrity sha512-aFv1ejfkbS7PUa1qVPwzDHjQWQtknzAZWGTKYIAaS4NMtBlk3VyA6AYn593pqNanlicewqyl2jUhQAaFV/qXsg==
 
 "@next/swc-win32-ia32-msvc@13.5.6":
   version "13.5.6"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-13.5.6.tgz#6a2409b84a2cbf34bf92fe714896455efb4191e4"
+  resolved "https://registry.npmjs.org/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-13.5.6.tgz#6a2409b84a2cbf34bf92fe714896455efb4191e4"
   integrity sha512-XqqpHgEIlBHvzwG8sp/JXMFkLAfGLqkbVsyN+/Ih1mR8INb6YCc2x/Mbwi6hsAgUnqQztz8cvEbHJUbSl7RHDg==
 
 "@next/swc-win32-x64-msvc@13.5.6":
   version "13.5.6"
-  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.5.6.tgz"
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.5.6.tgz#4a3e2a206251abc729339ba85f60bc0433c2865d"
   integrity sha512-Cqfe1YmOS7k+5mGu92nl5ULkzpKuxJrP3+4AEuPmrpFZ3BHxTY3TnHmU1On3bFmFFs6FbTcdF58CCUProGpIGQ==
 
 "@nodelib/fs.scandir@2.1.5":
@@ -398,9 +398,9 @@
     zustand "^3.7.1"
 
 "@react-three/fiber@^8.15.16", "@react-three/fiber@latest":
-  version "8.15.16"
-  resolved "https://registry.npmjs.org/@react-three/fiber/-/fiber-8.15.16.tgz"
-  integrity sha512-4f47K9e2mP8W/guNtu3e2J/Nt6GwKTsX/YP2dktPZRcpHYEsqfXCO8kSfvVMb+lQ8wR0HoFzggqdnGuhZaui0g==
+  version "8.16.8"
+  resolved "https://registry.npmjs.org/@react-three/fiber/-/fiber-8.16.8.tgz"
+  integrity sha512-Lc8fjATtvQEfSd8d5iKdbpHtRm/aPMeFj7jQvp6TNHfpo8IQTW3wwcE1ZMrGGoUH+w2mnyS+0MK1NLPLnuzGkQ==
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@types/react-reconciler" "^0.26.7"
@@ -660,7 +660,7 @@ braces@^3.0.2, braces@~3.0.2:
 
 browser-image-compression@^2.0.2:
   version "2.0.2"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/browser-image-compression/-/browser-image-compression-2.0.2.tgz#4d5ef8882e9e471d6d923715ceb9034499d14eaa"
+  resolved "https://registry.npmjs.org/browser-image-compression/-/browser-image-compression-2.0.2.tgz"
   integrity sha512-pBLlQyUf6yB8SmmngrcOw3EoS4RpQ1BcylI3T9Yqn7+4nrQTXJD4sJDe5ODnJdrvNMaio5OicFo75rDyJD2Ucw==
   dependencies:
     uzip "0.20201231.0"
@@ -695,14 +695,23 @@ busboy@1.6.0:
   dependencies:
     streamsearch "^1.1.0"
 
-call-bind@^1.0.0:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/call-bind/-/call-bind-1.0.5.tgz"
-  integrity sha512-C3nQxfFZxFRVoJoGKKI8y3MOEo129NQ+FgQ08iye+Mk4zNZZGdjfs06bVTr+DBSlA66Q2VEcMki/cUCP4SercQ==
+call-bind-apply-helpers@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz#4b5428c222be985d79c3d82657479dbe0b59b2d6"
+  integrity sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==
   dependencies:
+    es-errors "^1.3.0"
     function-bind "^1.1.2"
-    get-intrinsic "^1.2.1"
-    set-function-length "^1.1.1"
+
+call-bind@^1.0.0:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/call-bind/-/call-bind-1.0.8.tgz#0736a9660f537e3388826f440d5ec45f744eaa4c"
+  integrity sha512-oKlSFMcMwpUg2ednkhQ454wfWiU/ul3CkJe/PEHcTKuiX6RpbehUiFMXu13HalGZxfUwCQzZG747YXBn1im9ww==
+  dependencies:
+    call-bind-apply-helpers "^1.0.0"
+    es-define-property "^1.0.0"
+    get-intrinsic "^1.2.4"
+    set-function-length "^1.2.2"
 
 callsites@^3.0.0:
   version "3.1.0"
@@ -836,7 +845,7 @@ cssesc@^3.0.0:
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-csstype@^3.0.2:
+csstype@^3.0.2, csstype@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.3.tgz"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
@@ -851,14 +860,14 @@ decode-uri-component@^0.4.1:
   resolved "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.4.1.tgz"
   integrity sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==
 
-define-data-property@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.1.tgz"
-  integrity sha512-E7uGkTzkk1d0ByLeSc6ZsFS79Axg+m1P/VsgYsxHgiuc3tFSj+MjMIwe90FC4lOAZzNBdY7kkO2P2wKdsQ1vgQ==
+define-data-property@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz"
+  integrity sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==
   dependencies:
-    get-intrinsic "^1.2.1"
+    es-define-property "^1.0.0"
+    es-errors "^1.3.0"
     gopd "^1.0.1"
-    has-property-descriptors "^1.0.0"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -921,7 +930,14 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-es-errors@^1.0.0:
+es-define-property@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.0.tgz"
+  integrity sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==
+  dependencies:
+    get-intrinsic "^1.2.4"
+
+es-errors@^1.3.0:
   version "1.3.0"
   resolved "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz"
   integrity sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==
@@ -1014,17 +1030,15 @@ fraction.js@^4.3.7:
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
 framer-motion@^11.3.19:
-  version "11.18.2"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/framer-motion/-/framer-motion-11.18.2.tgz#0c6bd05677f4cfd3b3bdead4eb5ecdd5ed245718"
-  integrity sha512-5F5Och7wrvtLVElIpclDT0CBzMVg3dL22B64aZwHtsIY8RB4mXICLrkajK4G9R+ieSAGcgrLeae2SeUTg2pr6w==
+  version "11.3.19"
+  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.3.19.tgz"
+  integrity sha512-+luuQdx4AsamyMcvzW7jUAJYIKvQs1KE7oHvKkW3eNzmo0S+3PSDWjBuQkuIP9WyneGnKGMLUSuHs8OP7jKpQg==
   dependencies:
-    motion-dom "^11.18.1"
-    motion-utils "^11.18.1"
     tslib "^2.4.0"
 
 fsevents@~2.3.2:
   version "2.3.3"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
@@ -1032,12 +1046,12 @@ function-bind@^1.1.2:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
 
-get-intrinsic@^1.0.2, get-intrinsic@^1.1.3, get-intrinsic@^1.2.1, get-intrinsic@^1.2.2:
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.2.3.tgz"
-  integrity sha512-JIcZczvcMVE7AUOP+X72bh8HqHBRxFdz5PDHYtNG/lE3yk9b3KZBJlwFcTyPYjg3L4RLLmZJzvjxhaZVapxFrQ==
+get-intrinsic@^1.0.2, get-intrinsic@^1.1.3, get-intrinsic@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.2.4.tgz"
+  integrity sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==
   dependencies:
-    es-errors "^1.0.0"
+    es-errors "^1.3.0"
     function-bind "^1.1.2"
     has-proto "^1.0.1"
     has-symbols "^1.0.3"
@@ -1078,6 +1092,11 @@ glsl-noise@^0.0.0:
   resolved "https://registry.npmjs.org/glsl-noise/-/glsl-noise-0.0.0.tgz"
   integrity sha512-b/ZCF6amfAUb7dJM/MxRs7AetQEahYzJ8PtgfrmEdtw6uyGOr+ZSGtgjFm6mfsBkxJ4d2W7kg+Nlqzqvn3Bc0w==
 
+goober@^2.1.16:
+  version "2.1.18"
+  resolved "https://registry.npmjs.org/goober/-/goober-2.1.18.tgz"
+  integrity sha512-2vFqsaDVIT9Gz7N6kAL++pLpp41l3PfDuusHcjnGLfR6+huZkl6ziX+zgVC3ZxpqWhzH6pyDdGrCeDhMIvwaxw==
+
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz"
@@ -1095,12 +1114,12 @@ has-flag@^3.0.0:
   resolved "https://registry.npmjs.org/has-flag/-/has-flag-3.0.0.tgz"
   integrity sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==
 
-has-property-descriptors@^1.0.0, has-property-descriptors@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.1.tgz"
-  integrity sha512-VsX8eaIewvas0xnvinAe9bw4WfIeODpGYikiWYLH+dma0Jw6KHYqWiWfhQlgOVK8D6PvjubK5Uc4P0iIhIcNVg==
+has-property-descriptors@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz"
+  integrity sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==
   dependencies:
-    get-intrinsic "^1.2.2"
+    es-define-property "^1.0.0"
 
 has-proto@^1.0.1:
   version "1.0.1"
@@ -1366,18 +1385,6 @@ moment@^2.29.4, moment@^2.30.1:
   version "2.30.1"
   resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
-
-motion-dom@^11.18.1:
-  version "11.18.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/motion-dom/-/motion-dom-11.18.1.tgz#e7fed7b7dc6ae1223ef1cce29ee54bec826dc3f2"
-  integrity sha512-g76KvA001z+atjfxczdRtw/RXOM3OMSdd1f4DL77qCTF/+avrRJiawSG4yDibEQ215sr9kpinSlX2pCTJ9zbhw==
-  dependencies:
-    motion-utils "^11.18.1"
-
-motion-utils@^11.18.1:
-  version "11.18.1"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/motion-utils/-/motion-utils-11.18.1.tgz#671227669833e991c55813cf337899f41327db5b"
-  integrity sha512-49Kt+HKjtbJKLtgO/LKj9Ld+6vw9BjH5d9sc40R/kVyH8GLAXgT42M2NnuPcJNuA3s9ZfZBUcwIgpmZWGEE+hA==
 
 multipipe@^1.0.2:
   version "1.0.2"
@@ -1659,6 +1666,14 @@ react-hook-form@^7.51.5:
   resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.51.5.tgz"
   integrity sha512-J2ILT5gWx1XUIJRETiA7M19iXHlG74+6O3KApzvqB/w8S5NQR7AbU8HVZrMALdmDgWpRPYiZJl0zx8Z4L2mP6Q==
 
+react-hot-toast@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/react-hot-toast/-/react-hot-toast-2.6.0.tgz"
+  integrity sha512-bH+2EBMZ4sdyou/DPrfgIouFpcRLCJ+HoCA32UoAYHn6T3Ur5yfcDCeSr5mwldl6pFOsiocmrXMuoCJ1vV8bWg==
+  dependencies:
+    csstype "^3.1.3"
+    goober "^2.1.16"
+
 react-i18next@^13.0.3:
   version "13.5.0"
   resolved "https://registry.npmjs.org/react-i18next/-/react-i18next-13.5.0.tgz"
@@ -1813,16 +1828,17 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
-set-function-length@^1.1.1:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/set-function-length/-/set-function-length-1.2.0.tgz"
-  integrity sha512-4DBHDoyHlM1IRPGYcoxexgh67y4ueR53FKV1yyxwFMY7aCqcN/38M1+SwZ/qJQ8iLv7+ck385ot4CcisOAPT9w==
+set-function-length@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/set-function-length/-/set-function-length-1.2.2.tgz#aac72314198eaed975cf77b2c3b6b880695e5449"
+  integrity sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==
   dependencies:
-    define-data-property "^1.1.1"
+    define-data-property "^1.1.4"
+    es-errors "^1.3.0"
     function-bind "^1.1.2"
-    get-intrinsic "^1.2.2"
+    get-intrinsic "^1.2.4"
     gopd "^1.0.1"
-    has-property-descriptors "^1.0.1"
+    has-property-descriptors "^1.0.2"
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -2155,7 +2171,7 @@ uuid@^9.0.1:
 
 uzip@0.20201231.0:
   version "0.20201231.0"
-  resolved "https://mirrors.huaweicloud.com/repository/npm/uzip/-/uzip-0.20201231.0.tgz#9e64b065b9a8ebf26eb7583fe8e77e1d9a15ed14"
+  resolved "https://registry.npmjs.org/uzip/-/uzip-0.20201231.0.tgz"
   integrity sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==
 
 void-elements@3.1.0:

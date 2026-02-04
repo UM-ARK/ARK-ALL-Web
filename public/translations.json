@@ -79,6 +79,7 @@
     "NEW_ACTIVITY": "New Activity",
     "BTN_ACTIVITY_DEL": "Delete Activity",
     "UPLOAD": "Upload",
+    "PROCESSING": "Processing...",
     "CLUB_NO_INTRO": "The club hasn't written any intros yet.",
     "CLUB_NO_CONTACT": "You didn't specify your contacts. Click edit to specify.",
     "CLUB_NO_PHOTOS": "You didn't have any photos yet. Click edit to add photos.",
@@ -122,7 +123,8 @@
     "ACTIVITY_PHOTOS": "Activity Photos",
     "ACTIVITY_PHOTOS_FIRST_EDIT": "Curently, you don't have any related photos. Click the plus button below to add a new photo. Your added photo will be present here after you successfully uploaded them. You could only add up to 5 images.",
     "ACTIVITY_PHOTOS_PRESENT": "Present Photos",
-    "ACTIVITY_PHOTOS_NEW": "New Photos"
+    "ACTIVITY_PHOTOS_NEW": "New Photos",
+    "TOAST_IMAGE_UPLOAD_SUCCESS": "Image processed, waiting to save!"
   },
   "zh": {
     "arkText": "ARK ALL 為集合澳大校園資訊而誕生，純屬FST同學為愛發電而開發，並非澳大官方應用！整合各校園重點服務和API，並且聯合各組織、社團。為澳大師生提供一個完整的資訊查閱平台。",
@@ -204,6 +206,7 @@
     "NEW_ACTIVITY": "新活動",
     "BTN_ACTIVITY_DEL": "刪除活動",
     "UPLOAD": "上傳",
+    "PROCESSING": "處理中...",
     "CLUB_NO_INTRO": "該社團沒有留下簡介",
     "CLUB_NO_CONTACT": "您沒有留下聯絡方式。點擊“編輯”以添加。",
     "CLUB_NO_PHOTOS": "您沒有添加相關圖片。點擊“編輯”以添加。",
@@ -247,7 +250,8 @@
     "ACTIVITY_PHOTOS": "活動圖片",
     "ACTIVITY_PHOTOS_FIRST_EDIT": "您沒有任何相關圖片。點擊下方的“+”號來添加新的圖片。上傳成功后，您添加的圖片將會被展示在這裏。您最多能添加5張圖片。",
     "ACTIVITY_PHOTOS_PRESENT": "現有圖片",
-    "ACTIVITY_PHOTOS_NEW": "新增圖片"
+    "ACTIVITY_PHOTOS_NEW": "新增圖片",
+    "TOAST_IMAGE_UPLOAD_SUCCESS": "圖片處理成功，等候保存！"
   },
   "ja": {
     "arkText": "ARK ALLは、コストに関係なく開発されたものであり、マカオ大学の公式アプリではありません。キャンパスの主要なサービスとAPIを統合し、組織やクラブと連携しています。マカオ大学の学生と教職員に完全な情報検索プラットフォームを提供します。",
@@ -329,6 +333,7 @@
     "NEW_ACTIVITY": "新しいアクティビティ",
     "BTN_ACTIVITY_DEL": "アクティビティを削除",
     "UPLOAD": "アップロード",
+    "PROCESSING": "処理中...",
     "CLUB_NO_INTRO": "このクラブは自己紹介が書きませんでした。",
     "CLUB_NO_CONTACT": "連絡先情報を何も残していませんでした。 「編集」をクリックして追加します。",
     "CLUB_NO_PHOTOS": "写真を何も残していませんでした。 「編集」をクリックして追加します。",
@@ -372,6 +377,7 @@
     "ACTIVITY_PHOTOS": "アクティビティの写真",
     "ACTIVITY_PHOTOS_FIRST_EDIT": "今は関連する画像ではありません。新しい画像を追加するには、下の「+」記号をクリックしてください。アップロードが成功すると、追加した写真がここに表示されます。写真は5枚まで追加できます。",
     "ACTIVITY_PHOTOS_PRESENT": "現有写真",
-    "ACTIVITY_PHOTOS_NEW": "新しい写真"
+    "ACTIVITY_PHOTOS_NEW": "新しい写真",
+    "TOAST_IMAGE_UPLOAD_SUCCESS": "画像を処理しました。保存をお待ちください！"
   }
 }

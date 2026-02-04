@@ -5,6 +5,29 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { compressImage, duplicateFile } from "../../utils/functions/u_format";
 import React from "react";
 import { t } from "i18next";
+import toast from "react-hot-toast";
+
+/**
+ * Loading 旋轉動畫組件
+ * @param size - 尺寸（默認40px）
+ * @param text - 顯示文字（默認"處理中..."）
+ * @param showText - 是否顯示文字（默認true）
+ */
+const LoadingSpinner = ({ size = 40, text = "處理中...", showText = true }: {
+    size?: number;
+    text?: string;
+    showText?: boolean;
+}) => (
+    <div className="flex flex-col items-center justify-center" role="status" aria-busy="true">
+        <div
+            className="rounded-full border-4 border-themeColor border-t-transparent animate-spin"
+            style={{ width: size, height: size }}
+        />
+        {showText && text && (
+            <span className="mt-2 text-sm text-themeColor font-medium">{text}</span>
+        )}
+    </div>
+);
 
 const TextInputStyles = {
     border: {
@@ -236,6 +259,12 @@ export const ARKImageInput = (props: {
         setIconDisplay(false);
         setImageURL(URL.createObjectURL(compressedImage));
         setValue(regName, compressedImage);
+
+        // 顯示上傳成功提示
+        toast.success(t('TOAST_IMAGE_UPLOAD_SUCCESS') || '圖片處理成功，等候保存！', {
+            duration: 2000,
+            icon: '📸',
+        });
     };
 
     return (
@@ -264,20 +293,24 @@ export const ARKImageInput = (props: {
 
             {/* Icon 部分 */}
             <IF condition={m_iconDisplay && !initialImgURL}>
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-center items-center">
                     <div className="flex items-center justify-center mb-2">
-                        {!m_isProcessing && (
+                        {m_isProcessing ? (
+                            <LoadingSpinner size={40} text={t('PROCESSING') || "處理中..."} />
+                        ) : (
                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                         )}
                     </div>
-                    <div className={`flex flex-col relative items-center`}>
-                        <h3 className="font-bold text-xl text-themeColor">
-                            {m_isProcessing ? "處理中..." : t('ACTIVITY_COVER_IMG')}
-                        </h3>
-                        <div className={`absolute top-7 w-full text-center font-bold text-themeColor opacity-80`}>
-                            {t("ACTIVITY_COVER_IMG_HINT")}
+                    <IF condition={!m_isProcessing}>
+                        <div className={`flex flex-col relative items-center`}>
+                            <h3 className="font-bold text-xl text-themeColor">
+                                {t('ACTIVITY_COVER_IMG')}
+                            </h3>
+                            <div className={`absolute top-7 w-full text-center font-bold text-themeColor opacity-80`}>
+                                {t("ACTIVITY_COVER_IMG_HINT")}
+                            </div>
                         </div>
-                    </div>
+                    </IF>
                 </div>
             </IF>
 
@@ -403,8 +436,14 @@ export const ARKListImageInput = (props: {
         let arr = [];
         imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
 
+        // 開始處理，顯示 Loading 狀態
+        setIsProcessing(true);
+
         // 將傳入文件列表中的所有文件壓縮並複製一份，然後並推入包含原有圖片數組
         arr = await PreProcessFileObjArr(fileObjArr, arr);
+
+        // 處理完成，隱藏 Loading 狀態
+        setIsProcessing(false);
 
         // 把新數組解析成對象
         const filesAsObj = Object.fromEntries(
@@ -413,6 +452,16 @@ export const ARKListImageInput = (props: {
 
         console.log(filesAsObj);
         setValue(regName, filesAsObj);
+
+        // 顯示上傳成功提示
+        toast.success(t('TOAST_IMAGE_UPLOAD_SUCCESS') || '📸 圖片處理成功，等候保存！', {
+            duration: 2000,
+            icon: '📸',
+            style: {
+                background: '#27ae60',
+                color: '#fff',
+            },
+        });
     }
 
     /**
@@ -449,6 +498,16 @@ export const ARKListImageInput = (props: {
             setValue(regName, [imgList[0], ...arr]);
         }
 
+        // 顯示上傳成功提示
+        toast.success(t('TOAST_IMAGE_UPLOAD_SUCCESS') || '📸 圖片處理成功，等候保存！', {
+            duration: 2000,
+            icon: '📸',
+            style: {
+                background: '#27ae60',
+                color: '#fff',
+            },
+        });
+
     }
 
     return (
@@ -484,9 +543,7 @@ export const ARKListImageInput = (props: {
                     {/* Icon 部分 */}
                     <div className="flex items-center justify-center mb-2">
                         {m_isProcessing ? (
-                            <h3 className="font-bold text-xl text-themeColor">
-                                {`處理中...`}
-                            </h3>
+                            <LoadingSpinner size={32} text={t('PROCESSING') || "處理中..."} />
                         ) : (
                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                         )}

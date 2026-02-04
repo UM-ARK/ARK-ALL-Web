@@ -8,6 +8,7 @@ import { useLangStore } from "../states/state"; // 全局語言狀態管理
 
 import { useRouter } from 'next/router';
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from "react-hot-toast";
 
 
 function MyApp({ Component, pageProps }) {
@@ -39,6 +40,30 @@ function MyApp({ Component, pageProps }) {
       <AnimatePresence>
         <ThemeProvider attribute="class">
           <Component {...pageProps} navigateToPage={navigateToPage} />
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 2000,
+              style: {
+                background: '#363636',
+                color: '#fff',
+              },
+              success: {
+                duration: 2000,
+                iconTheme: {
+                  primary: '#27ae60',
+                  secondary: '#fff',
+                },
+              },
+              error: {
+                duration: 3000,
+                iconTheme: {
+                  primary: '#f75353',
+                  secondary: '#fff',
+                },
+              },
+            }}
+          />
         </ThemeProvider>
       </AnimatePresence>
     </I18nextProvider>
