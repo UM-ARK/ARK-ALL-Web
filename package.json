@@ -50,6 +50,7 @@
     "react-three-fiber": "^6.0.13",
     "showdown": "^2.1.0",
     "three": "^0.161.0",
+    "sharp": "^0.33.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
