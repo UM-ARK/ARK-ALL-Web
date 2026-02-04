@@ -70,9 +70,9 @@ export const duplicateFile = (file) => {
 
 /**
  * 壓縮圖片
- * @param file 
- * @param maxSizeMB 
- * @returns 
+ * @param file
+ * @param maxSizeMB
+ * @returns
  */
 export const compressImage = async (file: any, maxSizeMB: number) => {
     if (!file) {
@@ -86,7 +86,16 @@ export const compressImage = async (file: any, maxSizeMB: number) => {
     };
 
     try {
-        const compressedFile = await imageCompression(file, options);
+        const compressedBlob = await imageCompression(file, options);
+
+        // 修復：imageCompression 返回的是 Blob 而非 File，需要轉換為 File 以保留文件名
+        // 如果原始文件有 name 屬性，使用原始文件名；否則生成一個帶時間戳的默認名稱
+        const originalFileName = file.name || `image_${Date.now()}.jpg`;
+        const compressedFile = new File([compressedBlob], originalFileName, {
+            type: compressedBlob.type || file.type || 'image/jpeg',
+            lastModified: Date.now(),
+        });
+
         return compressedFile;
     } catch (err) {
         console.log(err);
