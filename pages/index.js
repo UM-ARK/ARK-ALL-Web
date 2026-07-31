@@ -30,19 +30,19 @@ const Home = () => {
   const demoData = [
     {
       name: t('USRST_num'),
-      num: ">7800",
+      num: ">21000",
       unit: t('USRST_unit_ppl'),
       icon: UserIcon
     },
     {
       name: t('USRST_ch'),
-      num: ">7000",
+      num: ">18500",
       unit: t('USRST_unit_ppl'),
       icon: LanguageIcon
     },
     {
       name: t("USRST_active"),
-      num: ">1100",
+      num: ">4700",
       unit: t('USRST_unit_ppl'),
       icon: PresentationChartLineIcon
     },
