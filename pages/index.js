@@ -10,7 +10,6 @@ import {
   LanguageIcon,
   UserIcon,
   PresentationChartLineIcon,
-  HandThumbUpIcon,
 } from "@heroicons/react/24/solid";
 import BusImg from "../public/img/home_page/advertisements/Bus.png";
 import EventImg from "../public/img/home_page/advertisements/Club.png";
@@ -46,12 +45,6 @@ const Home = () => {
       num: ">1100",
       unit: t('USRST_unit_ppl'),
       icon: PresentationChartLineIcon
-    },
-    {
-      name: t("USRST_rate"),
-      num: ">70%",
-      unit: "",
-      icon: HandThumbUpIcon
     },
   ];
 
