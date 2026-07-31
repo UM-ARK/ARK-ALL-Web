@@ -10,7 +10,7 @@ import themeImg from '../../public/img/theme_small.png';
 // import { Phone } from "./Phone";
 
 import { useTranslation } from "react-i18next";
-import phones from "../../public/img/home_page/advertisements/Phone.png";
+import home3 from "../../public/img/home_page/advertisements/Home3.png";
 import { downloadBtnData } from "./common_data/download_btn_data";
 import { useRouter } from "next/router";
 // import appleLogo from "../../public/img/home_page/company_logos";
@@ -35,9 +35,9 @@ const Ark = (props) => {
         <div
           className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur-xl dark:backdrop-blur-[40px]
                       bg-gradient-to-tr from-white dark:from-[#171717] from-50% dark:from-55% dark:to-[#171717dd]" />
-        <Container className={"flex flex-wrap z-20"}>
+        <Container className={"grid grid-cols-1 min-[901px]:grid-cols-2 gap-x-8 z-20 items-center"}>
           {/* ARK介紹+下載按鈕 */}
-          <div className="flex min-[901px]:flex-row max-[900px]:flex-col items-center w-full min-[901px]:w-1/2 px-8 py-20">
+          <div className="flex min-[901px]:flex-row max-[900px]:flex-col items-center w-full min-w-0 px-8 py-20">
             <div className="min-[901px]:max-w-2xl mb-8">
               <div className="flex gap-4 items-center">
                 <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
@@ -105,14 +105,14 @@ const Ark = (props) => {
           </div>
 
           {/* 手機圖畫 */}
-          <div className="flex items-center justify-center w-full lg:w-1/2 max-[1300px]:hidden">
+          <div className="hidden min-[1301px]:flex items-center justify-end justify-self-end w-full pr-8">
             <Image
-              src={phones}
+              src={home3}
               height="auto"
               alt="tutorial"
-              className="block object-cover w-96 rounded-tl-lg rounded-tr-lg"
+              className="block object-contain w-[28rem] xl:w-[30rem] h-auto rounded-tl-lg rounded-tr-lg"
               placeholder="blur"
-              blurDataURL={phones.src} />
+              blurDataURL={home3.src} />
           </div>
         </Container>
       </div>

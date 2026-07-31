@@ -10,9 +10,15 @@ import {
   LanguageIcon,
   UserIcon,
   PresentationChartLineIcon,
+  CalendarDaysIcon,
+  Squares2X2Icon,
+  NewspaperIcon,
 } from "@heroicons/react/24/solid";
 import BusImg from "../public/img/home_page/advertisements/Bus.png";
-import EventImg from "../public/img/home_page/advertisements/Club.png";
+import EventImg from "../public/img/home_page/advertisements/Home3.png";
+import CourseImg from "../public/img/home_page/advertisements/Course.png";
+import FeaturesImg from "../public/img/home_page/advertisements/Features.png";
+import NewsImg from "../public/img/home_page/advertisements/News.png";
 import Benefits from "../components/limited/benefits";
 import Footer from "../components/footer";
 import Cta from "../components/limited/cta";
@@ -72,8 +78,43 @@ const Home = () => {
           icon: <DevicePhoneMobileIcon />,
         },
       ],
-    }
-
+    },
+    {
+      title: t("Course & Schedule Sim"),
+      desc: t("CSSdesc"),
+      image: CourseImg,
+      bullets: [
+        {
+          title: t("CSSbullets1-title"),
+          desc: t("CSSbullets1-desc"),
+          icon: <CalendarDaysIcon />,
+        },
+      ],
+    },
+    {
+      title: t("All Features Hub"),
+      desc: t("AFHdesc"),
+      image: FeaturesImg,
+      bullets: [
+        {
+          title: t("AFHbullets1-title"),
+          desc: t("AFHbullets1-desc"),
+          icon: <Squares2X2Icon />,
+        },
+      ],
+    },
+    {
+      title: t("News & Events"),
+      desc: t("NEdesc"),
+      image: NewsImg,
+      bullets: [
+        {
+          title: t("NEbullets1-title"),
+          desc: t("NEbullets1-desc"),
+          icon: <NewspaperIcon />,
+        },
+      ],
+    },
   ]
 
   return (
