@@ -64,6 +64,13 @@ const Ark = (props) => {
                 ))}
               </div>
 
+              <Link
+                href="/install"
+                className="inline-block mt-4 text-themeColor hover:underline font-medium"
+              >
+                {t("Install")} →
+              </Link>
+
               {/* View Github Repository */}
               <div className="flex flex-wrap gap-3 mt-5 max-[600px]:flex-col max-[600px]:items-stretch">
                 <a

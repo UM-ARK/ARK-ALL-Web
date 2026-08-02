@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 import Container from "../components/container";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -15,6 +16,17 @@ const qa = () => {
   const { t } = useTranslation();
 
   const faqdata = [
+    {
+      question: t("How to install or download ARK ALL?"),
+      answer: (
+        <>
+          {t("A12")}{" "}
+          <Link href="/install" className="text-themeColor underline hover:opacity-80">
+            {t("Install")}
+          </Link>
+        </>
+      ),
+    },
     {
       question: t("How to publish events on the APP homepage?"),
       answer: t("A5"),

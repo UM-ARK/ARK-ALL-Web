@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Container from "../container";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -10,6 +11,17 @@ const Faq = () => {
   const { t } = useTranslation();
 
   const faqdata = [
+    {
+      question: t("How to install or download ARK ALL?"),
+      answer: (
+        <>
+          {t("A12")}{" "}
+          <Link href="/install" className="text-themeColor underline hover:opacity-80">
+            {t("Install")}
+          </Link>
+        </>
+      ),
+    },
     {
       question: t("Is ARK ALL free?"),
       answer: t("A1"),

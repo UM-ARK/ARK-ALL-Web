@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
 
-import { MapPinIcon, GlobeAltIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
+import { MapPinIcon, GlobeAltIcon, EnvelopeIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
 
 export default function Footer() {
 
@@ -19,6 +19,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   const navigationData = [
+    "Install",
     "ClubSignin",
     "Tutorial",
     "QA",
@@ -38,6 +39,12 @@ export default function Footer() {
       value: "wiki.umall.one",
       link: "https://wiki.umall.one",
       icon: GlobeAltIcon
+    },
+    {
+      index: "Forum",
+      value: "harbor.umall.one",
+      link: "https://harbor.umall.one/",
+      icon: ChatBubbleLeftRightIcon
     },
     {
       index: "Email",

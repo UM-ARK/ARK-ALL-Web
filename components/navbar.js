@@ -12,6 +12,7 @@ import ThemeChanger from "./uiComponents/NavbarTools/DarkSwitch";
 
 const navigation = [
   "Home",
+  "Install",
   "ClubSignin",
   "Tutorial",
   "QA",
