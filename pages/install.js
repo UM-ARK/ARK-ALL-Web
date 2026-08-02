@@ -10,6 +10,8 @@ import { downloadBtnData } from "../components/limited/common_data/download_btn_
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { APPSTORE_URL, BASE_HOST, PLAYSTORE_URL } from "../utils/pathMap";
+import AppPublicStats from "../components/AppPublicStats";
+import { fetchAppPublicStats } from "../lib/appPublicStats";
 
 const InstallSection = ({ id, title, children }) => (
   <section id={id} className="scroll-mt-24">
@@ -20,7 +22,7 @@ const InstallSection = ({ id, title, children }) => (
   </section>
 );
 
-const install = () => {
+const install = ({ appPublicStats }) => {
   const { t } = useTranslation();
   const appStructuredData = {
     "@context": "https://schema.org",
@@ -96,15 +98,8 @@ const install = () => {
                 </Link>
               ))}
             </div>
+            <AppPublicStats stats={appPublicStats} className="mt-5 max-w-2xl" />
             <div className="flex flex-wrap gap-4 mt-4">
-              <a
-                href="https://github.com/UM-ARK/UM-All-Frontend/releases/latest"
-                target="_blank"
-                rel="noopener"
-                className="text-gray-500 dark:text-gray-400 hover:text-themeColor transition-colors"
-              >
-                APK Release (GitHub)
-              </a>
               <a
                 href="https://wiki.umall.one/wiki/ARK_ALL"
                 target="_blank"
@@ -145,3 +140,12 @@ const install = () => {
 };
 
 export default install;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      appPublicStats: await fetchAppPublicStats(),
+    },
+    revalidate: 86400,
+  };
+}

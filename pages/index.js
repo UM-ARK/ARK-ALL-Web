@@ -27,8 +27,9 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
 import { ARKDemoFrame } from "../components/uiComponents/Frames";
 import Container from "../components/container";
+import { fetchAppPublicStats } from "../lib/appPublicStats";
 
-const Home = () => {
+const Home = ({ appPublicStats }) => {
 
   const { t } = useTranslation();
 
@@ -132,7 +133,7 @@ const Home = () => {
         transition={{ duration: 0.5 }}>
 
         {/** 大首頁 */}
-        <Ark />
+        <Ark appPublicStats={appPublicStats} />
 
         {/** 用戶數據 */}
         <section>
@@ -193,3 +194,12 @@ const Home = () => {
 }
 
 export default Home;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      appPublicStats: await fetchAppPublicStats(),
+    },
+    revalidate: 86400,
+  };
+}
