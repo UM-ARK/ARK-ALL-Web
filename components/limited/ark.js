@@ -69,8 +69,8 @@ const Ark = (props) => {
                 {t("Install")} →
               </Link>
 
-              <AppPublicStats stats={props.appPublicStats} className="mt-5" />
               <SupportArkCard className="mt-4" />
+              <AppPublicStats stats={props.appPublicStats} className="mt-5" />
             </div>
           </div>
 
