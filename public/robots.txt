@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /club/
+Disallow: /api/
+
+# Host
+Host: https://umall.one
+
+# Sitemaps
+Sitemap: https://umall.one/sitemap.xml

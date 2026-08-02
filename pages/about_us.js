@@ -78,7 +78,13 @@ const about_us = () => {
   const { t } = useTranslation();
 
   return (
-    <ARKMain title={t("About_us")} withOutMargin={true}>
+    <ARKMain
+      title={t("About_us")}
+      seoTitle={t("About_seo_title")}
+      description={t("About_seo_desc")}
+      canonicalPath="/about_us"
+      withOutMargin={true}
+    >
       <Navbar selected={"About_us"} />
       <motion.div
         initial={{ opacity: 0 }}

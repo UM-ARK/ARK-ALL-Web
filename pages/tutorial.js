@@ -50,7 +50,13 @@ const tutorial = () => {
     { img: img_5, title: `編輯活動`, txt: `兩種類型的活動修改的部分大同小異，具體可看上圖。請注意，活動開始時間不可在結束時間之後。此外，相關圖片總數不可超過5張。若要刪除活動，請點擊“刪除活動”按鈕。` },
   ]
   return (
-    <ARKMain title={t("Tutorial")} withOutMargin={true}>
+    <ARKMain
+      title={t("Tutorial")}
+      seoTitle={t("Tutorial_seo_title")}
+      description={t("Tutorial_seo_desc")}
+      canonicalPath="/tutorial"
+      withOutMargin={true}
+    >
       {/**
       <ImagePreview displayPreview={m_displayPreview} setDisplayPreview={setDisplayPreview} />
       */}
@@ -65,6 +71,7 @@ const tutorial = () => {
           {tur_arr.map(itm => (
 
             <div
+              key={itm.title}
               className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
               onClick={() => { setDisplayPreview(itm.img) }}>
               <Image

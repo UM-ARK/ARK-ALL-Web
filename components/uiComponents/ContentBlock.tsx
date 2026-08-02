@@ -22,19 +22,57 @@ import Container from "../container";
  */
 export const ARKMain = (props: {
     title?: string,
+    seoTitle?: string,
     description?: string,
+    canonicalPath?: string,
+    ogImage?: string,
+    structuredData?: Record<string, unknown> | Record<string, unknown>[],
     className?: string,
     withOutMargin?: boolean
     children: ReactNode | ReactNode[]
 }) => {
-    const pageTitle = props.title ? `${props.title} | ARK ALL` : "ARK ALL";
+    const siteUrl = "https://umall.one";
+    const pageTitle = props.seoTitle || (props.title ? `${props.title} | ARK ALL` : "ARK ALL");
+    const canonicalUrl = props.canonicalPath
+        ? new URL(props.canonicalPath, siteUrl).toString()
+        : undefined;
+    const ogImageUrl = new URL(props.ogImage || "/img/logo.png", siteUrl).toString();
 
     return (
         <main>
             <Head>
-                <title>{pageTitle}</title>
+                <title key="title">{pageTitle}</title>
                 {props.description && (
-                    <meta name="description" content={props.description} />
+                    <meta key="description" name="description" content={props.description} />
+                )}
+                <meta key="og:type" property="og:type" content="website" />
+                <meta key="og:site_name" property="og:site_name" content="ARK ALL" />
+                <meta key="og:title" property="og:title" content={pageTitle} />
+                {props.description && (
+                    <meta key="og:description" property="og:description" content={props.description} />
+                )}
+                <meta key="og:image" property="og:image" content={ogImageUrl} />
+                <meta key="og:image:alt" property="og:image:alt" content="ARK ALL" />
+                {canonicalUrl && (
+                    <>
+                        <meta key="og:url" property="og:url" content={canonicalUrl} />
+                        <link key="canonical" rel="canonical" href={canonicalUrl} />
+                    </>
+                )}
+                <meta key="twitter:card" name="twitter:card" content="summary" />
+                <meta key="twitter:title" name="twitter:title" content={pageTitle} />
+                {props.description && (
+                    <meta key="twitter:description" name="twitter:description" content={props.description} />
+                )}
+                <meta key="twitter:image" name="twitter:image" content={ogImageUrl} />
+                {props.structuredData && (
+                    <script
+                        key="structured-data"
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{
+                            __html: JSON.stringify(props.structuredData).replace(/</g, "\\u003c"),
+                        }}
+                    />
                 )}
             </Head>
             {!props.withOutMargin ? (

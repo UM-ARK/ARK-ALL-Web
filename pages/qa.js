@@ -73,8 +73,28 @@ const qa = () => {
     },
   ];
 
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqdata.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: typeof item.answer === "string" ? item.answer : t("A12"),
+      },
+    })),
+  };
+
   return (
-    <ARKMain title={t("QA")} withOutMargin={true}>
+    <ARKMain
+      title={t("QA")}
+      seoTitle={t("QA_seo_title")}
+      description={t("QA_seo_desc")}
+      canonicalPath="/qa"
+      structuredData={faqStructuredData}
+      withOutMargin={true}
+    >
       <Navbar selected={"QA"} />
       <motion.div
         initial={{ opacity: 0 }}

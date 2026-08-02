@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Ark from "../components/limited/ark";
 import Navbar from "../components/navbar";
 import SectionTitle from "../components/sectionTitle";
@@ -118,7 +117,13 @@ const Home = () => {
   ]
 
   return (
-    <ARKMain title="澳大學生專用 APP" withOutMargin={true}>
+    <ARKMain
+      title="澳大學生專用 APP"
+      seoTitle={t("Home_seo_title")}
+      description={t("Home_seo_desc")}
+      canonicalPath="/"
+      withOutMargin={true}
+    >
       <Navbar fixed hideLogoTextBeforeScroll={true} />
 
       <motion.div

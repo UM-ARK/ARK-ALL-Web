@@ -4,7 +4,6 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: [
     '/club/*',
-    '/clubsignin',
     '/api/*',
     '/server-sitemap.xml',
   ],
@@ -13,7 +12,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/club/', '/clubsignin', '/api/'],
+        disallow: ['/club/', '/api/'],
       },
     ],
   },

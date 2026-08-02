@@ -9,6 +9,7 @@ import { ARKMain } from "../components/uiComponents/ContentBlock";
 import { downloadBtnData } from "../components/limited/common_data/download_btn_data";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { APPSTORE_URL, BASE_HOST, PLAYSTORE_URL } from "../utils/pathMap";
 
 const InstallSection = ({ id, title, children }) => (
   <section id={id} className="scroll-mt-24">
@@ -21,11 +22,41 @@ const InstallSection = ({ id, title, children }) => (
 
 const install = () => {
   const { t } = useTranslation();
+  const appStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    name: "ARK ALL",
+    alternateName: "UM ALL",
+    description: t("Install_seo_desc"),
+    url: "https://umall.one/install",
+    image: "https://umall.one/img/logo.png",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "iOS, Android",
+    isAccessibleForFree: true,
+    offers: {
+      "@type": "Offer",
+      price: 0,
+      priceCurrency: "MOP",
+    },
+    downloadUrl: [
+      APPSTORE_URL,
+      PLAYSTORE_URL,
+      `${BASE_HOST}/static/release/app-release.apk`,
+    ],
+    publisher: {
+      "@type": "Organization",
+      name: "ARK",
+      url: "https://umall.one",
+    },
+  };
 
   return (
     <ARKMain
       title={t("Install_seo_title")}
+      seoTitle={t("Install_seo_title")}
       description={t("Install_seo_desc")}
+      canonicalPath="/install"
+      structuredData={appStructuredData}
       withOutMargin={true}
     >
       <Navbar selected={"Install"} />
