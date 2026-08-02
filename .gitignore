@@ -35,3 +35,5 @@ yarn-error.log*
 .vercel
 yarn.lock
 *.lock
+
+sitemap-0.xml
