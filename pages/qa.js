@@ -26,10 +26,24 @@ const qa = () => {
           </Link>
         </>
       ),
+      answerText: `${t("A12")} ${t("Install")}`,
     },
     {
       question: t("How to publish events on the APP homepage?"),
-      answer: t("A5"),
+      answer: (
+        <>
+          <div>{t("A5")}</div>
+          <div className="mt-2">
+            {t("A5_extra_before")}{" "}
+            <Link href="/tutorial" className="text-themeColor underline hover:opacity-80">
+              {t("Tutorial")}
+            </Link>
+            {" "}
+            {t("A5_extra_after")}
+          </div>
+        </>
+      ),
+      answerText: `${t("A5")} ${t("A5_extra_before")} ${t("Tutorial")} ${t("A5_extra_after")}`,
     },
     {
       question: t("How do we register our organization to be included in ARK ALL?"),
@@ -81,7 +95,7 @@ const qa = () => {
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: typeof item.answer === "string" ? item.answer : t("A12"),
+        text: item.answerText ?? (typeof item.answer === "string" ? item.answer : ""),
       },
     })),
   };

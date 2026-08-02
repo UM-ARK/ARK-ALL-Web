@@ -66,33 +66,38 @@ const tutorial = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Container className={"flex flex-wrap gap-5 items-top justify-center"}>
+        <Container className="py-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+            {t("Tutorial_h1")}
+          </h1>
+          <p className="text-lg text-gray-500 dark:text-gray-300 mb-8 text-center">
+            {t("Tutorial_intro")}
+          </p>
 
-          {tur_arr.map(itm => (
-
-            <div
-              key={itm.title}
-              className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
-              onClick={() => { setDisplayPreview(itm.img) }}>
-              <Image
-                src={itm.img}
-                height="auto"
-                alt="tutorial"
-                className="block object-cover rounded-tl-lg rounded-tr-lg border-[3px] border-themeColorUltraLight dark:border-gray-800"
-                placeholder="blur"
-                blurDataURL={itm.img.src} />
-              <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight dark:bg-gray-800 px-5 py-3"}>
-                <p className={"text-center text-sm font-bold"}>
-                  {itm.title}
-                </p>
-                <p>
-                  {`${itm.txt}`}
-                </p>
+          <div className="flex flex-wrap gap-5 items-top justify-center">
+            {tur_arr.map((itm, index) => (
+              <div
+                key={itm.title}
+                className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
+                onClick={() => { setDisplayPreview(itm.img) }}>
+                <Image
+                  src={itm.img}
+                  height="auto"
+                  alt={`${index + 1}. ${itm.title}`}
+                  className="block object-cover rounded-tl-lg rounded-tr-lg border-[3px] border-themeColorUltraLight dark:border-gray-800"
+                  placeholder="blur"
+                  blurDataURL={itm.img.src} />
+                <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight dark:bg-gray-800 px-5 py-3"}>
+                  <p className={"text-center text-sm font-bold"}>
+                    {`${index + 1}. ${itm.title}`}
+                  </p>
+                  <p>
+                    {`${itm.txt}`}
+                  </p>
+                </div>
               </div>
-
-            </div>
-
-          ))}
+            ))}
+          </div>
         </Container>
       </motion.div>
 
