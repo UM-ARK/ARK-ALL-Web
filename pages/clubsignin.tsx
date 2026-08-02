@@ -30,7 +30,7 @@ const ClubLogin = () => {
     };
 
     return (
-        <ARKMain withOutMargin={true}>
+        <ARKMain title={t("ClubSignin")} withOutMargin={true}>
             <Navbar selected={"ClubSignin"} />
             <motion.div
                 initial={{ opacity: 0 }}

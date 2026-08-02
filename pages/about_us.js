@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 import Container from "../components/container";
 import PopupWidget from "../components/popupWidget";
 import { ARKMain } from "../components/uiComponents/ContentBlock";
+import { useTranslation } from "react-i18next";
 
 import { motion } from "framer-motion"
 
@@ -74,9 +75,10 @@ const toMD = (_str) => {
 }
 
 const about_us = () => {
-  // toMD(str);
+  const { t } = useTranslation();
+
   return (
-    <ARKMain withOutMargin={true}>
+    <ARKMain title={t("About_us")} withOutMargin={true}>
       <Navbar selected={"About_us"} />
       <motion.div
         initial={{ opacity: 0 }}

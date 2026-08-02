@@ -91,7 +91,7 @@ export default function clubInfoEdit() {
     ]
 
     return (
-        <ARKMain>
+        <ARKMain title={`${t("BTN_EDIT")} ${t("PG_CLUB_INFO")}`}>
             {/* 頂欄*/}
             <NavBarSecondary returnLocation={`./clubInfo`} returnStr={t("PG_CLUB_INFO")} />
 

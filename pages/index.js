@@ -118,7 +118,7 @@ const Home = () => {
   ]
 
   return (
-    <ARKMain withOutMargin={true}>
+    <ARKMain title="澳大學生專用 APP" withOutMargin={true}>
       <Navbar fixed hideLogoTextBeforeScroll={true} />
 
       <motion.div

@@ -36,9 +36,10 @@ const UASection = (props) => {
 };
 
 const user_agreement = () => {
+  const { t } = useTranslation();
 
   return (
-    <ARKMain withOutMargin={true}>
+    <ARKMain title={t("User_Agreement")} withOutMargin={true}>
       <Navbar selected={"User_Agreement"} />
       <motion.div
         initial={{ opacity: 0 }}

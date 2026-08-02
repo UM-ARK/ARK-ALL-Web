@@ -62,7 +62,7 @@ const qa = () => {
   ];
 
   return (
-    <ARKMain withOutMargin={true}>
+    <ARKMain title={t("QA")} withOutMargin={true}>
       <Navbar selected={"QA"} />
       <motion.div
         initial={{ opacity: 0 }}

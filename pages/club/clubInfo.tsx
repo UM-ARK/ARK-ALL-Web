@@ -129,7 +129,7 @@ const ClubInfo = () => {
 
 
     return (
-        <ARKMain>
+        <ARKMain title={clubContentData?.content.name || t("PG_CLUB_INFO")}>
 
             {/* 二級頂欄 */}
             <NavBarSecondary returnLocation={'/clubsignin'} clearLocStorage />

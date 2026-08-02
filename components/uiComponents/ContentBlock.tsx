@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Head from "next/head";
 import { FirstTitle } from "./LayeredTitles";
 import Container from "../container";
 
@@ -6,7 +7,7 @@ import Container from "../container";
  * ARK 標準渲染頁面。
  * @abstract
  * 請停止使用空標簽，即`<></>`，而使用此組件。
- * @prop {string} title - 頁面標題，即瀏覽器標籤頁標題。
+ * @prop {string} title - 頁面標題，即瀏覽器標籤頁標題。未傳入時預設為「ARK ALL」。
  * @prop {string|undefined} className - 頁面額外樣式。
  * @prop {ReactNode | ReactNode[]} children - 頁面内容。
  * @example
@@ -20,15 +21,18 @@ import Container from "../container";
  * @returns 
  */
 export const ARKMain = (props: {
+    title?: string,
     className?: string,
     withOutMargin?: boolean
     children: ReactNode | ReactNode[]
 }) => {
+    const pageTitle = props.title ? `${props.title} | ARK ALL` : "ARK ALL";
+
     return (
         <main>
-            <title>
-                {"ARK Web"}
-            </title>
+            <Head>
+                <title>{pageTitle}</title>
+            </Head>
             {!props.withOutMargin ? (
                 <Container className={props.className || ""}>
                     {props.children}
