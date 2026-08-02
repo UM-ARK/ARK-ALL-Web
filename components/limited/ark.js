@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import home3 from "../../public/img/home_page/advertisements/Home3.png";
 import { downloadBtnData } from "./common_data/download_btn_data";
 import AppPublicStats from "../AppPublicStats";
+import SupportArkCard from "../SupportArkCard";
 
 const Ark = (props) => {
   const { t } = useTranslation();
@@ -69,17 +70,7 @@ const Ark = (props) => {
               </Link>
 
               <AppPublicStats stats={props.appPublicStats} className="mt-5" />
-
-              <div className="flex flex-wrap gap-3 mt-4 max-[600px]:flex-col max-[600px]:items-stretch">
-                <a
-                  href="https://afdian.com/a/umacark"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:opacity-50">
-                  <span className="w-5 h-5 flex items-center justify-center text-[20px]">☕️</span>
-                  <span>Donate(爱发电)</span>
-                </a>
-              </div>
+              <SupportArkCard className="mt-4" />
             </div>
           </div>
 
