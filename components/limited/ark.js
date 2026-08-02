@@ -3,17 +3,10 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Container from "../container";
 import themeImg from '../../public/img/theme_small.png';
-// import Streets from "../../components/models/Streets"
-// import { Canvas } from '@react-three/fiber';
-// import { Cube1 } from "./Cube1";
-// import { Cube2 } from "./Cube2";
-// import { Phone } from "./Phone";
-
 import { useTranslation } from "react-i18next";
 import home3 from "../../public/img/home_page/advertisements/Home3.png";
 import { downloadBtnData } from "./common_data/download_btn_data";
 import { useRouter } from "next/router";
-// import appleLogo from "../../public/img/home_page/company_logos";
 import { ARKDemoFrame } from "../uiComponents/Frames";
 
 const Ark = (props) => {
