@@ -3,6 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /club/
 Disallow: /api/
+Disallow: /app/
 
 # Host
 Host: https://umall.one
