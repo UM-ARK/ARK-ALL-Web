@@ -82,19 +82,28 @@ const install = ({ appPublicStats }) => {
             </p>
             <div className="flex flex-wrap gap-2">
               {downloadBtnData.map((item) => (
-                <Link key={item.source} href={item.link} target="_blank" rel="noopener">
-                  <div
-                    className={`
-                      flex flex-row w-[168px] gap-2 px-5 py-4
-                      text-md font-medium
-                      justify-center items-center text-left text-white
-                      rounded-md bg-themeColor
-                      hover:cursor-pointer hover:bg-themeColorLight hover:scale-[1.02]
-                      transition-all`}
-                  >
-                    <Image src={item.icon} alt={item.source} className="w-[30px] h-[30px]" />
-                    <p>{item.source}</p>
-                  </div>
+                <Link
+                  key={item.source}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener"
+                  className="
+                    group flex w-[168px] flex-row items-center justify-center gap-2.5
+                    rounded-xl border border-themeColor/25 bg-themeColorUltraLight/80 px-4 py-3
+                    text-sm font-medium text-themeColor shadow-sm
+                    transition hover:-translate-y-0.5 hover:border-themeColor hover:bg-themeColorUltraLight hover:shadow-md
+                    dark:border-themeColor/40 dark:bg-themeColorUltraLight dark:text-themeColorLight
+                  "
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-themeColor">
+                    <Image
+                      src={item.icon}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-4 w-4"
+                    />
+                  </span>
+                  <span>{item.source}</span>
                 </Link>
               ))}
             </div>

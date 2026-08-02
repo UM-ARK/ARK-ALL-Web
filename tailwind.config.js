@@ -14,6 +14,7 @@ module.exports = {
         themeColor: COLOR_DIY.themeColor,
         themeColorLight: COLOR_DIY.themeColorLight,
         themeColorUltraLight: COLOR_DIY.themeColorUltraLight,
+        secondThemeColor: COLOR_DIY.secondThemeColor,
         success: COLOR_DIY.success,
         warning: COLOR_DIY.warning,
         alert: COLOR_DIY.alert,

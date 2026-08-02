@@ -44,21 +44,32 @@ const Ark = (props) => {
                 {t("Download")}
               </p>
 
-              <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2 ">
+              <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2">
                 {downloadBtnData.map((item) => (
-                  <Link key={item.source} href={item.link} target="_blank" rel="noopener"><div
-                    className={`
-                      flex flex-row 
-                      min-[901px]:w-[168px] max-[900px]:w-[80%] gap-2 px-5 py-4 
-                      text-md font-medium 
-                      justify-center items-center text-left text-white 
-                      rounded-md bg-themeColor 
-                      hover:cursor-pointer hover:bg-themeColorLight hover:scale-[1.02] 
-                      max-[900px]:mx-auto max-[900px]:w-96
-                      transition-all`}>
-                    <Image src={item.icon} alt={item.source} className={`w-[30px] h-[30px]`} />
-                    <p>{item.source}</p>
-                  </div></Link>
+                  <Link
+                    key={item.source}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener"
+                    className="
+                      group flex flex-row items-center justify-center gap-2.5
+                      min-[901px]:w-[168px] max-[900px]:mx-auto max-[900px]:w-96
+                      rounded-xl border border-themeColor/25 bg-themeColorUltraLight/80 px-4 py-3
+                      text-sm font-medium text-themeColor shadow-sm
+                      transition hover:-translate-y-0.5 hover:border-themeColor hover:bg-themeColorUltraLight hover:shadow-md
+                      dark:border-themeColor/40 dark:bg-themeColorUltraLight dark:text-themeColorLight
+                    "
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-themeColor">
+                      <Image
+                        src={item.icon}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-4 w-4"
+                      />
+                    </span>
+                    <span>{item.source}</span>
+                  </Link>
                 ))}
               </div>
 
