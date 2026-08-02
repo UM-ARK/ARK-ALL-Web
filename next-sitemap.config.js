@@ -5,6 +5,7 @@ module.exports = {
   exclude: [
     '/club/*',
     '/api/*',
+    '/app/*',
     '/server-sitemap.xml',
   ],
   robotsTxtOptions: {
@@ -12,7 +13,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/club/', '/api/'],
+        disallow: ['/club/', '/api/', '/app/'],
       },
     ],
   },
