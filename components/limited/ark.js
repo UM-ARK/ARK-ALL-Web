@@ -29,8 +29,8 @@ const Ark = (props) => {
                       bg-gradient-to-tr from-white dark:from-[#171717] from-50% dark:from-55% dark:to-[#171717dd]" />
         <Container className={"grid grid-cols-1 min-[901px]:grid-cols-2 gap-x-8 z-20 items-center"}>
           {/* ARK介紹+下載按鈕 */}
-          <div className="flex min-[901px]:flex-row max-[900px]:flex-col items-center w-full min-w-0 px-8 py-20">
-            <div className="min-[901px]:max-w-2xl mb-8">
+          <div className="flex min-[901px]:flex-row max-[900px]:flex-col items-center w-full min-w-0 px-4 sm:px-8 py-20">
+            <div className="w-full min-[901px]:max-w-2xl mb-8">
               <div className="flex gap-4 items-center">
                 <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
                   ARK ALL
@@ -44,7 +44,7 @@ const Ark = (props) => {
                 {t("Download")}
               </p>
 
-              <div className="flex min-[901px]:flex-row max-[900px]:flex-col gap-2">
+              <div className="grid grid-cols-2 min-[901px]:flex min-[901px]:flex-row gap-2 w-full min-[901px]:w-auto">
                 {downloadBtnData.map((item) => (
                   <Link
                     key={item.source}
@@ -52,9 +52,8 @@ const Ark = (props) => {
                     target="_blank"
                     rel="noopener"
                     className="
-                      group flex flex-row items-center justify-center gap-2.5
-                      min-[901px]:w-[168px] max-[900px]:mx-auto max-[900px]:w-96
-                      rounded-xl border border-themeColor/25 bg-themeColorUltraLight/80 px-4 py-3
+                      group flex w-full min-[901px]:w-[168px] flex-row items-center justify-start gap-2.5
+                      rounded-xl border border-themeColor/25 bg-themeColorUltraLight/80 px-3 py-3
                       text-sm font-medium text-themeColor shadow-sm
                       transition hover:-translate-y-0.5 hover:border-themeColor hover:bg-themeColorUltraLight hover:shadow-md
                       dark:border-themeColor/40 dark:bg-themeColorUltraLight dark:text-themeColorLight
@@ -65,10 +64,12 @@ const Ark = (props) => {
                         src={item.icon}
                         alt=""
                         aria-hidden="true"
-                        className="h-4 w-4"
+                        width={16}
+                        height={16}
+                        className="h-4 w-4 object-contain"
                       />
                     </span>
-                    <span>{item.source}</span>
+                    <span className="truncate">{item.source}</span>
                   </Link>
                 ))}
               </div>
