@@ -1,48 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLangStore } from "../../../states/state";
 
+const langBtnData = [
+    { text: "中", value: "zh" as const },
+    { text: "En", value: "en" as const },
+    { text: "日", value: "ja" as const },
+];
 
 const LanguageSwitcher = () => {
-    const { t, i18n } = useTranslation();
-
-    // 語言配置
-    const defaultLang = "zh";
-    const availableLang = ["en", "ja"];
-    const langBtnData = [
-        { text: "中", value: "zh" },
-        { text: "En", value: "en" },
-        { text: "日", value: "ja" }
-    ];
-
-    // 全局語言狀態
+    const { i18n } = useTranslation();
     const curLang = useLangStore((state) => state.curLang);
-    const isLangEverChanged = useLangStore((state) => state.isLangEverChanged);
-    const setCurLangStore = useLangStore((state) => state.setLang);
+    const setLang = useLangStore((state) => state.setLang);
 
-    // 設定語言
-    const handleLanguageChange = (selectedLanguage) => {
-        // 設定當前語言，並固定狀態
-        setCurLangStore(selectedLanguage);
-        i18n.changeLanguage(curLang);
+    const handleLanguageChange = (selectedLanguage: "zh" | "en" | "ja") => {
+        setLang(selectedLanguage);
+        i18n.changeLanguage(selectedLanguage);
     };
 
-    useEffect(() => {
-        let deviceLang = navigator.language;
-
-        // 未曾變更語言無法檢測設備語言/設備語言不在支持列表内，則默認中文
-        if (isLangEverChanged || !deviceLang || availableLang.indexOf(deviceLang) == -1) {
-            return;
-        }
-
-        // 設備語言在支持列表内，更換為設備語言
-        handleLanguageChange(deviceLang);
-
-    }, []);
-
     return (
-
-        <div className={`
+        <div
+            className={`
             flex flex-row 
             font-bold justify-between items-center 
             min-[901px]:w-24 max-[900px]:w-48 
@@ -52,24 +30,27 @@ const LanguageSwitcher = () => {
             dark:hover:bg-[#17171799] 
             hover:cursor-pointer
             transition-all
-        `}>
-            {langBtnData.map((item, idx) => (
+        `}
+        >
+            {langBtnData.map((item) => (
                 <div
-                    onClick={() => { handleLanguageChange(item.value) }}
+                    key={item.value}
+                    onClick={() => {
+                        handleLanguageChange(item.value);
+                    }}
                     className={`
                         transition-all 
                         hover:text-themeColor 
                         hover:scale-[1.02] 
                         hover:cursor-pointer 
                         max-[900px]:text-2xl 
-                        ${curLang === item.value ? "text-themeColor scale-[1.02]" : "text-[#000000aa] dark:text-white"}`}>
+                        ${curLang === item.value ? "text-themeColor scale-[1.02]" : "text-[#000000aa] dark:text-white"}`}
+                >
                     {item.text}
                 </div>
             ))}
         </div>
     );
-
-
 };
 
 export default LanguageSwitcher;

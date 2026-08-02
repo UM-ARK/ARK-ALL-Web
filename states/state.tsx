@@ -9,13 +9,17 @@ export type LangType = "zh" | "en" | "ja";
 export interface LangStore {
     curLang: LangType;
     isLangEverChanged: boolean;
+    /** 使用者手動切換語言（之後不再跟隨系統語言） */
     setLang: (lang: LangType) => void;
+    /** 依系統語言自動套用（不標記為手動變更） */
+    setDetectedLang: (lang: LangType) => void;
 };
 
 const langSlice: StateCreator<LangStore, [["zustand/persist", unknown]]> = (set) => ({
     curLang: "zh",
     isLangEverChanged: false,
     setLang: (lang: LangType) => set({ curLang: lang, isLangEverChanged: true }),
+    setDetectedLang: (lang: LangType) => set({ curLang: lang }),
 });
 
 export const useLangStore = create<LangStore>()(
