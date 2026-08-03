@@ -77,7 +77,7 @@ export const ARKTextInput = (props: {
     let [m_borderStyle, setBorderStyle] = useState(TextInputStyles.border.blurred);
     let [m_labelStyle, setLabelStyle] = useState(TextInputStyles.label.blurred);
 
-    let labelRef = useRef();
+    let labelRef = useRef<HTMLParagraphElement>(null);
 
     return (
         <div>
