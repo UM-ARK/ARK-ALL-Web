@@ -3,7 +3,7 @@ import Container from "../container";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
-import themeImg from '../../public/img/theme.png';
+import themeImg from '../../public/img/theme.webp';
 
 import { downloadBtnData } from "./common_data/download_btn_data";
 
