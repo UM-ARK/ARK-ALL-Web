@@ -1,8 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import Container from "../container";
-import { Canvas } from '@react-three/fiber';
-import { Map } from "../Map"
 
 const Benefits = (props) => {
   const { data } = props;
