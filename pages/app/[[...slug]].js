@@ -217,7 +217,8 @@ export default AppLinkLanding;
 
 export async function getServerSideProps(context) {
   const { slug } = context.params || {};
-  const link = parseAppPath(slug);
+  const { invite } = context.query || {};
+  const link = parseAppPath(slug, { invite });
   const { displayTitle, seoTitle, seoDescription } = getAppLinkSeoCopy(link);
 
   return {

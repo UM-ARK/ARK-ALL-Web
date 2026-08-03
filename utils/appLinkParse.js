@@ -5,14 +5,16 @@
  *   /app/course/:courseCode
  *   /app/club/:clubNum
  *   /app/event/:eventId
+ *   /app/team/:teamId?invite=
  *   /app/harbor/topic/:topicId/:postNumber?
  *   /app/wiki/:pageTitle+
  *
  * 「繼續在網頁查看」僅用於 harbor、wiki；課程不提供。
  *
  * @param {string[]|string|undefined} slug Next.js catch-all 參數
+ * @param {{ invite?: string|string[] }|undefined} query URL query（如 invite）
  * @returns {null | {
- *   type: 'course'|'club'|'event'|'harbor'|'wiki',
+ *   type: 'course'|'club'|'event'|'team'|'harbor'|'wiki',
  *   titleKey: string,
  *   titleParams: Record<string, string|number>,
  *   descKey: string,
@@ -34,14 +36,21 @@ function toSlugArray(slug) {
     .filter(Boolean);
 }
 
+function firstQueryValue(value) {
+  if (value == null) return "";
+  const raw = Array.isArray(value) ? value[0] : value;
+  return raw == null ? "" : String(raw);
+}
+
 function buildDeepLink(httpsPath) {
   return `${DEEP_LINK_SCHEME}${httpsPath.replace(/^\//, "")}`;
 }
 
 /**
  * @param {string[]|string|undefined} slug
+ * @param {{ invite?: string|string[] }|undefined} query
  */
-export function parseAppPath(slug) {
+export function parseAppPath(slug, query) {
   const parts = toSlugArray(slug);
   if (parts.length === 0) return null;
 
@@ -82,6 +91,23 @@ export function parseAppPath(slug) {
       titleKey: "App_link_event_title",
       titleParams: { id: eventId },
       descKey: "App_link_event_desc",
+      httpsPath,
+      deepLink: buildDeepLink(httpsPath),
+    };
+  }
+
+  // team/:teamId?invite=
+  if (parts[0] === "team" && parts.length === 2 && parts[1]) {
+    const teamId = parts[1];
+    const invite = firstQueryValue(query?.invite);
+    const httpsPath = invite
+      ? `/app/team/${encodeURIComponent(teamId)}?invite=${encodeURIComponent(invite)}`
+      : `/app/team/${encodeURIComponent(teamId)}`;
+    return {
+      type: "team",
+      titleKey: invite ? "App_link_team_invite_title" : "App_link_team_title",
+      titleParams: { id: teamId },
+      descKey: invite ? "App_link_team_invite_desc" : "App_link_team_desc",
       httpsPath,
       deepLink: buildDeepLink(httpsPath),
     };
@@ -184,6 +210,19 @@ export function getAppLinkSeoCopy(link) {
         displayTitle: `活動 ${p.id}`,
         seoTitle: `活動 ${p.id} · ARK ALL`,
         seoDescription: "在 ARK ALL 查看活動詳情。",
+      };
+    case "team":
+      if (link.descKey === "App_link_team_invite_desc") {
+        return {
+          displayTitle: "團隊邀請",
+          seoTitle: "團隊邀請 · ARK ALL",
+          seoDescription: "在 ARK ALL 接受邀請並加入此團隊。",
+        };
+      }
+      return {
+        displayTitle: `團隊 ${p.id}`,
+        seoTitle: `團隊 ${p.id} · ARK ALL`,
+        seoDescription: "在 ARK ALL 查看此團隊。",
       };
     case "harbor":
       return {
