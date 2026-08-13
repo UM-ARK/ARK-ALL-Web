@@ -23,6 +23,8 @@ export const GITHUB_DONATE = 'https://github.com/UM-ARK/Donate';
 
 export const GITHUB_FRONT_BASE = 'https://github.com/UM-ARK/UM-All-Frontend/';
 
+export const GITHUB_RELEASE_LATEST = GITHUB_FRONT_BASE + 'releases/latest';
+
 export const GITHUB_UPDATE_PLAN = GITHUB_FRONT_BASE + 'issues';
 
 export const GITHUB_ACTIVITY = GITHUB_FRONT_BASE + 'activity';

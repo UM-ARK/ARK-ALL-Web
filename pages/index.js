@@ -200,6 +200,6 @@ export async function getStaticProps() {
     props: {
       appPublicStats: await fetchAppPublicStats(),
     },
-    revalidate: 86400,
+    revalidate: 3600,
   };
 }
