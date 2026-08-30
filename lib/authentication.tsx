@@ -4,15 +4,25 @@ import qs from 'qs';
 
 // 本地引用
 import { BASE_URI, GET } from '../utils/pathMap';
-import { IClubSignin, IClubSigninResponse } from '../types/index.d';
+import { IClubSignin, IClubSigninResponse, IClubRequestResult } from '../types/index.d';
 import { NextRouter } from 'next/router';
+
+const FORM_HEADERS = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
+/** Backend puts JWT in the ARK_TOKEN cookie, not the JSON body. */
+const cookieValue = (name: string): string => {
+    if (typeof document === 'undefined') return '';
+    const prefix = `${name}=`;
+    const row = document.cookie.split('; ').find((part) => part.startsWith(prefix));
+    return row ? decodeURIComponent(row.slice(prefix.length)) : '';
+};
 
 /**
  * 符合條件時將用戶屏蔽。
  * @param msg 
  */
 export const block = (msg: string, router: NextRouter) => {
-    alert(msg || '請登錄賬號！');
+    alert(msg || '請先登入社團帳號。');
     // window.location.href = '/clubsignin';
     router.push('/clubsignin');
 }
@@ -39,27 +49,27 @@ export const authGuard = (authParams: {
 
     // URL有誤：不存在url變量
     if (urlParamName == void 0) {
-        block(`URL有誤, 請重新登錄。`, router);
+        block('頁面連結不完整，請重新登入後再試。', router);
         return null;
     }
 
     // URL參數有誤：存在url變量，但不存在目標所對應的變量。
     const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true });
     if (urlParams[urlParamName] == void 0) {
-        block(`URL參數有誤, 請重新登錄。`, router);
+        block('頁面連結已失效，請從社團管理首頁重新開啟。', router);
         return null;
     }
 
     // URL 參數存在，但與登錄club number不符。
     if (!compareValue || urlParams[urlParamName] != compareValue) {
-        block(`登錄信息有誤，請重新登錄。`, router);
+        block('登入的社團與此頁面不符，請重新登入正確的社團帳號。', router);
         return null;
     }
 
     // 登錄認證過期
     const credential = localStorage.getItem(credentialName || "club_token");
     if (!credential) {
-        block("登錄認證過期，請重新登錄。", router);
+        block('登入已過期，請重新登入後繼續管理社團資料。', router);
         return null;
     }
 
@@ -73,7 +83,7 @@ export const authGuard = (authParams: {
 export const clubSignIn = async (_data: IClubSignin, config: {
     router: NextRouter,
     setLogin: (id: string, token: string) => void,
-}): Promise<any> => {
+}): Promise<IClubRequestResult> => {
 
     let data = {
         account: _data.account + '',
@@ -84,37 +94,38 @@ export const clubSignIn = async (_data: IClubSignin, config: {
 
     // 賬號和密碼檢查
     if (!data.account || !data.password) {
-        window.alert("請輸入賬號和密碼");
-        return null;
+        const invalid = { ok: false, status: 'validation_error' as const, message: '請輸入帳號和密碼。' };
+        window.alert(invalid.message);
+        return invalid;
     }
 
     let URL = BASE_URI + GET.CLUB_SIGN_IN;
 
-    await axios.post(
-        URL,
-        qs.stringify(data),
-        {
-            withCredentials: true,   // 使axios自動設置Cookies，登錄成功獲取ARK_TOKEN很重要
-        }).then(res => {
-            let json: IClubSigninResponse = res.data;
-            // 登錄成功
-            if (json.message == 'success') {
-                // 儲存token
-                /**@todo 後續可考慮使用zustand */
-                localStorage.setItem("club_token", json.token);
-                setLogin(json.content.club_num.toString(), json.token || "");
-
-                // 重定向
-                router.push(`./club/clubInfo`);
-            }
-            // 登錄失敗
-            else {
-                console.log("登入失敗:", json);
-                window.alert("登入失敗！請檢查賬號密碼是否正確。");
-            }
-        }).catch(err => {
-            console.log(err);
-            window.alert("網路錯誤！請聯係開發者");
-            return null;
+    try {
+        const res = await axios.post(URL, qs.stringify(data), {
+            headers: FORM_HEADERS,
+            withCredentials: true,
         });
+        const json: IClubSigninResponse = res.data;
+        // Success is `message === 'success'`. JWT lives in the ARK_TOKEN cookie, not JSON.
+        if (json.message === 'success') {
+            const token = json.token || cookieValue('ARK_TOKEN');
+            localStorage.setItem('club_token', token || '1');
+            setLogin(json.content.club_num.toString(), token);
+            router.push('./club/clubInfo');
+            return { ok: true, status: 'success', message: '登入成功。', data: json.content, code: json.code };
+        }
+        const failed = { ok: false, status: 'unauthenticated' as const, message: '帳號或密碼不正確，請確認後再試。', code: json.code };
+        window.alert(failed.message);
+        return failed;
+    } catch (error) {
+        const responseStatus = axios.isAxiosError(error) ? error.response?.status : undefined;
+        const failed = responseStatus && responseStatus >= 500
+            ? { ok: false, status: 'server_error' as const, message: '伺服器暫時無法登入，請稍後再試。' }
+            : responseStatus && responseStatus >= 400
+                ? { ok: false, status: 'unauthenticated' as const, message: '帳號或密碼不正確，請確認後再試。' }
+                : { ok: false, status: 'network_error' as const, message: '無法連線到伺服器，請檢查網路後再試。' };
+        window.alert(failed.message);
+        return failed;
+    }
 }

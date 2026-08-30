@@ -15,9 +15,41 @@ export type ActivityType = "ACTIVITY" | "WEBSITE" | "OFFICIAL";
  * 基本類型 - 寫入回傳，即執行寫入操作后後端返回數據的格式。
  */
 export interface IWriteResponse {
-    code: string;
+    code: string | number;
     message: string;
 };
+
+/**
+ * Common result returned by club-management requests. Existing callers may
+ * ignore it, while newer pages can use it to keep a submit button disabled or
+ * render an inline error without having to infer success from an alert.
+ */
+export type ClubRequestStatus =
+    | "success"
+    | "cancelled"
+    | "validation_error"
+    | "unauthenticated"
+    | "forbidden"
+    | "empty"
+    | "network_error"
+    | "server_error"
+    | "unknown_error";
+
+export interface IClubRequestResult<T = unknown> {
+    ok: boolean;
+    status: ClubRequestStatus;
+    message: string;
+    data?: T;
+    code?: string | number;
+}
+
+/** Optional UI hooks for submissions; all existing positional calls remain valid. */
+export interface IClubRequestOptions {
+    onSubmittingChange?: (isSubmitting: boolean) => void;
+    suppressAlert?: boolean;
+    confirmMessage?: string;
+    successMessage?: string;
+}
 
 
 /**
@@ -32,7 +64,8 @@ export interface IClubSignin {
  * 1.1.1 用戶登錄返回數據
  */
 export interface IClubSigninResponse extends IGetClubInfo {
-    token: string;
+    /** Present only if the backend also puts JWT in JSON; otherwise use ARK_TOKEN cookie. */
+    token?: string;
 };
 
 /**
@@ -93,7 +126,7 @@ export interface ActivityBase {
  * 通過活動ID獲取單個活動 或 通過Club ID獲取多個活動 的請求返回東從這裏繼承。
  */
 export interface IGetActivityBase {
-    code: string;
+    code: string | number;
     message: string;
     num_pages: number;
 };
@@ -210,4 +243,3 @@ export interface IDeleteActivity {
  * 3.4.1 刪除活動返回數據。
  */
 export interface IDeleteActivity extends IWriteResponse { };
-

@@ -12,22 +12,24 @@ const NavBarSecondary = (props) => {
     const returnStr = props.returnStr ? props.returnStr : t("PG_HOME");
 
     const returnToPrevious = () => {
+        if (props.onReturn) {
+            props.onReturn();
+            return;
+        }
         router.push(props.returnLocation);
     }
 
     return (
         <div className="w-full mb-5">
             <div className="flex justify-between items-center mb-10">
-                <div className="flex items-center  text-themeColor text-xl font-bold">
-                    <div className="flex flex-col justify-center">
+                <button type="button" className="flex items-center text-themeColor text-xl font-bold hover:opacity-50" onClick={returnToPrevious}>
+                    <span className="flex flex-col justify-center">
                         <ChevronLeftIcon className="w-5 h-5" />
-                    </div>
-                    <div
-                        className=" hover:cursor-pointer hover:opacity-50"
-                        onClick={returnToPrevious}>
+                    </span>
+                    <span>
                         {returnStr}
-                    </div>
-                </div>
+                    </span>
+                </button>
                 <NavbarTools mode={"PC"} />
             </div>
             <WarningBanner />

@@ -9,13 +9,13 @@ import { IF } from './ContentBlock'
  * @returns 
  */
 export const StdButton = (props) => {
-    const { color, onClickFunc, textContent, Icon, condition, type } = props;
+    const { color, onClickFunc, textContent, Icon, condition, type, disabled } = props;
 
-    const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white hover:scale-105 hover:cursor-pointer transition-all";
+    const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white transition-all " + (disabled ? "cursor-not-allowed opacity-60" : "hover:scale-105 hover:cursor-pointer");
 
     return (
         (condition == void 0 || condition == true) && (
-            <button className="flex items-center justify-center mx-5" onClick={onClickFunc || void 0} type={type || "submit"}>
+            <button disabled={disabled} className="flex items-center justify-center mx-5" onClick={onClickFunc || void 0} type={type || "submit"}>
                 <div className={btnStyle}>
                     <IF condition={Icon != void 0}>
                         <div className="flex flex-col justify-center">

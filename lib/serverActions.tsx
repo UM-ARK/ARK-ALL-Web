@@ -2,52 +2,70 @@ import axios from 'axios';
 import { BASE_URI, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment-timezone';
-import { _ICreateActivity, IGetAvtivityById, _IEditActivity } from '../types/index.d';
-import { ActivityType } from '../types/index.d';
+import { _ICreateActivity, IClubRequestOptions, IClubRequestResult, IGetActivitiesByClub, IGetAvtivityById, _IEditActivity } from '../types/index.d';
 
+type ApiResponse<T = unknown> = { code?: string | number; message?: string; detail?: string; content?: T };
 
-/**
- * 將一個list結構按照ARK後端的要求寫入表單數據。
- * @param {FormData} fd - 需要寫入的表單。
- * @param {string} listName - 寫入表單時，所聲明的list名字。
- * @param {any[]|undefined|null} list - 所寫入的目標對象。由於有可能表單中對象為空，故而保留可能的`undefined`, `null`類型，使用者無需判斷。
- * @param {"object" | "array"} mode - 寫入模式，分爲對象模式(Object)和數組模式(Array)。根據list的不同類型決定。
- * @returns {FormData} 更新後的表單。
- * @example
- * fd = appendListToFormData(fd, "add_relate_image", watch("add_relate_image"), "object");
- */
-export const appendListToFormData = (
-    fd: FormData,
-    listName: string,
-    list: any[] | undefined | null,
-    mode: "object" | "array"
-): FormData => {
-    if (!list || (mode == "object" ? Object.values(list) : list).length == 0) {
-        fd.append(listName, "[]");
+const isSuccess = (response: ApiResponse) => response?.message === 'success';
+const isEmpty = (response: ApiResponse) => String(response?.code) === '2';
+const hasAuthMessage = (response: ApiResponse) => /token|auth|login|signin|登入|登录|認證|认证/i.test(String(response?.message || ''));
+const hasPermissionMessage = (response: ApiResponse) => /permission|refused|權限|权限/i.test(`${response?.message || ''} ${response?.detail || ''}`);
+
+const requestMessage = (status: IClubRequestResult['status']) => {
+    switch (status) {
+        case 'cancelled': return '已取消操作。';
+        case 'validation_error': return '提交資料有誤，請檢查必填欄位與格式。';
+        case 'unauthenticated': return '登入已過期或尚未登入，請重新登入後再試。';
+        case 'forbidden': return '你沒有權限執行此操作。';
+        case 'empty': return '目前沒有活動。';
+        case 'network_error': return '無法連線到伺服器，請檢查網路後再試。';
+        case 'server_error': return '伺服器暫時無法完成操作，請稍後再試。';
+        default: return '操作未完成，請稍後再試。';
+    }
+};
+
+const result = <T = unknown>(ok: boolean, status: IClubRequestResult<T>['status'], message: string, response?: ApiResponse<T>): IClubRequestResult<T> =>
+    ({ ok, status, message, data: response?.content, code: response?.code });
+
+const apiFailure = <T = unknown>(response: ApiResponse<T>): IClubRequestResult<T> => {
+    if (isEmpty(response)) return result(false, 'empty', requestMessage('empty'), response);
+    const code = String(response?.code || '');
+    if (code === '3' || code === '31' || code === '402' || hasAuthMessage(response)) return result(false, 'unauthenticated', requestMessage('unauthenticated'), response);
+    if (hasPermissionMessage(response)) return result(false, 'forbidden', requestMessage('forbidden'), response);
+    if (code === '20' || code === '400' || code === '401') return result(false, 'validation_error', requestMessage('validation_error'), response);
+    return result(false, 'server_error', requestMessage('server_error'), response);
+};
+
+const transportFailure = <T = unknown>(error: unknown): IClubRequestResult<T> => {
+    if (!axios.isAxiosError(error)) return result(false, 'unknown_error', requestMessage('unknown_error'));
+    const response = error.response?.data as ApiResponse<T> | undefined;
+    const httpStatus = error.response?.status;
+    if (!error.response) return result(false, 'network_error', requestMessage('network_error'));
+    if (httpStatus === 401 || hasAuthMessage(response || {})) return result(false, 'unauthenticated', requestMessage('unauthenticated'), response);
+    if (httpStatus === 403) return result(false, 'forbidden', requestMessage('forbidden'), response);
+    if (httpStatus && httpStatus >= 400 && httpStatus < 500) return result(false, 'validation_error', requestMessage('validation_error'), response);
+    if (httpStatus && httpStatus >= 500) return result(false, 'server_error', requestMessage('server_error'), response);
+    return result(false, 'unknown_error', requestMessage('unknown_error'), response);
+};
+
+const notify = (message: string, options?: IClubRequestOptions) => {
+    if (!options?.suppressAlert && typeof window !== 'undefined') window.alert(message);
+};
+
+/** Append a list in the legacy form-data shape expected by the backend. */
+export const appendListToFormData = (fd: FormData, listName: string, list: any[] | undefined | null, mode: 'object' | 'array'): FormData => {
+    if (!list || (mode === 'object' ? Object.values(list) : list).length === 0) {
+        fd.append(listName, '[]');
         return fd;
     }
-
-    if (mode == "object") {
-        Object.values(list).map(listItem => {
-            fd.append(listName, listItem);
-        })
-    } else {
-        fd.append(listName, JSON.stringify(list));
-    }
-
+    if (mode === 'object') Object.values(list).forEach((item) => fd.append(listName, item));
+    else fd.append(listName, JSON.stringify(list));
     return fd;
-}
-
+};
 
 /**
- * 通用方法，將内容上傳到服務器。
- * @param {FormData} uploadFormData - 即将上传的表单数据。
- * @param {string} apiURL - 服務器API路徑。
- * @param {string|undefined} clearLocalStorage - 清除本地緩存名称。
- * @param {string|undefined} returnLoc - 導航回來的頁面。
- * @param {bool|undefined} guard - 檢查輸入是否滿足要求。
- * @param {bool|undefined} askUserConfirm - 是否要求用戶確認上傳。
- * @returns 
+ * Upload data and return a structured result. The original six positional
+ * parameters remain unchanged; options is appended for new UI.
  */
 export async function upload(
     uploadFormData: FormData,
@@ -55,199 +73,177 @@ export async function upload(
     clearLocalStorage?: string,
     returnLoc?: string,
     guard: boolean = true,
-    askUserConfirm: boolean = true
-): Promise<any> {
-
-    let isUserConfirmUpload = true;
-    if (askUserConfirm && !window.confirm("您即將上傳！")) {
-        return;
+    askUserConfirm: boolean = true,
+    options?: IClubRequestOptions,
+): Promise<IClubRequestResult> {
+    if (askUserConfirm && typeof window !== 'undefined' && !window.confirm(options?.confirmMessage || '確認儲存這些變更嗎？')) {
+        return result(false, 'cancelled', requestMessage('cancelled'));
+    }
+    if (!guard || returnLoc === '') {
+        const invalid = result(false, 'validation_error', requestMessage('validation_error'));
+        notify(invalid.message, options);
+        return invalid;
     }
 
-    // 校驗輸入滿足要求
-    let allowUpload = guard && returnLoc != '' && isUserConfirmUpload;
-    if (!allowUpload) {
-        return;
-    }
-
-    // 上传服务器
-    let URL = apiURL;
-    await axios.post(
-        URL,
-        uploadFormData,
-        { withCredentials: true, }
-    ).then(res => {
-        // console.log(res.data);
-        let json = res.data;
-        if (json.message == 'success') {
-            alert('成功！');
-            clearLocalStorage != void 0 && localStorage.removeItem(clearLocalStorage);
-            returnLoc != void 0 && (window.location.href = returnLoc);
-        } else {
-            alert('失敗！');
-            console.log(json);
+    options?.onSubmittingChange?.(true);
+    try {
+        const response = await axios.post<ApiResponse>(apiURL, uploadFormData, { withCredentials: true });
+        if (!isSuccess(response.data)) {
+            const failed = apiFailure(response.data);
+            notify(failed.message, options);
+            return failed;
         }
-    }).catch(err => {
-        console.log(err);
-        alert('請求錯誤，請檢查網路。');
-    });
-
+        const success = result(true, 'success', options?.successMessage || '已儲存。', response.data);
+        notify(success.message, options);
+        if (clearLocalStorage !== undefined && typeof window !== 'undefined') localStorage.removeItem(clearLocalStorage);
+        if (returnLoc !== undefined && typeof window !== 'undefined') window.location.href = returnLoc;
+        return success;
+    } catch (error) {
+        const failed = transportFailure(error);
+        notify(failed.message, options);
+        return failed;
+    } finally {
+        options?.onSubmittingChange?.(false);
+    }
 }
 
-/**
- * 創建活動。
- * @param {_ICreateActivity} _data - 傳入的活動數據。詳情請參閲[Interfaces](../types/index.d.tsx)
- * @param {string} clubNum - 當前登陸的club賬號。
- */
-export const createActivity = async (_data: _ICreateActivity, clubNum: string): Promise<any> => {
-
-    // 時間合理性判定
-    let _startdatetime = squashDateTime(_data.sDate, _data.sTime);
-    let _enddatetime = squashDateTime(_data.eDate, _data.eTime);
-    if (!moment(_startdatetime).isSameOrBefore(_enddatetime)) {
-        alert("結束時間應該在開始時間後！");
-        return;
+/** Create and immediately publish an activity. */
+export const createActivity = async (_data: _ICreateActivity, _clubNum: string, options?: IClubRequestOptions): Promise<IClubRequestResult> => {
+    const start = squashDateTime(_data.sDate, _data.sTime);
+    const end = squashDateTime(_data.eDate, _data.eTime);
+    if (!moment(end).isAfter(start)) {
+        const invalid = result(false, 'validation_error', '結束時間必須在開始時間後。');
+        notify(invalid.message, options);
+        return invalid;
     }
-
-    // 規範化時間序列為 YYYY-MM-DDTHH:MM:SS
     const { sDate, sTime, eDate, eTime, add_relate_image, ...restData } = _data;
-
-    // 轉換為UTC+0的格式
-    let sDate_utc0 = moment.utc(sDate).tz('Europe/London').format("YYYY-MM-DD");
-    let eDate_utc0 = moment.utc(eDate).tz('Europe/London').format("YYYY-MM-DD");
-    let startdatetime = squashDateTime(sDate_utc0, sTime, "T");
-    let enddatetime = squashDateTime(eDate_utc0, eTime, "T");
-
-    // 注意這裏缺少了add_relate_image
-    let data = { startdatetime: startdatetime, enddatetime: enddatetime, ...restData };
-    console.log(data);
-
-    // 將data塞入表單
-    let fd = JsonToFormData(data);
-    if (add_relate_image) {
-        // 圖片數組特殊處理
-        Object.values(add_relate_image).map(imageFileObj => {
-            fd.append('add_relate_image', imageFileObj);
-        });
-    } else {
-        fd.append('add_relate_image', "[]");
+    const startDate = moment.utc(sDate).tz('Europe/London').format('YYYY-MM-DD');
+    const endDate = moment.utc(eDate).tz('Europe/London').format('YYYY-MM-DD');
+    const formData = JsonToFormData({ startdatetime: squashDateTime(startDate, sTime, 'T'), enddatetime: squashDateTime(endDate, eTime, 'T'), ...restData });
+    if (add_relate_image) Object.values(add_relate_image).forEach((image) => formData.append('add_relate_image', image));
+    else formData.append('add_relate_image', '[]');
+    const published = await upload(formData, BASE_URI + POST.EVENT_CREATE, undefined, undefined, true, true, {
+        ...options,
+        suppressAlert: true,
+        confirmMessage: options?.confirmMessage || '發佈後，活動會立即在 ARK ALL APP 顯示。是否確認發佈？',
+    });
+    if (!published.ok) {
+        notify(published.message, options);
+        return published;
     }
 
-    // 上傳
-    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', `../club/clubInfo`, true, true);
-}
+    const activityId = (published.data as { id?: string } | undefined)?.id;
+    let isPubliclyReadable = false;
+    if (activityId) {
+        try {
+            const publicResponse = await axios.get<IGetAvtivityById>(BASE_URI + GET.EVENT_INFO_EVENT_ID + activityId);
+            isPubliclyReadable = publicResponse.data.message === 'success' && publicResponse.data.content?._id === activityId;
+        } catch (_) {
+            // Publishing already succeeded; a failed verification must not be reported as a failed publish.
+        }
+    }
 
+    const successMessage = options?.successMessage || (isPubliclyReadable
+        ? '活動已發佈，公開 API 已確認可讀，APP 可取得最新內容。'
+        : '活動已發佈，但暫時無法自動確認 APP 顯示；請稍後在活動列表重新整理。');
+    const verifiedResult = { ...published, message: successMessage };
+    notify(successMessage, options);
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem('createdActivityInfo');
+        window.location.href = '../club/clubInfo';
+    }
+    return verifiedResult;
+};
 
-/**
- * 根據社團號碼獲取社團訊息或社團活動列表（因GET_URL而異）。
- * @param {number} curClubNum - 當前帳號號碼
- * @param {string} GET_URL - API路徑
- * @param {React.Dispatch<React.SetStateAction<IGetClubInfo>>} setFunc - useState定義的set方法，用於傳出返回數據。
- * @param {string | undefined} alert - 成功返回數據，但有警告時的提示。
- * @param {boolean} debug - 用於查看返回數據。生產環境請設置爲false。
- */
+/** Get club data or a club's activity list. code=2 is a normal empty activity list. */
 export const getClubXX = async (
     curClubNum: number | string,
     GET_URL: string,
     setFunc: any,
     alert?: string,
     debug: boolean = false,
-): Promise<any> => {
-    await axios({
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-        method: 'get',
-        url: BASE_URI + GET_URL + curClubNum,
-    }).then(resp => {
-        let json = resp.data;
-        if (json.message == 'success') {
-            setFunc(json);
-            debug && console.log(json);
-            return json;
-        } else if (alert) {
-            window.alert(alert);
+    options?: IClubRequestOptions,
+): Promise<IClubRequestResult> => {
+    try {
+        const response = await axios.get<ApiResponse>(BASE_URI + GET_URL + curClubNum, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        if (isSuccess(response.data)) {
+            setFunc(response.data);
+            // `debug` is retained for call compatibility; response data is never logged.
+            void debug;
+            return result(true, 'success', '已載入資料。', response.data);
         }
-    }).catch(err => {
-        console.log(err);
-        window.alert('網絡錯誤！');
+        const isActivityList = GET_URL === GET.EVENT_INFO_CLUB_NUM || GET_URL === GET.EVENT_INFO_CLUB_NUM_P;
+        if (isActivityList && isEmpty(response.data)) {
+            const emptyResponse = { ...response.data, content: [] } as IGetActivitiesByClub;
+            setFunc(emptyResponse);
+            return result(true, 'empty', requestMessage('empty'), emptyResponse);
+        }
+        const failed = apiFailure(response.data);
+        notify(failed.message, options);
+        return failed;
+    } catch (error) {
+        const failed = transportFailure(error);
+        notify(failed.message, options);
+        return failed;
+    }
+};
+
+/** Get one activity by ID. */
+export const getActivityById = async (id: string, setFunc: any, options?: IClubRequestOptions): Promise<IClubRequestResult<IGetAvtivityById['content']>> => {
+    try {
+        const response = await axios.get<IGetAvtivityById>(BASE_URI + GET.EVENT_INFO_EVENT_ID + id, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        if (response.data.message === 'success') {
+            setFunc(response.data);
+            return result(true, 'success', '已載入活動。', response.data);
+        }
+        const failed = apiFailure(response.data);
+        notify(failed.message, options);
+        return failed;
+    } catch (error) {
+        const failed = transportFailure<IGetAvtivityById['content']>(error);
+        notify(failed.message, options);
+        return failed;
+    }
+};
+
+/** Edit an existing activity. */
+export const editActivity = async (_data: _IEditActivity, _clubNum: string, options?: IClubRequestOptions): Promise<IClubRequestResult> => {
+    const startDate = moment.utc(_data.sDate).tz('Europe/London').format('YYYY-MM-DD');
+    const endDate = moment.utc(_data.eDate).tz('Europe/London').format('YYYY-MM-DD');
+    const start = squashDateTime(startDate, _data.sTime, 'T');
+    const end = squashDateTime(endDate, _data.eTime, 'T');
+    if (!moment(end).isAfter(start)) {
+        const invalid = result(false, 'validation_error', '結束時間必須在開始時間後。');
+        notify(invalid.message, options);
+        return invalid;
+    }
+    const formData = new FormData();
+    formData.append('id', _data.id);
+    formData.append('title', _data.title);
+    formData.append('type', _data.type);
+    formData.append('link', _data.link);
+    if (_data.cover_image_file) formData.append('cover_image_file', _data.cover_image_file);
+    formData.append('startdatetime', start);
+    formData.append('enddatetime', end);
+    appendListToFormData(formData, 'add_relate_image', _data.add_relate_image, 'object');
+    appendListToFormData(formData, 'del_relate_image', _data.del_relate_image, 'array');
+    formData.append('location', _data.location);
+    formData.append('introduction', _data.introduction);
+    formData.append('can_follow', 'true');
+    return upload(formData, BASE_URI + POST.EVENT_EDIT, undefined, '../club/clubInfo', true, true, {
+        ...options,
+        confirmMessage: options?.confirmMessage || '確認儲存活動變更嗎？',
+        successMessage: options?.successMessage || '活動已儲存。',
     });
-}
+};
 
-/**
- * 通過活動ID獲取活動訊息。
- * @param {string} _id - 活動ID。 
- * @param {React.Dispatch<React.SetStateAction<IGetClubInfo>>} setFunc - useState定義的set函數。 
- */
-export const getActivityById = async (_id: string, setFunc: any) => {
-    await axios(
-        {
-            headers: { 'Content-Type': 'application/x-ww-form-urlencoded', },
-            method: 'get',
-            url: BASE_URI + GET.EVENT_INFO_EVENT_ID + _id,
-        }).then(resp => {
-            let json: IGetAvtivityById = resp.data;
-            if (json.message = "success") {
-                setFunc(json);
-            } else {
-                window.alert("無法獲取活動訊息！");
-                return null;
-            }
-        }).catch(err => {
-            console.log(err);
-            window.alert("網路錯誤！");
-            return null;
-        });
-}
-
-/**
- * 編輯活動。
- * @param {_IEditActivity} _data - 活動編輯表單數據。 
- * @param {string} clubNum - 登錄club號碼。
- */
-export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
-    // 轉換爲UTC+0的格式
-    let sDate_utc0 = moment.utc(_data.sDate).tz('Europe/London').format('YYYY-MM-DD');
-    let eDate_utc0 = moment.utc(_data.eDate).tz('Europe/London').format('YYYY-MM-DD');
-
-    // 時間合理性判定
-    let _startdatetime = squashDateTime(sDate_utc0, _data.sTime, "T");
-    let _enddatetime = squashDateTime(eDate_utc0, _data.eTime, "T");
-    if (!moment(_startdatetime).isSameOrBefore(_enddatetime)) {
-        alert("結束時間應該在開始時間後！");
-        return;
-    }
-
-    let fd = new FormData();
-    fd.append("id", _data.id);
-    fd.append("title", _data.title);
-    fd.append("type", _data.type);
-    fd.append("link", _data.link);
-    _data.cover_image_file && fd.append("cover_image_file", _data.cover_image_file);
-    fd.append("startdatetime", _startdatetime);
-    fd.append("enddatetime", _enddatetime);
-    appendListToFormData(fd, "add_relate_image", _data.add_relate_image, "object");
-    appendListToFormData(fd, "del_relate_image", _data.del_relate_image, "array");
-    fd.append("location", _data.location);
-    fd.append("introduction", _data.introduction);
-    fd.append("can_follow", true.toString());
-
-    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `../club/clubInfo`, void 0, true);
-}
-
-
-/**
- * 刪除活動。
- * @param {string} activityId - 活動ID
- * @param {string} loginClubNum - 登錄club number
- * @param {string} confirmMsg - 用戶確認訊息
- * @returns 
- */
-export const deleteActivity = async (activityId: string, loginClubNum: string, confirmMsg: string) => {
-    if (confirmMsg) {
-        let prompt = confirm(confirmMsg);
-        if (!prompt) return;
-    }
-
-    let URL = BASE_URI + POST.EVENT_DEL;
-    let fd = new FormData();
-    fd.append("id", activityId);
-    return upload(fd, URL, void 0, `./clubInfo`, void 0, true);
-}
+/** Delete an activity after the caller-provided confirmation text is accepted. */
+export const deleteActivity = async (activityId: string, _loginClubNum: string, confirmMsg: string, options?: IClubRequestOptions): Promise<IClubRequestResult> => {
+    if (confirmMsg && typeof window !== 'undefined' && !window.confirm(confirmMsg)) return result(false, 'cancelled', requestMessage('cancelled'));
+    const formData = new FormData();
+    formData.append('id', activityId);
+    return upload(formData, BASE_URI + POST.EVENT_DEL, undefined, './clubInfo', true, false, {
+        ...options,
+        successMessage: options?.successMessage || '活動已刪除。',
+    });
+};

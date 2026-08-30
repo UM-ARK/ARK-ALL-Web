@@ -1,108 +1,27 @@
-import React from "react";
-import { MouseEvent } from "react";
-import { ActivityBase } from "../../types/index.d";
+import React, { MouseEvent } from 'react';
+import { ActivityBase } from '../../types/index.d';
 import { BASE_HOST } from '../../utils/pathMap';
-import moment from "moment-timezone";
-import { LinkIcon } from "@heroicons/react/24/solid";
-import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
-import { useLoginStore } from "../../states/state";
-import Link from "next/link";
+import moment from 'moment-timezone';
+import { CalendarDaysIcon, LinkIcon, MapPinIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
+import { useLoginStore } from '../../states/state';
+import { useTranslation } from 'react-i18next';
+import { getClubManagementCopy } from '../../utils/clubManagementCopy';
 
-/**
- * ARK活動卡片。
- * @param {*} props
- * @prop {ActivityBase} item - API返回的Activity的對象類型，包含多個值。具體請參閲[Interfaces](../../types/index.d.tsx)
- * @prop {int} index - 卡片的序號，由渲染卡片外部的map函數定義，使用時傳入。
- * @prop {string} loginClubNum - 當前登錄的社團賬號。 
- * @returns 
- */
 export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
-    const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const copy = getClubManagementCopy(i18n.resolvedLanguage);
     const router = useRouter();
     const s_clubNum = useLoginStore(state => state.curID);
+    const { item } = props;
+    const startdatetime = moment.utc(item.startdatetime).tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm');
+    const enddatetime = moment.utc(item.enddatetime).tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm');
+    const isWebsite = item.type === 'WEBSITE';
+    const onClickActivityCard = (event: MouseEvent<HTMLDivElement>) => { event.preventDefault(); localStorage.setItem('CurActivity', JSON.stringify(item)); router.push(`activityDetail?activity_id=${item._id}&club_num=${s_clubNum}`); };
 
-    const { item, index } = props;
-
-    // UTC+0 -> 當地時間
-    const startdatetime = moment.utc(item.startdatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
-    const enddatetime = moment.utc(item.enddatetime).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm");
-
-    /**
-     * 用戶點擊卡片跳轉。
-     * @param {event} event 事件
-     * @param {object} activityData  活動數據 
-     */
-    const onClickActivityCard = (event: MouseEvent<HTMLDivElement>, activityData: object) => {
-        localStorage.setItem("CurActivity", JSON.stringify(activityData));
-        router.push(`activityDetail?activity_id=${item._id}&club_num=${s_clubNum}`);
-    }
-
-    return (
-        <div
-            key={index}
-            className={`
-                max-w-[17.5rem] 
-                bg-themeColorUltraLight dark:bg-[#2c394a] 
-                flex flex-col p-3 rounded-lg
-                hover:cursor-pointer hover:shadow-lg hover:scale-[1.01] 
-                transition-all`}
-            onClick={(event: MouseEvent<HTMLDivElement>) => onClickActivityCard(event, item)}>
-
-            <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
-                {/*活動封面*/}
-                <div>
-                    <img
-                        src={BASE_HOST + item.cover_image_url}
-                        alt="club_photos"
-                        className=" hover:cursor-pointer w-48 h-64 object-cover rounded-lg mb-5 shadow-lg"
-                        style={{ backgroundColor: '#fff' }} />
-                </div>
-
-                {/*活動標題*/}
-                <div className=" flex flex-wrap gap-1 mx-auto items-center h-[2rem] overflow-hidden">
-                    <h3 className="text-themeColor text-xl text-center font-bold text-ellipsis overflow-hidden">
-                        {item.title}
-                    </h3>
-                    {item.type == "WEBSITE" && <LinkIcon className={" w-5 h-5 -right-2 top-2 text-themeColor drop-shadow-2xl drop-shadow-md"} />}
-                </div>
-
-                {/* 時間地點 */}
-                <div className="flex flex-col border-t-2 border-themeColorLight items-left font-bold text-themeColor opacity-80">
-                    <p className="text-left text-center opacity-60">
-                        {item.type == "ACTIVITY" ? "活動" : "網站"}
-                    </p>
-                    <div className={`flex flex-row items-center justify-center gap-3 text-sm`}>
-                        <div className={`text-right flex flex-col`}>
-                            <div><p>{`From:`}</p></div>
-                            <div><p>{`To:`}</p></div>
-                            {item.type == "ACTIVITY" ? (
-                                <div><p>{`Loc:`}</p></div>
-                            ) : (
-                                <div><p>{`Link:`}</p></div>
-                            )}
-                        </div>
-                        <div className={`text-left flex flex-col text-sm`}>
-                            <div>
-                                <p>{startdatetime}</p>
-                            </div>
-                            <div>
-                                <p>{enddatetime}</p>
-                            </div>
-                            <div className={`max-w-36 overflow-hidden`}>
-                                <p>
-                                    {item.type == "ACTIVITY" ? (
-                                        item.location || <i className={"opacity-60"}>Unknown</i>
-                                    ) : (
-                                        <Link href={item.link} className={`text-sm`}>{item.link}</Link> ||
-                                        <i className={`opacity-60`}>Unknown</i>
-                                    )}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
+    return <div key={props.index} role="button" tabIndex={0} onClick={onClickActivityCard} onKeyDown={(event) => event.key === 'Enter' && onClickActivityCard(event as unknown as MouseEvent<HTMLDivElement>)} className="flex w-full max-w-[18rem] flex-col rounded-xl bg-themeColorUltraLight p-3 transition-all hover:cursor-pointer hover:scale-[1.01] hover:shadow-lg dark:bg-[#2c394a]">
+        <img src={BASE_HOST + item.cover_image_url} alt={`${item.title} ${copy.appEventCover}`} className="h-52 w-full rounded-lg object-cover shadow-md" style={{ backgroundColor: '#fff' }} />
+        <div className="mt-3 flex items-start justify-between gap-2"><h3 className="line-clamp-2 text-lg font-bold text-themeColor">{item.title}</h3><span className="shrink-0 rounded-full bg-white px-2 py-1 text-xs font-bold text-themeColor dark:bg-slate-700">{isWebsite ? copy.cardWebsite : copy.cardActivity}</span></div>
+        <div className="mt-3 space-y-2 border-t border-themeColorLight pt-3 text-sm text-gray-700 dark:text-gray-100"><div className="flex gap-2"><CalendarDaysIcon className="h-5 w-5 shrink-0 text-themeColor" /><div><p>{startdatetime}</p><p className="opacity-70">→ {enddatetime}</p></div></div><div className="flex gap-2">{isWebsite ? <LinkIcon className="h-5 w-5 shrink-0 text-themeColor" /> : <MapPinIcon className="h-5 w-5 shrink-0 text-themeColor" />}<p className="break-all">{isWebsite ? (item.link || copy.unsetLink) : (item.location || copy.unsetLocation)}</p></div></div>
+    </div>;
+};
