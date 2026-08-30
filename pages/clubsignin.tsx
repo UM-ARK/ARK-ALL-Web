@@ -77,18 +77,18 @@ const ClubLogin = () => {
 
                                 {/*用戶協議 */}
                                 <div className={"flex flex-col justify-center"}>
-                                    <div className={"flex flex-wrap items-center tap-2 text-sm "}>
+                                    <label className={"flex flex-wrap items-center gap-2 text-sm cursor-pointer"}>
                                         <input
                                             type={"checkbox"}
-                                            className={"mr-2"}
+                                            className={"mr-2 cursor-pointer"}
                                             {...register("agreeTA", { required: "您需要同意該協議以登錄賬號。" })} />
-                                        <p className={"opacity-80 font-bold"}>
+                                        <span className={"opacity-80 font-bold"}>
                                             {t(`User_Agreement_Preamble`)}
                                             <Link href={"/user_agreement"} className={"text-themeColor hover:scale-105 transition-all"}>
                                                 {`《ARK ALL ${t("User_Agreement")}》`}
                                             </Link>
-                                        </p>
-                                    </div>
+                                        </span>
+                                    </label>
                                     {errors.agreeTA && (
                                         <p className={"text-alert text-sm font-bold text-center"}>
                                             {errors.agreeTA?.message || "未正確輸入！"}
