@@ -37,12 +37,14 @@ export interface LoginStore {
     curID: string;
     curToken: string;
     setLogin: (id: string, token: string) => void;
+    clearLogin: () => void;
 };
 
 const loginSlice: StateCreator<LoginStore, [["zustand/persist", unknown]]> = (set) => ({
     curID: "",
     curToken: "",
     setLogin: (id: string, token: string) => set({ curID: id, curToken: token }),
+    clearLogin: () => set({ curID: "", curToken: "" }),
 });
 
 export const useLoginStore = create<LoginStore>()(

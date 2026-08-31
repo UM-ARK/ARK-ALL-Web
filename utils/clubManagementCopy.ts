@@ -15,6 +15,8 @@ const zh = {
     editingActivity: '正在編輯活動', activityDetail: '活動詳情', organizer: '主辦', coverChange: '活動封面（更換時才上傳新圖片）', editInfo: '編輯說明', published: '已發佈', editInfoDesc: '儲存後，更新會同步到 ARK ALL APP。取消編輯會放棄這次尚未儲存的變更。', publishedDesc: '這個活動目前以檢視模式呈現；需要修改時再進入編輯。', cancelEdit: '取消編輯', editActivity: '編輯活動', eventLink: '活動連結', noLocation: '尚未提供地點', noIntro: '尚未提供活動簡介。',
     photoEditHelp: '點擊圖片可標記刪除；再次點擊即可撤銷。儲存前不會真正刪除。', photoViewHelp: '點擊圖片可在新分頁查看。', noEventPhotos: '尚未加入活動圖片。', markedDelete: '已標記刪除（點擊撤銷）', markPhotoDelete: '點擊以標記刪除', newPhotos: '新增圖片', savingActivity: '正在儲存…', saveUpdateApp: '儲存並更新 APP', editConfirm: '確認儲存活動變更並更新 APP 嗎？', activitySaved: '活動已儲存，APP 會顯示最新內容。', saveFailed: '儲存活動失敗，請檢查網路後重試。', danger: '危險操作', deleteDesc: (title: string) => `刪除後，學生將無法在 APP 查看「${title}」。這項操作無法復原。`, deleteConfirm: (title: string) => `確定刪除「${title}」？此操作無法復原。`, deleteActivity: '刪除活動', deletingActivity: '正在刪除…', activityDeleted: '活動已刪除。',
     cardWebsite: '網頁', cardActivity: '活動', unsetLink: '尚未提供連結', unsetLocation: '尚未提供地點',
+    sessionExpired: '登入已過期，請重新登入。', continueWorkspace: '返回社團工作台',
+    logout: '退出登入', logoutConfirm: '確定退出社團帳號？下次管理時需要重新登入。', logoutSuccess: '已退出社團帳號。',
 };
 
 const en: typeof zh = {
@@ -34,6 +36,8 @@ const en: typeof zh = {
     editingActivity: 'Editing activity', activityDetail: 'Activity detail', organizer: 'Organizer', coverChange: 'Activity cover (choose a new image only to replace it)', editInfo: 'Edit information', published: 'Published', editInfoDesc: 'Saved changes are reflected in the ARK ALL APP. Canceling discards unsaved changes.', publishedDesc: 'This activity is in view mode. Enter edit mode only when changes are needed.', cancelEdit: 'Cancel editing', editActivity: 'Edit activity', eventLink: 'Activity link', noLocation: 'No location provided', noIntro: 'No introduction provided.',
     photoEditHelp: 'Click a photo to mark it for deletion; click again to undo. Nothing is deleted before saving.', photoViewHelp: 'Click a photo to open it in a new tab.', noEventPhotos: 'No activity photos.', markedDelete: 'Marked for deletion (click to undo)', markPhotoDelete: 'Click to mark for deletion', newPhotos: 'Add photos', savingActivity: 'Saving…', saveUpdateApp: 'Save and update APP', editConfirm: 'Save these changes and update the APP?', activitySaved: 'Activity saved. The APP will show the latest content.', saveFailed: 'Could not save the activity. Check your connection and try again.', danger: 'Danger zone', deleteDesc: (title) => `Deleting “${title}” removes it from the APP and cannot be undone.`, deleteConfirm: (title) => `Delete “${title}”? This cannot be undone.`, deleteActivity: 'Delete activity', deletingActivity: 'Deleting…', activityDeleted: 'Activity deleted.',
     cardWebsite: 'Website', cardActivity: 'Activity', unsetLink: 'No link provided', unsetLocation: 'No location provided',
+    sessionExpired: 'Your sign-in has expired. Please sign in again.', continueWorkspace: 'Return to club workspace',
+    logout: 'Sign out', logoutConfirm: 'Sign out of this club account? You will need to sign in again next time.', logoutSuccess: 'Signed out.',
 };
 
 const ja: typeof zh = {
@@ -53,6 +57,8 @@ const ja: typeof zh = {
     editingActivity: '活動を編集中', activityDetail: '活動詳細', organizer: '主催', coverChange: '活動カバー（変更する場合のみ新しい画像を選択）', editInfo: '編集について', published: '公開済み', editInfoDesc: '保存後、ARK ALL APPにも反映されます。キャンセルすると未保存の変更は破棄されます。', publishedDesc: '現在は閲覧モードです。必要なときだけ編集してください。', cancelEdit: '編集をキャンセル', editActivity: '活動を編集', eventLink: '活動リンク', noLocation: '場所が未設定です', noIntro: '活動紹介が未設定です。',
     photoEditHelp: '写真をクリックして削除対象にし、もう一度クリックすると取り消せます。保存前には削除されません。', photoViewHelp: '写真をクリックすると新しいタブで開きます。', noEventPhotos: '活動写真はありません。', markedDelete: '削除対象（クリックで取消）', markPhotoDelete: 'クリックして削除対象にする', newPhotos: '写真を追加', savingActivity: '保存中…', saveUpdateApp: '保存してAPPを更新', editConfirm: '変更を保存してAPPを更新しますか？', activitySaved: '活動を保存しました。APPに最新内容が表示されます。', saveFailed: '活動を保存できませんでした。通信状況を確認して再試行してください。', danger: '危険な操作', deleteDesc: (title) => `「${title}」を削除するとAPPから消え、元に戻せません。`, deleteConfirm: (title) => `「${title}」を削除しますか？元に戻せません。`, deleteActivity: '活動を削除', deletingActivity: '削除中…', activityDeleted: '活動を削除しました。',
     cardWebsite: 'ウェブ', cardActivity: '活動', unsetLink: 'リンク未設定', unsetLocation: '場所未設定',
+    sessionExpired: 'ログインの有効期限が切れました。もう一度ログインしてください。', continueWorkspace: 'クラブ管理に戻る',
+    logout: 'ログアウト', logoutConfirm: 'クラブアカウントからログアウトしますか？次回は再度ログインが必要です。', logoutSuccess: 'ログアウトしました。',
 };
 
 export const getClubManagementCopy = (language?: string) => language?.toLowerCase().startsWith('ja')

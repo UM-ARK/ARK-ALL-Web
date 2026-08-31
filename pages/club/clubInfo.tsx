@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowsRightLeftIcon, CheckCircleIcon, PencilSquareIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
+import { ArrowRightOnRectangleIcon, ArrowsRightLeftIcon, CheckCircleIcon, PencilSquareIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 import moment from 'moment';
 import { BASE_HOST, GET } from '../../utils/pathMap';
 import { getClubXX } from '../../lib/serverActions';
@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../../states/state';
 import { getClubManagementCopy } from '../../utils/clubManagementCopy';
+import { clearClubSession } from '../../lib/clubSession';
+import toast from 'react-hot-toast';
 
 interface SeparatedActivities { SEPACT_NOT_STARTED: ActivityBase[]; SEPACT_IN_PROGRESS: ActivityBase[]; SEPACT_HAS_ENDED: ActivityBase[]; SEPACT_ERROR: ActivityBase[]; }
 const separateActivities = (activities: ActivityBase[] = []): SeparatedActivities => {
@@ -33,10 +35,19 @@ const ClubInfo = () => {
     const copy = getClubManagementCopy(i18n.resolvedLanguage);
     const router = useRouter();
     const clubNum = useLoginStore(state => state.curID);
+    const clearLogin = useLoginStore(state => state.clearLogin);
     const [clubData, setClubData] = useState<IGetClubInfo>();
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub>();
     const [displayMode, setDisplayMode] = useState<'by_createtime' | 'by_starttime'>('by_starttime');
     const [loading, setLoading] = useState({ club: true, activities: true });
+
+    const signOut = () => {
+        if (!window.confirm(copy.logoutConfirm)) return;
+        clearClubSession();
+        clearLogin();
+        toast.success(copy.logoutSuccess);
+        router.replace('/');
+    };
 
     useEffect(() => {
         if (!clubNum) return;
@@ -65,10 +76,10 @@ const ClubInfo = () => {
     const complete = checklist.filter(item => item.done).length;
 
     return <ARKMain title={club?.name || t('PG_CLUB_INFO')}>
-        <NavBarSecondary returnLocation="/clubsignin" clearLocStorage />
+        <NavBarSecondary returnLocation="/" />
         <AfterLoading isLoading={loading.club}>
             <section className="mb-5 rounded-xl bg-themeColorUltraLight p-5 sm:p-7">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div><p className="text-sm font-bold text-themeColor">{copy.workspace}</p><h1 className="mt-1 text-2xl font-bold">{copy.welcomeBack(club?.name || t('CLUB_OWNER'))}</h1><p className="mt-2 text-gray-600 dark:text-gray-300">{copy.workspaceDesc}</p></div><StdButtonGrid><StdButton onClickFunc={() => router.push('./clubInfoEdit')} textContent={copy.completeProfile} Icon={PencilSquareIcon} /><StdButton onClickFunc={() => router.push('./newActivity')} textContent={copy.createActivity} Icon={PlusCircleIcon} /></StdButtonGrid></div>
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div><p className="text-sm font-bold text-themeColor">{copy.workspace}</p><h1 className="mt-1 text-2xl font-bold">{copy.welcomeBack(club?.name || t('CLUB_OWNER'))}</h1><p className="mt-2 text-gray-600 dark:text-gray-300">{copy.workspaceDesc}</p></div><StdButtonGrid><StdButton onClickFunc={() => router.push('./clubInfoEdit')} textContent={copy.completeProfile} Icon={PencilSquareIcon} type="button" /><StdButton onClickFunc={() => router.push('./newActivity')} textContent={copy.createActivity} Icon={PlusCircleIcon} type="button" /><StdButton onClickFunc={signOut} textContent={copy.logout} Icon={ArrowRightOnRectangleIcon} color="bg-gray-600" type="button" /></StdButtonGrid></div>
             </section>
             <ContentBlock title={copy.setupProgress} className="mb-5"><div className="flex flex-col gap-2 sm:flex-row sm:justify-between"><p className="font-medium">{copy.setupCount(complete, checklist.length)}</p><p className="text-sm text-gray-500">{copy.setupLater}</p></div><div className="mt-3 h-2 overflow-hidden rounded-full bg-gray-200"><div className="h-full rounded-full bg-themeColor" style={{ width: `${complete / checklist.length * 100}%` }} /></div><div className="mt-4 grid gap-2 md:grid-cols-2">{checklist.map(item => <button key={item.label} type="button" onClick={() => !item.done && router.push(item.href)} className={`flex items-center gap-2 rounded-lg border p-3 text-left ${item.done ? 'border-green-200 bg-green-50 text-green-800' : 'border-gray-200 hover:border-themeColor hover:bg-themeColorUltraLight'}`}><CheckCircleIcon className={`h-5 w-5 shrink-0 ${item.done ? 'text-green-600' : 'text-gray-300'}`} /><span className="text-sm font-medium">{item.label}</span>{!item.done && <span className="ml-auto text-xs text-themeColor">{copy.goComplete}</span>}</button>)}</div></ContentBlock>
             <ContentBlock styles={{ withTitle: false }} className="flex flex-col gap-4 sm:flex-row sm:items-center"><div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">{club?.logo_url ? <img className="h-full w-full object-cover" src={BASE_HOST + club.logo_url} alt={`${club.name} logo`} /> : <span className="text-sm text-gray-500">{copy.noLogo}</span>}</div><div className="min-w-0"><p className="text-xl font-bold text-themeColor">{club?.name}</p>{club?.tag && <span className="rounded-full bg-themeColorUltraLight px-3 text-themeColor">{club.tag}</span>}<p className="mt-3 whitespace-pre-wrap">{club?.intro || copy.noIntroHelp}</p></div>{club?.club_photos_list?.[0] && <img src={BASE_HOST + club.club_photos_list[0]} alt={`${club.name} ${copy.appCover}`} className="h-28 w-full rounded-lg object-cover sm:ml-auto sm:w-44" />}</ContentBlock>

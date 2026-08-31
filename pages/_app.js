@@ -4,8 +4,9 @@ import React, { useEffect } from 'react'
 
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
-import { useLangStore } from "../states/state"; // 全局語言狀態管理
+import { useLangStore, useLoginStore } from "../states/state"; // 全局狀態管理
 import { resolveDeviceLang } from "../utils/functions/resolveDeviceLang";
+import { clearClubSession, getValidClubSession, hasClubSessionMarker, markClubSession } from "../lib/clubSession";
 
 import { useRouter } from 'next/router';
 import { AnimatePresence } from "framer-motion";
@@ -74,6 +75,35 @@ function MyApp({ Component, pageProps }) {
       i18n.changeLanguage(curLang);
     }
   }, [curLang]);
+
+  // 在公開頁與管理頁之間切換時，以本機 marker 與 cookie 到期時間恢復社團身份。
+  useEffect(() => {
+    const restoreClubSession = () => {
+      const { curID, setLogin, clearLogin } = useLoginStore.getState();
+      const isClubPage = router.pathname.startsWith('/club/');
+      if (!curID && !hasClubSessionMarker()) {
+        if (isClubPage) router.replace('/clubsignin');
+        return;
+      }
+
+      const session = getValidClubSession(curID);
+      if (session) {
+        markClubSession(session.clubNum);
+        setLogin(session.clubNum, '');
+        return;
+      }
+      clearClubSession();
+      clearLogin();
+      if (isClubPage) router.replace('/clubsignin');
+    };
+
+    if (useLoginStore.persist.hasHydrated()) {
+      restoreClubSession();
+    } else {
+      const unsubscribe = useLoginStore.persist.onFinishHydration(restoreClubSession);
+      return unsubscribe;
+    }
+  }, [router.pathname]);
 
   return (
     <I18nextProvider i18n={i18n}>

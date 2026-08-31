@@ -13,17 +13,17 @@
     - `msg?:string` 重新登錄的提示詞。
 
 #### `authGuard`
-- 頁面守衛，如果沒有token或者url參數，則導向登陸頁面。
+- 頁面守衛，如果沒有本機社團 session marker 或 URL 參數，則導向登入頁面。前端會讀取 `ARK_TOKEN` 的 JWT `exp` 判斷是否已到期；後端仍會在實際寫入操作時驗證簽名。
 - 參數：
     - `authParams` 登錄參數，包含以下`prop`：
-        - `credentialName?:string` 令牌名稱，通常是ARK的token，即`club_token`。該名稱為自定義，但已廣汎使用。追本溯源可至`clubSignIn`函數。
+        - `credentialName?:string` 自訂 marker 名稱；一般不需傳入，預設使用不含敏感內容的 `club_session`。
         - `urlParamName:string` URL參數名稱，通常是社團登錄號碼，即`club_num`。該名稱為自定義，單一廣汎使用。
 - 返回：
     - `urlParamName`所規定的URL參數值。即，若所求URL參數名稱為`club_num`，且URL中存在`club_num`的話，則返回該`club_num`的值。
     - 否則，返回`null`。
 - 示例：
 ```ts
-    const clubNum = authGuard({credentialName:"club_token", urlParamName:"club_num"});
+    const clubNum = authGuard({urlParamName:"club_num"});
     // url: http://localhost:3000/?club_num=0, 返回0
     // url: http://localhost:3000/, 返回null，重定向至登錄頁。
 ```
@@ -38,8 +38,12 @@
     - 登陸成功。
         - 重定向至[社團詳情頁](/pages/club/clubInfo.tsx)，并返回服務器傳回數據的`Promise`。
         - 服務器傳回數據類型為`IClubSigninResponse`。
-        - 將`token`存儲在`localStorage`中，命名為`club_token`。
+        - 後端將 JWT 放在 `ARK_TOKEN` cookie；前端只在 `localStorage` 保存不含憑證的 `club_session` marker。
     - 登陸失敗，返回`null`，提示錯誤信息。
+
+### [/lib/clubSession](/lib/clubSession.ts)
+- `getValidClubSession` 從本機 marker 恢復社團編號，並讀取 `ARK_TOKEN` 的角色與 `exp` 判斷是否仍可返回工作台。
+- `clearClubSession` 刪除目前瀏覽器的 `ARK_TOKEN` cookie、本機 marker 與舊版 `club_token`；UI 同時清除 Zustand 登入狀態。
 
 ### [/lib/serverActions](/lib/serverActions.tsx)
 

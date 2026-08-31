@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from 'next/router';
 
 import { MapPinIcon, GlobeAltIcon, EnvelopeIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
+import { useClubWorkspaceAccess } from "../hooks/useClubWorkspaceAccess";
 
 export default function Footer() {
 
@@ -17,6 +18,7 @@ export default function Footer() {
   };
 
   const { t } = useTranslation();
+  const { hasSessionCandidate, openClubWorkspace, workspaceLabel } = useClubWorkspaceAccess();
 
   const navigationData = [
     "Install",
@@ -101,7 +103,7 @@ export default function Footer() {
             {navigationData.map((menu, index) => (
               <div
                 key={index}
-                onClick={() => navigateToPage('/' + menu.toLowerCase())}
+                onClick={() => menu === 'ClubSignin' ? openClubWorkspace() : navigateToPage('/' + menu.toLowerCase())}
                 className={`
                             block items-center text-center px-4 py-2 rounded-md 
                             text-gray-500 dark:text-gray-300 
@@ -111,7 +113,9 @@ export default function Footer() {
                             dark:hover:text-themeColor dark:hover:bg-gray-800 dark:focus:bg-gray-800
                             transition-all
                           `}>
-                <div className={`block items-center`}>{t(menu)}</div>
+                <div className={`block items-center`}>
+                  {menu === 'ClubSignin' && hasSessionCandidate ? workspaceLabel : t(menu)}
+                </div>
               </div>
             ))}
           </div>

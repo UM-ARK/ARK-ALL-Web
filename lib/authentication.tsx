@@ -6,16 +6,9 @@ import qs from 'qs';
 import { BASE_URI, GET } from '../utils/pathMap';
 import { IClubSignin, IClubSigninResponse, IClubRequestResult } from '../types/index.d';
 import { NextRouter } from 'next/router';
+import { hasClubSessionMarker, markClubSession } from './clubSession';
 
 const FORM_HEADERS = { 'Content-Type': 'application/x-www-form-urlencoded' };
-
-/** Backend puts JWT in the ARK_TOKEN cookie, not the JSON body. */
-const cookieValue = (name: string): string => {
-    if (typeof document === 'undefined') return '';
-    const prefix = `${name}=`;
-    const row = document.cookie.split('; ').find((part) => part.startsWith(prefix));
-    return row ? decodeURIComponent(row.slice(prefix.length)) : '';
-};
 
 /**
  * 符合條件時將用戶屏蔽。
@@ -67,7 +60,9 @@ export const authGuard = (authParams: {
     }
 
     // 登錄認證過期
-    const credential = localStorage.getItem(credentialName || "club_token");
+    const credential = credentialName
+        ? localStorage.getItem(credentialName)
+        : hasClubSessionMarker();
     if (!credential) {
         block('登入已過期，請重新登入後繼續管理社團資料。', router);
         return null;
@@ -109,9 +104,9 @@ export const clubSignIn = async (_data: IClubSignin, config: {
         const json: IClubSigninResponse = res.data;
         // Success is `message === 'success'`. JWT lives in the ARK_TOKEN cookie, not JSON.
         if (json.message === 'success') {
-            const token = json.token || cookieValue('ARK_TOKEN');
-            localStorage.setItem('club_token', token || '1');
-            setLogin(json.content.club_num.toString(), token);
+            const clubNum = json.content.club_num.toString();
+            markClubSession(clubNum);
+            setLogin(clubNum, '');
             router.push('./club/clubInfo');
             return { ok: true, status: 'success', message: '登入成功。', data: json.content, code: json.code };
         }

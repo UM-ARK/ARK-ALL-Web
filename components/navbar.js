@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import NavbarTools from "./uiComponents/NavbarTools/NavbarTools";
 import LanguageSwitcher from "./uiComponents/NavbarTools/LanguageSwitcher";
 import ThemeChanger from "./uiComponents/NavbarTools/DarkSwitch";
+import { useClubWorkspaceAccess } from "../hooks/useClubWorkspaceAccess";
 
 const navigation = [
   "Home",
@@ -23,6 +24,7 @@ const navigation = [
 const Navbar = (props) => {
   const { selected = "", fixed, hideLogoTextBeforeScroll = false } = props;
   const { t } = useTranslation();
+  const { hasSessionCandidate, openClubWorkspace, workspaceLabel } = useClubWorkspaceAccess();
 
   /** 移動menu是否打開 */
   const [m_mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,15 +46,15 @@ const Navbar = (props) => {
   }, []);
 
   const NBLink = (props) => {
-    const { destination, isMobile, isSelected = false, } = props;
+    const { destination, isMobile, isSelected = false, onClick, disabled = false } = props;
     const styles = {
       "PC": `inline-block min-[1550px]:w-[180px] px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
       "Mobile": "w-full px-4 py-5 text-2xl text-gray-500 dark:text-gray-200 hover:text-themeColor hover:bg-[#0000000d] dark:hover:text-themeColor dark:hover:bg-[#ffffff0d] focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
     };
 
     return (
-      <Link href={destination == 'home' ? '/' : '/' + destination}>
-        <div className={isMobile ? styles.Mobile : styles.PC}>
+      <Link href={destination == 'home' ? '/' : '/' + destination} onClick={onClick} aria-disabled={disabled}>
+        <div className={`${isMobile ? styles.Mobile : styles.PC} ${disabled ? 'opacity-60' : ''}`}>
           {props.children}
         </div>
       </Link>
@@ -93,13 +95,20 @@ const Navbar = (props) => {
         {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-3">
-            {navigation.map((menu, index) => (
+            {navigation.map((menu, index) => {
+              const isClubEntry = menu === 'ClubSignin';
+              return (
               <li className="nav__item" key={index}>
-                <NBLink destination={menu.toLowerCase()} isSelected={selected == menu}>
-                  {menu.toLowerCase() == 'home' ? t('PG_HOME') : t(menu)}
+                <NBLink
+                  destination={isClubEntry && hasSessionCandidate ? 'club/clubInfo' : menu.toLowerCase()}
+                  isSelected={selected == menu}
+                  onClick={isClubEntry ? (event) => { event.preventDefault(); openClubWorkspace(); } : undefined}
+                >
+                  {isClubEntry && hasSessionCandidate ? workspaceLabel : menu.toLowerCase() == 'home' ? t('PG_HOME') : t(menu)}
                 </NBLink>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
 
@@ -126,13 +135,20 @@ const Navbar = (props) => {
                     <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
           </li> */}
-          {navigation.map((menu, index) => (
+          {navigation.map((menu, index) => {
+            const isClubEntry = menu === 'ClubSignin';
+            return (
             <li className="nav__item " key={index}>
-              <NBLink destination={menu.toLowerCase()} isMobile>
-                {t(menu)}
+              <NBLink
+                destination={isClubEntry && hasSessionCandidate ? 'club/clubInfo' : menu.toLowerCase()}
+                isMobile
+                onClick={isClubEntry ? (event) => { event.preventDefault(); openClubWorkspace(); } : undefined}
+              >
+                {isClubEntry && hasSessionCandidate ? workspaceLabel : t(menu)}
               </NBLink>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     </div>

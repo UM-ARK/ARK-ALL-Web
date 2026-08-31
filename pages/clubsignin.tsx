@@ -15,12 +15,16 @@ import { useRouter } from 'next/router';
 import { useLoginStore } from '../states/state';
 import Link from "next/link";
 import Footer from '../components/footer';
+import { useClubWorkspaceAccess } from '../hooks/useClubWorkspaceAccess';
+import { getClubManagementCopy } from '../utils/clubManagementCopy';
 
 const ClubLogin = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const copy = getClubManagementCopy(i18n.resolvedLanguage);
     const router = useRouter();
 
     const setLogin = useLoginStore(state => state.setLogin);
+    const { hasSessionCandidate, openClubWorkspace } = useClubWorkspaceAccess();
 
     const { register, handleSubmit, formState: { errors } } = useForm<IClubSignin & { agreeTA: boolean }>();
 
@@ -45,6 +49,16 @@ const ClubLogin = () => {
                         <div className="text-2xl text-themeColor font-semibold mb-8 text-center">
                             <h1>{t("CLUB_LOGIN")}</h1>
                         </div>
+
+                        {hasSessionCandidate && (
+                            <button
+                                type="button"
+                                onClick={openClubWorkspace}
+                                className="mb-6 w-full rounded-lg border-2 border-themeColor bg-white px-4 py-3 font-bold text-themeColor transition-all hover:bg-themeColorUltraLight"
+                            >
+                                {copy.continueWorkspace}
+                            </button>
+                        )}
 
                         {/* 登錄表單 */}
                         <div className="flex felx-col items-center justify-center">
