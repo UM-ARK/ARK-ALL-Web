@@ -25,13 +25,29 @@ import Faq from "../components/limited/faq";
 import PopupWidget from "../components/popupWidget";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react";
 import { ARKDemoFrame } from "../components/uiComponents/Frames";
 import Container from "../components/container";
-import { fetchAppPublicStats } from "../lib/appPublicStats";
 
-const Home = ({ appPublicStats }) => {
+const Home = () => {
 
   const { t } = useTranslation();
+  const [appPublicStats, setAppPublicStats] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/app-public-stats", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((stats) => {
+        if (stats) setAppPublicStats(stats);
+      })
+      .catch(() => {
+        // 公開統計是非必要資訊，請求失敗時不影響首頁使用。
+      });
+
+    return () => controller.abort();
+  }, []);
 
   const demoData = [
     {
@@ -194,12 +210,3 @@ const Home = ({ appPublicStats }) => {
 }
 
 export default Home;
-
-export async function getStaticProps() {
-  return {
-    props: {
-      appPublicStats: await fetchAppPublicStats(),
-    },
-    revalidate: 3600,
-  };
-}
