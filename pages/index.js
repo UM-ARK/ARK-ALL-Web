@@ -36,17 +36,32 @@ const Home = () => {
 
   useEffect(() => {
     const controller = new AbortController();
+    let retryTimer;
 
-    fetch("/api/app-public-stats", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : null)
-      .then((stats) => {
-        if (stats) setAppPublicStats(stats);
-      })
-      .catch(() => {
-        // 公開統計是非必要資訊，請求失敗時不影響首頁使用。
-      });
+    const loadAppPublicStats = (attempt = 0) => {
+      fetch("/public-data/app-public-stats", { signal: controller.signal })
+        .then((response) => response.ok ? response.json() : null)
+        .then((stats) => {
+          if (stats) setAppPublicStats(stats);
 
-    return () => controller.abort();
+          const isIncomplete = !stats?.appStore || !stats?.githubRelease;
+          if (isIncomplete && attempt === 0 && !controller.signal.aborted) {
+            retryTimer = setTimeout(() => loadAppPublicStats(1), 1500);
+          }
+        })
+        .catch(() => {
+          if (attempt === 0 && !controller.signal.aborted) {
+            retryTimer = setTimeout(() => loadAppPublicStats(1), 1500);
+          }
+        });
+    };
+
+    loadAppPublicStats();
+
+    return () => {
+      controller.abort();
+      clearTimeout(retryTimer);
+    };
   }, []);
 
   const demoData = [

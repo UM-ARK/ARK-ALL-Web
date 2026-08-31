@@ -5,6 +5,15 @@ module.exports = {
   },
   output: "standalone",
 
+  async rewrites() {
+    return [
+      {
+        source: '/public-data/app-public-stats',
+        destination: '/api/app-public-stats',
+      },
+    ]
+  },
+
   async redirects() {
     return [
       {

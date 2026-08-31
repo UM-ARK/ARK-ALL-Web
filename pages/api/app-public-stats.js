@@ -8,10 +8,13 @@ export default async function handler(request, response) {
   }
 
   const stats = await fetchAppPublicStats();
+  const hasCompleteStats = Boolean(stats.appStore && stats.githubRelease);
 
   response.setHeader(
     "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400"
+    hasCompleteStats
+      ? "public, max-age=0, s-maxage=3600, must-revalidate"
+      : "no-store"
   );
   response.status(200).json(stats);
 }
