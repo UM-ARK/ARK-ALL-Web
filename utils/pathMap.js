@@ -14,6 +14,8 @@ export const BASE_HOST = process.env.NODE_ENV == 'development' ? BASE_HOST_DEV :
 
 export const APPSTORE_URL = 'https://apps.apple.com/app/id1636670554';
 export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=one.umall';
+// 簡易網頁版（Windows / Mac 等桌面平台可直接在瀏覽器使用）
+export const WEBAPP_URL = BASE_HOST_PROD + '/webAPP';
 
 export const MAIL = 'umacark@gmail.com';
 

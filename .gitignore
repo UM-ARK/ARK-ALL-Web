@@ -37,3 +37,4 @@ yarn.lock
 *.lock
 
 sitemap-0.xml
+.claude/

@@ -6,6 +6,7 @@ import Link from "next/link";
 import themeImg from '../../public/img/theme.webp';
 
 import { downloadBtnData } from "./common_data/download_btn_data";
+import { WEBAPP_URL } from "../../utils/pathMap";
 
 const Cta = () => {
   const { t } = useTranslation();
@@ -61,6 +62,18 @@ const Cta = () => {
                   <p>{item.source}</p>
                 </div></Link>
               ))}
+              {/* 網頁版入口 */}
+              <Link href={WEBAPP_URL} target="_blank" rel="noopener"><div className={`
+                flex flex-row 
+                min-[1026px]:w-[168px] max-[1025px]:w-[120px] gap-2 px-5 py-4 
+                text-md font-medium 
+                justify-center items-center text-left text-themeColor 
+                rounded-md bg-white 
+                hover:cursor-pointer hover:text-themeColorLight hover:scale-[1.02] 
+                max-[900px]:mx-auto max-[900px]:w-[200px]
+                transition-all`}>
+                <p>Web</p>
+              </div></Link>
             </div>
           </div>
         </div>

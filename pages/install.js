@@ -9,9 +9,10 @@ import { ARKMain } from "../components/uiComponents/ContentBlock";
 import { downloadBtnData } from "../components/limited/common_data/download_btn_data";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { APPSTORE_URL, BASE_HOST, PLAYSTORE_URL } from "../utils/pathMap";
+import { APPSTORE_URL, BASE_HOST, PLAYSTORE_URL, WEBAPP_URL } from "../utils/pathMap";
 import AppPublicStats from "../components/AppPublicStats";
 import { fetchAppPublicStats } from "../lib/appPublicStats";
+import WebAppEntry from "../components/WebAppEntry";
 
 const InstallSection = ({ id, title, children }) => (
   <section id={id} className="scroll-mt-24">
@@ -33,7 +34,7 @@ const install = ({ appPublicStats }) => {
     url: "https://umall.one/install",
     image: "https://umall.one/img/logo.png",
     applicationCategory: "EducationalApplication",
-    operatingSystem: "iOS, Android",
+    operatingSystem: "iOS, Android, Web",
     isAccessibleForFree: true,
     offers: {
       "@type": "Offer",
@@ -44,6 +45,7 @@ const install = ({ appPublicStats }) => {
       APPSTORE_URL,
       PLAYSTORE_URL,
       `${BASE_HOST}/static/release/app-release.apk`,
+      WEBAPP_URL,
     ],
     publisher: {
       "@type": "Organization",
@@ -107,6 +109,8 @@ const install = ({ appPublicStats }) => {
                 </Link>
               ))}
             </div>
+            {/* 網頁版入口（Windows / Mac 桌面用戶） */}
+            <WebAppEntry className="mt-5 max-w-2xl" />
             <AppPublicStats stats={appPublicStats} className="mt-5 max-w-2xl" />
             <div className="flex flex-wrap gap-4 mt-4">
               <a
@@ -121,6 +125,18 @@ const install = ({ appPublicStats }) => {
           </div>
 
           <div className="flex flex-col gap-10">
+            <InstallSection id="web" title={t("Install_web_title")}>
+              <p>{t("Install_web_body")}</p>
+              <a
+                href={WEBAPP_URL}
+                target="_blank"
+                rel="noopener"
+                className="inline-block text-themeColor font-medium hover:underline"
+              >
+                {t("WebApp_btn")} →
+              </a>
+            </InstallSection>
+
             <InstallSection id="ios" title={t("Install_ios_title")}>
               <p>{t("Install_ios_body")}</p>
               <div className="rounded-lg bg-themeColorUltraLight dark:bg-gray-800 px-4 py-3 text-gray-700 dark:text-gray-200">

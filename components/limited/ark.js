@@ -8,6 +8,7 @@ import home3 from "../../public/img/home_page/advertisements/Home3.png";
 import { downloadBtnData } from "./common_data/download_btn_data";
 import AppPublicStats from "../AppPublicStats";
 import SupportArkCard from "../SupportArkCard";
+import WebAppEntry from "../WebAppEntry";
 
 const Ark = (props) => {
   const { t } = useTranslation();
@@ -83,6 +84,9 @@ const Ark = (props) => {
 
               <SupportArkCard className="mt-4" />
               <AppPublicStats stats={props.appPublicStats} className="mt-5" />
+
+              {/* 網頁版入口（Windows / Mac 桌面用戶） */}
+              <WebAppEntry className="mt-5" />
             </div>
           </div>
 
