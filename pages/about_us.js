@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
 import Container from "../components/container";
-import PopupWidget from "../components/popupWidget";
 import { ARKMain } from "../components/uiComponents/ContentBlock";
 import { useTranslation } from "react-i18next";
 
-import { motion } from "framer-motion"
 
 const str = `
 # ARK ALL的由來？
@@ -85,20 +81,16 @@ const about_us = () => {
       canonicalPath="/about_us"
       withOutMargin={true}
     >
-      <Navbar selected={"About_us"} />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div>
         <Container>
           {toMD(str)}
         </Container>
-      </motion.div>
-      <Footer />
-      <PopupWidget />
+      </div>
     </ARKMain>
   );
 };
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+about_us.layout = { navbar: { selected: "About_us" }, popup: true };
 
 export default about_us;

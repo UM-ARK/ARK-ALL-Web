@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
 import Container from '../components/container';
-import PopupWidget from "../components/popupWidget";
 import Image from "next/image";
 
 import { ARKMain } from '../components/uiComponents/ContentBlock';
@@ -19,7 +16,6 @@ import img_3 from '../public/img/web_tur/3.png';
 import img_4 from '../public/img/web_tur/4.png';
 import img_5 from '../public/img/web_tur/5.png';
 import { useTranslation } from 'react-i18next';
-import { motion } from "framer-motion"
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 5;
@@ -331,12 +327,7 @@ const tutorial = () => {
         alt={previewAlt}
         onClose={closePreview}
       />
-      <Navbar selected={"Tutorial"} />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div>
         <Container className="py-10">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4 text-center">
             {t("Tutorial_h1")}
@@ -383,12 +374,13 @@ const tutorial = () => {
             })}
           </div>
         </Container>
-      </motion.div>
+      </div>
 
-      <Footer />
-      <PopupWidget />
     </ARKMain>
   );
 };
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+tutorial.layout = { navbar: { selected: "Tutorial" }, popup: true };
 
 export default tutorial;

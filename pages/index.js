@@ -1,5 +1,4 @@
 import Ark from "../components/limited/ark";
-import Navbar from "../components/navbar";
 import SectionTitle from "../components/sectionTitle";
 import { ARKMain } from "../components/uiComponents/ContentBlock"
 import {
@@ -19,12 +18,9 @@ import CourseImg from "../public/img/home_page/advertisements/Course.png";
 import FeaturesImg from "../public/img/home_page/advertisements/Features.png";
 import NewsImg from "../public/img/home_page/advertisements/News.png";
 import Benefits from "../components/limited/benefits";
-import Footer from "../components/footer";
 import Cta from "../components/limited/cta";
 import Faq from "../components/limited/faq";
-import PopupWidget from "../components/popupWidget";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { ARKDemoFrame } from "../components/uiComponents/Frames";
 import Container from "../components/container";
@@ -156,12 +152,7 @@ const Home = () => {
       canonicalPath="/"
       withOutMargin={true}
     >
-      <Navbar fixed hideLogoTextBeforeScroll={true} />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}>
+      <div>
 
         {/** 大首頁 */}
         <Ark appPublicStats={appPublicStats} />
@@ -216,12 +207,12 @@ const Home = () => {
 
         {/** 下載集合 */}
         <Cta />
-      </motion.div>
-
-      <Footer />
-      <PopupWidget />
+      </div>
     </ARKMain>
   );
 }
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+Home.layout = { navbar: { fixed: true, hideLogoTextBeforeScroll: true }, popup: true };
 
 export default Home;

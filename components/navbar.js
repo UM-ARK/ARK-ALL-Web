@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image"
+import { useRouter } from "next/router";
 
 import WarningBanner from "/components/micros/WarningBanner";
 import { HamburgerBtn } from "components/uiComponents/HamburgerBtn"
@@ -24,6 +25,7 @@ const navigation = [
 const Navbar = (props) => {
   const { selected = "", fixed, hideLogoTextBeforeScroll = false } = props;
   const { t } = useTranslation();
+  const router = useRouter();
   const { hasSessionCandidate, openClubWorkspace, workspaceLabel } = useClubWorkspaceAccess();
 
   /** 移動menu是否打開 */
@@ -44,6 +46,19 @@ const Navbar = (props) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // 導航欄在頁面之間共用、不會重新掛載，換頁後需手動收起移動端菜單並同步滾動位置
+  useEffect(() => {
+    const handleRouteChangeComplete = () => {
+      setMobileMenuOpen(false);
+      handleScroll();
+    };
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router.events]);
 
   const NBLink = (props) => {
     const { destination, isMobile, isSelected = false, onClick, disabled = false } = props;
@@ -89,7 +104,7 @@ const Navbar = (props) => {
           </div>
 
           {/* Hamburger */}
-          <HamburgerBtn setMobileMenuOpen={setMobileMenuOpen} />
+          <HamburgerBtn isOpen={m_mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
         </div>
 
         {/* menu  */}

@@ -1,4 +1,5 @@
 import { ThemeProvider } from "next-themes";
+import { Inter } from "next/font/google";
 import "../css/tailwind.css";
 import React, { useEffect } from 'react'
 
@@ -11,6 +12,10 @@ import { clearClubSession, getValidClubSession, hasClubSessionMarker, markClubSe
 import { useRouter } from 'next/router';
 import { AnimatePresence } from "framer-motion";
 import { Toaster } from "react-hot-toast";
+import PublicLayout from "../components/PublicLayout";
+
+// 字體在構建時下載並由本站託管，配合尺寸校正過的後備字體，減少字體替換時的文字跳動
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 
 function MyApp({ Component, pageProps }) {
@@ -105,11 +110,22 @@ function MyApp({ Component, pageProps }) {
     }
   }, [router.pathname]);
 
+  const page = <Component {...pageProps} navigateToPage={navigateToPage} />;
+
   return (
     <I18nextProvider i18n={i18n}>
+      <style jsx global>{`
+        :root {
+          --font-inter: ${inter.style.fontFamily};
+        }
+      `}</style>
       <AnimatePresence>
         <ThemeProvider attribute="class">
-          <Component {...pageProps} navigateToPage={navigateToPage} />
+          {Component.layout ? (
+            <PublicLayout layout={Component.layout}>{page}</PublicLayout>
+          ) : (
+            page
+          )}
           <Toaster
             position="top-center"
             toastOptions={{

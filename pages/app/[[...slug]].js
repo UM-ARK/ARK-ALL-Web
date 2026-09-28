@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
-import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
 import Container from "../../components/container";
-import PopupWidget from "../../components/popupWidget";
 import { ARKMain } from "../../components/uiComponents/ContentBlock";
 import { downloadBtnData } from "../../components/limited/common_data/download_btn_data";
 import { getAppLinkSeoCopy, parseAppPath } from "../../utils/appLinkParse";
@@ -76,12 +72,7 @@ const AppLinkLanding = ({
       canonicalPath={canonicalPath}
       withOutMargin={true}
     >
-      <Navbar />
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
+      <div>
         <Container className="min-[790px]:px-48 py-10">
           <div className="flex flex-col items-start gap-6 max-w-xl">
             <div className="flex items-center gap-4">
@@ -206,12 +197,13 @@ const AppLinkLanding = ({
             </div>
           </div>
         </Container>
-      </motion.div>
-      <Footer />
-      <PopupWidget />
+      </div>
     </ARKMain>
   );
 };
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+AppLinkLanding.layout = { navbar: {}, popup: true };
 
 export default AppLinkLanding;
 

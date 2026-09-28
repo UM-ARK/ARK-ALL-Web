@@ -2,11 +2,9 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { motion } from "framer-motion"
 
 // 本地引用
 import Container from '../components/container';
-import Navbar from '../components/navbar';
 import { clubSignIn } from '../lib/authentication';
 import { ARKTextInput } from '../components/uiComponents/Inputs';
 import { ARKMain } from '../components/uiComponents/ContentBlock';
@@ -14,7 +12,6 @@ import { IClubSignin } from '../types/index.d';
 import { useRouter } from 'next/router';
 import { useLoginStore } from '../states/state';
 import Link from "next/link";
-import Footer from '../components/footer';
 import { useClubWorkspaceAccess } from '../hooks/useClubWorkspaceAccess';
 import { getClubManagementCopy } from '../utils/clubManagementCopy';
 
@@ -35,12 +32,7 @@ const ClubLogin = () => {
 
     return (
         <ARKMain title={t("ClubSignin")} withOutMargin={true}>
-            <Navbar selected={"ClubSignin"} />
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-            >
+            <div>
                 <Container className="flex flex-col w-full h-full items-center justify-center">
                     {/* UI Block*/}
                     <div className="block p-5 pb-10 mt-20 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-[500px]:min-w-96 max-[409px]:w-[95%] hover: cursor-pointer hover:scale-[1.02] transition-all">
@@ -118,8 +110,7 @@ const ClubLogin = () => {
 
                     </div>
                 </Container>
-            </motion.div>
-            <Footer />
+            </div>
         </ARKMain>
     );
 
@@ -127,5 +118,8 @@ const ClubLogin = () => {
 
 
 
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+ClubLogin.layout = { navbar: { selected: "ClubSignin" }, popup: false };
 
 export default ClubLogin;

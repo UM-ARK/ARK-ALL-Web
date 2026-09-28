@@ -1,10 +1,7 @@
-import { useState } from "react";
-
+// 開合狀態由導航欄控制，換頁收起菜單時圖標能同步復原
 export const HamburgerBtn = (props) => {
-    const { setMobileMenuOpen } = props;
-    const [m_isOpen, setIsOpen] = useState(false);
+    const { isOpen: m_isOpen, setMobileMenuOpen } = props;
     const handleClick = () => {
-        setIsOpen(!m_isOpen);
         setMobileMenuOpen(!m_isOpen);
     };
     return (

@@ -3,13 +3,9 @@ import Link from "next/link";
 import Container from "../components/container";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
-import PopupWidget from "../components/popupWidget";
 import { ARKMain } from "../components/uiComponents/ContentBlock";
 
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion"
 
 const qa = () => {
 
@@ -109,12 +105,7 @@ const qa = () => {
       structuredData={faqStructuredData}
       withOutMargin={true}
     >
-      <Navbar selected={"QA"} />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div>
         <Container className="!p-0">
           <div className="w-full max-w-2xl p-2 mx-auto rounded-2xl">
             {faqdata.map((item, index) => (
@@ -146,11 +137,12 @@ const qa = () => {
             ))}
           </div>
         </Container>
-      </motion.div>
-      <Footer />
-      <PopupWidget />
+      </div>
     </ARKMain>
   );
 };
+
+// 導航欄、頁腳由 _app 的公開頁佈局統一渲染，換頁時不重新掛載
+qa.layout = { navbar: { selected: "QA" }, popup: true };
 
 export default qa;

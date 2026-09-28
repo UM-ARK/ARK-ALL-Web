@@ -15,7 +15,14 @@ const ThemeChanger = () => {
 
   }, []);
 
-  if (!mounted) return null;
+  // 掛載前主題未知，先渲染同尺寸佔位，避免按鈕出現時擠動導航欄
+  if (!mounted) {
+    return (
+      <div className="flex items-center my-2 mx-2 max-[1550px]:mx-1">
+        <span className="block w-6 h-6" aria-hidden="true" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center my-2 mx-2 max-[1550px]:mx-1">
